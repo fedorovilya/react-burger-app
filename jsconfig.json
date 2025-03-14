@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"paths": {
+			"@pages/*": ["./src/pages/*"],
+			"@components/*": ["./src/components/*"],
+			"@services/*": ["./src/services/*"],
+			"@utils/*": ["./src/utils/*"],
+			"@assets/*": ["./src/assets/*"]
+		}
+	},
+	"outDir": "./dist/",
+	"include": ["src/**/*"]
+}
