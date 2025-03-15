@@ -11,7 +11,7 @@ export const AppHeader = () => {
 	return (
 		<header className={styles.header}>
 			<div className={styles.header_flex}>
-				<div className={`p-2 ${styles.header_flex_left_links}`}>
+				<div className={`p-2 ${styles.header_flex_left}`}>
 					<a href={CONSTRUCTOR_LINK} className={"p-4"}>
 						<div className={`ml-2 ${styles.header_link}`}>
 							<BurgerIcon type={"primary"}></BurgerIcon>

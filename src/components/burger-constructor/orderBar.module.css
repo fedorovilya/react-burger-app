@@ -6,7 +6,7 @@
 	justify-content: flex-end;
 	gap: 40px;
 }
-.order_bar_flex_cost {
+.order_bar_cost {
 	display: flex;
 	flex-direction: row;
 	height: 80px;
