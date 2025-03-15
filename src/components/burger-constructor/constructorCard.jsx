@@ -1,8 +1,11 @@
-import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {POSITION_BOTTOM, POSITION_TOP} from "../../const/const";
-import styles from "./constructorCard.module.css";
+import {
+	ConstructorElement,
+	DragIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { POSITION_BOTTOM, POSITION_TOP } from '../../const/const';
+import styles from './constructorCard.module.css';
 
-export const ConstructorCard = ({item, locked, position}) => {
+export const ConstructorCard = ({ item, locked, position }) => {
 	const getOptionalPositionText = (item) => {
 		if (position === POSITION_TOP) {
 			return `${item.name} (верх)`;
@@ -10,14 +13,10 @@ export const ConstructorCard = ({item, locked, position}) => {
 			return `${item.name} (низ)`;
 		}
 		return item.name;
-	}
+	};
 	return (
-		<div
-			className={`pr-4 ${styles.card}`}>
-			{!locked
-				? <DragIcon type={"primary"}></DragIcon>
-				: undefined
-			}
+		<div className={`pr-4 ${styles.card}`}>
+			{!locked ? <DragIcon type={'primary'}></DragIcon> : undefined}
 			<ConstructorElement
 				extraClass={styles.card_extra}
 				isLocked={locked}
@@ -27,5 +26,5 @@ export const ConstructorCard = ({item, locked, position}) => {
 				price={item.price}
 			/>
 		</div>
-	)
-}
+	);
+};
