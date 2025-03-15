@@ -1,11 +1,22 @@
-import {clsx} from 'clsx';
-import {useState} from 'react';
-import s from './app.module.scss';
-import {AppHeader} from "@components/app-header/app-header.jsx";
-import {BurgerIngredients} from "@components/burger-ingredients/burger-ingredients";
-import {BurgerConstructor} from "@components/burger-constructor/burger-constructor";
+import {AppHeader} from "@components/app-header/appHeader.jsx";
+import {BurgerIngredients} from "@components/burger-ingredients/burgerIngredients";
+import {BurgerConstructor} from "@components/burger-constructor/burgerConstructor";
+import {useEffect} from "react";
+import icon from "@ya.praktikum/react-developer-burger-ui-components/dist/gatsby-theme-docz/favicon.png";
 
 export const App = () => {
+	useEffect(() => {
+		const link = document.createElement('link');
+		link.rel = 'icon';
+		link.href = icon;
+		link.type = 'image/png';
+		document.head.appendChild(link);
+
+		return () => {
+			document.head.removeChild(link);
+		};
+	}, []);
+
 	return (
 		<div className='page'>
 			<AppHeader/>

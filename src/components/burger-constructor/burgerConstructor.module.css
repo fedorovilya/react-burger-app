@@ -1,0 +1,25 @@
+.flex_main {
+	display: flex;
+	flex-direction: column;
+	width: 600px;
+	height: 100%;
+	gap: 40px;
+}
+.flex_cards {
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	max-height: 656px;
+}
+.flex_cards_list {
+	overflow-y: auto;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 16px;
+}

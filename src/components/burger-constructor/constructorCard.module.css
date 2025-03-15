@@ -1,0 +1,12 @@
+.card {
+	display: flex;
+	flex-direction: row;
+	height: 80px;
+	width: 568px;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 2px;
+}
+.card_extra {
+	background: #1C1C21;
+}

@@ -1,0 +1,22 @@
+.order_bar_flex {
+	display: flex;
+	flex-direction: row;
+	height: 80px;
+	width: 568px;
+	justify-content: flex-end;
+	gap: 40px;
+}
+.order_bar_flex_cost {
+	display: flex;
+	flex-direction: row;
+	height: 80px;
+	width: 568px;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 10px;
+}
+.order_bar_button {
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+}

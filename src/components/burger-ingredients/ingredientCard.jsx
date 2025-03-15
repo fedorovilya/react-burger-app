@@ -3,11 +3,17 @@ import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-com
 export const IngredientCard = ({item, count, index}) => {
 	return (
 		<li id={`ingredient-${index}`}
-			 style={{display: "flex", flexDirection: "column", height: "208px", width: "272px", justifyContent: "flex-start", alignItems: "center"}}>
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				height: "208px", width: "272px",
+				justifyContent: "flex-start",
+				alignItems: "center"
+			}}>
 			{count
 				? (
 					<div style={{position: "relative", left: "135px"}}>
-						<Counter  count={count} size={"default"}></Counter>
+						<Counter count={count} size={"default"}></Counter>
 					</div>
 				)
 				: undefined
