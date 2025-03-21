@@ -5,13 +5,22 @@ import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
 import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
 import styles from './burgerIngredients.module.css';
 
-export const BurgerIngredients = () => {
+export const BurgerIngredients = ({ingredients}) => {
 	const [current, setCurrent] = useState(TYPE_BUN);
+
+	const breadItems = ingredients.filter((item) => item.type === TYPE_BUN);
+	const sauceItems = ingredients.filter(
+		(item) => item.type === TYPE_SAUCE
+	);
+	const mainItems = ingredients.filter((item) => item.type === TYPE_MAIN);
+
+	/*
 	const breadItems = INGREDIENTS_DATA.filter((item) => item.type === TYPE_BUN);
 	const sauceItems = INGREDIENTS_DATA.filter(
 		(item) => item.type === TYPE_SAUCE
 	);
 	const mainItems = INGREDIENTS_DATA.filter((item) => item.type === TYPE_MAIN);
+*/
 
 	const categoryBunRef = useRef(null);
 	const categorySauceRef = useRef(null);

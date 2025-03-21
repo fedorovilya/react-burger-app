@@ -8,7 +8,7 @@ import { IngredientModal } from '@components/modal/ingredientModal';
 export const IngredientCard = ({ item, count, index }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const openModal = () => setIsModalOpen(!isModalOpen);
+	const openModal = () => setIsModalOpen(true);
 	const closeModal = () => setIsModalOpen(false);
 
 	return (
@@ -16,7 +16,8 @@ export const IngredientCard = ({ item, count, index }) => {
 			<IngredientModal
 				isOpen={isModalOpen}
 				onClose={closeModal}
-				data={item}></IngredientModal>
+				data={item}>
+			</IngredientModal>
 			<li
 				onClick={openModal}
 				id={`ingredient-${index}`}

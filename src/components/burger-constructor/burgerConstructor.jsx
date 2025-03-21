@@ -4,7 +4,7 @@ import { ConstructorCard } from '@components/burger-constructor/constructorCard'
 import { OrderBar } from '@components/burger-constructor/orderBar';
 import styles from './burgerConstructor.module.css';
 
-export const BurgerConstructor = () => {
+export const BurgerConstructor = ({ingredients}) => {
 	let bunElement;
 	const ingredientItems = SELECTED_DATA.reduce((elements, item) => {
 		item.type === TYPE_BUN ? (bunElement = item) : elements.push(item);
