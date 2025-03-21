@@ -5,6 +5,8 @@ import {useEffect, useState} from 'react';
 import icon from '@assets/favicon.png';
 import styles from './app.module.scss';
 import {API_INGREDIENTS_ENDPOINT} from "../const/const";
+import PropTypes from "prop-types";
+import {ingredientsProps} from "@utils/props";
 
 export const App = () => {
 	const [ingredients, setIngredients] = useState([]);
@@ -52,7 +54,7 @@ export const App = () => {
 			<AppHeader/>
 			<div className={styles.flex}>
 				<BurgerIngredients ingredients={ingredients}></BurgerIngredients>
-				<BurgerConstructor ingredients={ingredients}></BurgerConstructor>
+				<BurgerConstructor></BurgerConstructor>
 			</div>
 		</div>
 	);

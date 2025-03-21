@@ -4,6 +4,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { POSITION_BOTTOM, POSITION_TOP } from '../../const/const';
 import styles from './constructorCard.module.css';
+import PropTypes, {bool, oneOf} from "prop-types";
+import {cardItemProps} from "@utils/props";
 
 export const ConstructorCard = ({ item, locked, position }) => {
 	const getOptionalPositionText = (item) => {
@@ -30,3 +32,9 @@ export const ConstructorCard = ({ item, locked, position }) => {
 		</div>
 	);
 };
+
+ConstructorCard.propTypes = {
+	item: cardItemProps,
+	locked: bool.isRequired,
+	position: oneOf(['top', 'bottom']),
+}

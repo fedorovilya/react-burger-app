@@ -4,7 +4,7 @@ import { ConstructorCard } from '@components/burger-constructor/constructorCard'
 import { OrderBar } from '@components/burger-constructor/orderBar';
 import styles from './burgerConstructor.module.css';
 
-export const BurgerConstructor = ({ingredients}) => {
+export const BurgerConstructor = () => {
 	let bunElement;
 	const ingredientItems = SELECTED_DATA.reduce((elements, item) => {
 		item.type === TYPE_BUN ? (bunElement = item) : elements.push(item);
@@ -33,7 +33,7 @@ export const BurgerConstructor = ({ingredients}) => {
 					{ingredientItems
 						? ingredientItems.map((item, index) => (
 								<li key={`ingredient-${index}`}>
-									<ConstructorCard item={item}></ConstructorCard>
+									<ConstructorCard item={item} locked={false}></ConstructorCard>
 								</li>
 						  ))
 						: undefined}

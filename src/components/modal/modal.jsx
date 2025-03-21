@@ -5,6 +5,7 @@ import {
 	CloseIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect } from 'react';
+import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById('react-modals');
 
@@ -58,3 +59,31 @@ const ModalHeader = ({ title, onClose }) => {
 		</div>
 	);
 };
+
+Modal.propTypes = {
+	children: PropTypes.node.isRequired,
+	title: PropTypes.string,
+	isOpen: PropTypes.bool.isRequired,
+	onClose: PropTypes.func.isRequired,
+}
+
+ModalOverlay.propTypes = {
+	children: PropTypes.node.isRequired,
+	title: PropTypes.string,
+	isOpen: PropTypes.bool.isRequired,
+	onClose: PropTypes.func.isRequired,
+}
+
+ModalContent.propTypes = {
+	children: PropTypes.node.isRequired,
+	title: PropTypes.string,
+	isOpen: PropTypes.bool.isRequired,
+	onClose: PropTypes.func.isRequired,
+}
+
+ModalHeader.propTypes = {
+	children: PropTypes.node.isRequired,
+	title: PropTypes.string,
+	isOpen: PropTypes.bool.isRequired,
+	onClose: PropTypes.func.isRequired,
+}

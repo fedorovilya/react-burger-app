@@ -1,9 +1,9 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect, useRef, useState } from 'react';
-import { INGREDIENTS_DATA } from '@utils/data';
 import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
 import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
 import styles from './burgerIngredients.module.css';
+import {ingredientsProps} from "@utils/props";
 
 export const BurgerIngredients = ({ingredients}) => {
 	const [current, setCurrent] = useState(TYPE_BUN);
@@ -13,14 +13,6 @@ export const BurgerIngredients = ({ingredients}) => {
 		(item) => item.type === TYPE_SAUCE
 	);
 	const mainItems = ingredients.filter((item) => item.type === TYPE_MAIN);
-
-	/*
-	const breadItems = INGREDIENTS_DATA.filter((item) => item.type === TYPE_BUN);
-	const sauceItems = INGREDIENTS_DATA.filter(
-		(item) => item.type === TYPE_SAUCE
-	);
-	const mainItems = INGREDIENTS_DATA.filter((item) => item.type === TYPE_MAIN);
-*/
 
 	const categoryBunRef = useRef(null);
 	const categorySauceRef = useRef(null);
@@ -128,3 +120,7 @@ export const BurgerIngredients = ({ingredients}) => {
 		</div>
 	);
 };
+
+BurgerIngredients.propTypes = {
+	ingredients: ingredientsProps.isRequired,
+}

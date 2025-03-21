@@ -5,6 +5,7 @@ import {
 import styles from './orderBar.module.css';
 import {useState} from "react";
 import {OrderModal} from "@components/modal/orderModal";
+import PropTypes from "prop-types";
 
 export const OrderBar = ({totalCost}) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,3 +45,7 @@ export const OrderBar = ({totalCost}) => {
 		</>
 	);
 };
+
+OrderBar.propTypes = {
+	totalCost: PropTypes.number,
+}

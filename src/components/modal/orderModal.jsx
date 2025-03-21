@@ -1,6 +1,8 @@
 import {Modal} from "@components/modal/modal";
 import styles from "@components/modal/orderModal.module.css";
 import icon from "@assets/iconOrderOk.png";
+import PropTypes from "prop-types";
+
 export const OrderModal = ({ isOpen, onClose, orderId }) => {
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
@@ -20,3 +22,9 @@ export const OrderModal = ({ isOpen, onClose, orderId }) => {
 		</Modal>
 	)
 };
+
+OrderModal.propTypes = {
+	isOpen: PropTypes.bool,
+	onClose: PropTypes.func,
+	orderId: PropTypes.string,
+}
