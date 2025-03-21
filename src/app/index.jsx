@@ -52,10 +52,12 @@ export const App = () => {
 	return (
 		<div className='page'>
 			<AppHeader />
-			<div className={styles.flex}>
-				<BurgerIngredients ingredients={ingredients}></BurgerIngredients>
-				<BurgerConstructor></BurgerConstructor>
-			</div>
+			{!loading && !hasError && (
+				<div className={styles.flex}>
+					<BurgerIngredients ingredients={ingredients}></BurgerIngredients>
+					<BurgerConstructor></BurgerConstructor>
+				</div>
+			)}
 		</div>
 	);
 };
