@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const ingredientProps = PropTypes.shape({
 	_id: PropTypes.string.isRequired,
@@ -19,15 +19,9 @@ export const cardItemProps = PropTypes.shape({
 	name: PropTypes.string.isRequired,
 	type: PropTypes.oneOf(['bun', 'main', 'sauce']).isRequired,
 	price: PropTypes.number.isRequired,
-	image: PropTypes.string.isRequired
+	image: PropTypes.string.isRequired,
 }).isRequired;
 
-export const cardItemsProps = PropTypes.arrayOf(
-	cardItemProps
-);
+export const cardItemsProps = PropTypes.arrayOf(cardItemProps);
 
-export const ingredientsProps = PropTypes.arrayOf(
-	ingredientProps
-);
-
-
+export const ingredientsProps = PropTypes.arrayOf(ingredientProps);

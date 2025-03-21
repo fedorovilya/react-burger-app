@@ -3,15 +3,13 @@ import { useEffect, useRef, useState } from 'react';
 import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
 import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
 import styles from './burgerIngredients.module.css';
-import {ingredientsProps} from "@utils/props";
+import { ingredientsProps } from '@utils/props';
 
-export const BurgerIngredients = ({ingredients}) => {
+export const BurgerIngredients = ({ ingredients }) => {
 	const [current, setCurrent] = useState(TYPE_BUN);
 
 	const breadItems = ingredients.filter((item) => item.type === TYPE_BUN);
-	const sauceItems = ingredients.filter(
-		(item) => item.type === TYPE_SAUCE
-	);
+	const sauceItems = ingredients.filter((item) => item.type === TYPE_SAUCE);
 	const mainItems = ingredients.filter((item) => item.type === TYPE_MAIN);
 
 	const categoryBunRef = useRef(null);
@@ -123,4 +121,4 @@ export const BurgerIngredients = ({ingredients}) => {
 
 BurgerIngredients.propTypes = {
 	ingredients: ingredientsProps.isRequired,
-}
+};

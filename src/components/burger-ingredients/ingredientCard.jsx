@@ -4,8 +4,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { IngredientModal } from '@components/modal/ingredientModal';
-import PropTypes from "prop-types";
-import {ingredientProps} from "@utils/props";
+import PropTypes from 'prop-types';
+import { ingredientProps } from '@utils/props';
 
 export const IngredientCard = ({ item, count, index }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,8 +18,7 @@ export const IngredientCard = ({ item, count, index }) => {
 			<IngredientModal
 				isOpen={isModalOpen}
 				onClose={closeModal}
-				data={item}>
-			</IngredientModal>
+				data={item}></IngredientModal>
 			<li
 				onClick={openModal}
 				id={`ingredient-${index}`}
@@ -64,4 +63,4 @@ IngredientCard.propTypes = {
 	item: ingredientProps,
 	count: PropTypes.number,
 	index: PropTypes.number.isRequired,
-}
+};

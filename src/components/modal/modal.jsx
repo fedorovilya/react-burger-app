@@ -5,7 +5,7 @@ import {
 	CloseIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect } from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById('react-modals');
 
@@ -26,7 +26,9 @@ export const Modal = ({ children, title, isOpen, onClose }) => {
 
 	return createPortal(
 		<ModalOverlay isOpen={isOpen} onClose={onClose}>
-			<ModalContent title={title} onClose={onClose} children={children} />
+			<ModalContent title={title} onClose={onClose}>
+				{children}
+			</ModalContent>
 		</ModalOverlay>,
 		modalRoot
 	);
@@ -53,9 +55,9 @@ const ModalHeader = ({ title, onClose }) => {
 	return (
 		<div className={styles.modal_header}>
 			<p className='text text_type_main-large'>{title}</p>
-			<div onClick={onClose} style={{ cursor: 'pointer' }}>
+			<Button type='secondary' onClick={onClose} style={{ cursor: 'pointer' }}>
 				<CloseIcon type={'primary'}></CloseIcon>
-			</div>
+			</Button>
 		</div>
 	);
 };
@@ -65,25 +67,25 @@ Modal.propTypes = {
 	title: PropTypes.string,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-}
+};
 
 ModalOverlay.propTypes = {
 	children: PropTypes.node.isRequired,
 	title: PropTypes.string,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-}
+};
 
 ModalContent.propTypes = {
 	children: PropTypes.node.isRequired,
 	title: PropTypes.string,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-}
+};
 
 ModalHeader.propTypes = {
 	children: PropTypes.node.isRequired,
 	title: PropTypes.string,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-}
+};

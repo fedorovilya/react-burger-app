@@ -3,11 +3,11 @@ import {
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './orderBar.module.css';
-import {useState} from "react";
-import {OrderModal} from "@components/modal/orderModal";
-import PropTypes from "prop-types";
+import { useState } from 'react';
+import { OrderModal } from '@components/modal/orderModal';
+import PropTypes from 'prop-types';
 
-export const OrderBar = ({totalCost}) => {
+export const OrderBar = ({ totalCost }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [orderId, setOrderId] = useState();
 
@@ -15,18 +15,16 @@ export const OrderBar = ({totalCost}) => {
 	const closeModal = () => setIsModalOpen(false);
 
 	const handleClick = () => {
-		openModal()
+		openModal();
 		setOrderId('034536');
-	}
+	};
 
 	return (
 		<>
 			<OrderModal
 				isOpen={isModalOpen}
 				onClose={closeModal}
-				orderId={orderId}
-			>
-			</OrderModal>
+				orderId={orderId}></OrderModal>
 			<div className={`pr-4 ${styles.order_bar_flex}`}>
 				<div className={styles.order_bar_cost}>
 					<p className='text text_type_digits-medium'>{totalCost}</p>
@@ -37,8 +35,7 @@ export const OrderBar = ({totalCost}) => {
 					htmlType={'button'}
 					type={'primary'}
 					size={'large'}
-					onClick={handleClick}
-				>
+					onClick={handleClick}>
 					Оформить заказ
 				</Button>
 			</div>
@@ -48,4 +45,4 @@ export const OrderBar = ({totalCost}) => {
 
 OrderBar.propTypes = {
 	totalCost: PropTypes.number,
-}
+};

@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { Modal } from '@components/modal/modal';
 import styles from './ingredientModal.module.css';
-import PropTypes from "prop-types";
-import {cardItemProps, ingredientProps} from "@utils/props";
+import PropTypes from 'prop-types';
+import { cardItemProps } from '@utils/props';
 
 export const IngredientModal = ({ isOpen, onClose, data }) => {
 	return (
@@ -58,4 +57,4 @@ IngredientModal.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	data: cardItemProps,
-}
+};
