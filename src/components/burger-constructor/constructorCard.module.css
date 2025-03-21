@@ -11,3 +11,7 @@
 .card_extra {
 	background: #1c1c21;
 }
+
+.card_pointer {
+	cursor: pointer;
+}

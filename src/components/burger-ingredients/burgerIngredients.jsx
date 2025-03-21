@@ -49,8 +49,8 @@ export const BurgerIngredients = () => {
 	}, []);
 
 	return (
-		<div className={`pt-10 ${styles.ingredients_flex}`}>
-			<p className={'text text_type_main-large'}>Соберите бургер</p>
+		<div className={styles.ingredients_flex}>
+			<p className={'pt-10 text text_type_main-large'}>Соберите бургер</p>
 			<div className={'pt-5'} style={{ display: 'flex' }}>
 				<Tab
 					value={TYPE_BUN}

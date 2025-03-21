@@ -16,7 +16,9 @@ export const ConstructorCard = ({ item, locked, position }) => {
 	};
 	return (
 		<div className={`pr-4 ${styles.card}`}>
-			{!locked ? <DragIcon type={'primary'}></DragIcon> : undefined}
+			{!locked && (
+				<DragIcon type={'primary'} className={styles.card_pointer}></DragIcon>
+			)}
 			<ConstructorElement
 				extraClass={styles.card_extra}
 				isLocked={locked}
