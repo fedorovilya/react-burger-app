@@ -75,29 +75,25 @@ export const BurgerIngredients = ({ ingredients }) => {
 				<div id={'bun_block'} className={'pt-10'} ref={categoryBunRef}>
 					<p className={'text text_type_main-medium pt-10'}>Булки</p>
 					<div className={`pt-6 pl-4 pr-4 ${styles.ingredients_grid}`}>
-						{breadItems
-							? breadItems.map((item, index) => (
+						{breadItems?.map((item, index) => (
 									<IngredientCard
 										key={index}
 										item={item}
 										index={index}
 										count={1}></IngredientCard>
-							  ))
-							: undefined}
+							  ))}
 					</div>
 				</div>
 
 				<div id={'sauce_block'} className={'pt-10'} ref={categorySauceRef}>
 					<p className={'text text_type_main-medium pt-10'}>Соусы</p>
 					<div className={`pt-6 pl-4 pr-4 ${styles.ingredients_grid}`}>
-						{sauceItems
-							? sauceItems.map((item, index) => (
+						{sauceItems?.map((item, index) => (
 									<IngredientCard
 										key={index}
 										item={item}
 										index={index}></IngredientCard>
-							  ))
-							: undefined}
+							  ))}
 					</div>
 				</div>
 

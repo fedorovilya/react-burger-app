@@ -1,7 +1,7 @@
-import { SELECTED_DATA } from '@utils/selectedData';
-import { POSITION_BOTTOM, POSITION_TOP, TYPE_BUN } from '../../const/const';
-import { ConstructorCard } from '@components/burger-constructor/constructorCard';
-import { OrderBar } from '@components/burger-constructor/orderBar';
+import {SELECTED_DATA} from '@utils/selectedData';
+import {POSITION_BOTTOM, POSITION_TOP, TYPE_BUN} from '../../const/const';
+import {ConstructorCard} from '@components/burger-constructor/constructorCard';
+import {OrderBar} from '@components/burger-constructor/orderBar';
 import styles from './burgerConstructor.module.css';
 
 export const BurgerConstructor = () => {
@@ -21,31 +21,29 @@ export const BurgerConstructor = () => {
 	return (
 		<div className={`pt-25 pl-4 pr-4 ${styles.flex_main}`}>
 			<div className={styles.flex_cards}>
-				{bunElement ? (
+				{bunElement && (
 					<ConstructorCard
 						id={'bun_top'}
 						item={bunElement}
 						locked={true}
 						position={POSITION_TOP}></ConstructorCard>
-				) : undefined}
+				)}
 
 				<ul className={`pt-4 pb-4 ${styles.flex_cards_list}`}>
-					{ingredientItems
-						? ingredientItems.map((item, index) => (
-								<li key={`ingredient-${index}`}>
-									<ConstructorCard item={item} locked={false}></ConstructorCard>
-								</li>
-						  ))
-						: undefined}
+					{ingredientItems?.map((item, index) => (
+						<li key={index}>
+							<ConstructorCard item={item} locked={false}></ConstructorCard>
+						</li>
+					))}
 				</ul>
 
-				{bunElement ? (
+				{bunElement && (
 					<ConstructorCard
 						id={'bun_bottom'}
 						item={bunElement}
 						locked={true}
 						position={POSITION_BOTTOM}></ConstructorCard>
-				) : undefined}
+				)}
 			</div>
 			<OrderBar totalCost={getTotalPrice(ingredientItems)}></OrderBar>
 		</div>

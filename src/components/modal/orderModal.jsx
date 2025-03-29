@@ -12,7 +12,7 @@ export const OrderModal = ({ isOpen, onClose, orderId }) => {
 				<img
 					className='pt-15 pb-15'
 					src={icon}
-					alt='Избображение'
+					alt='Заказ подтвержден'
 					width={'120px'}
 					height={'120px'}
 				/>
