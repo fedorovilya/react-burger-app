@@ -1,0 +1,21 @@
+.ingredients_flex {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: 600px;
+	max-height: 912px;
+}
+
+.ingredients_flex_list {
+	max-height: 800px;
+	margin: 0;
+	padding: 0;
+	overflow-y: auto;
+}
+
+.ingredients_grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 32px 24px;
+}

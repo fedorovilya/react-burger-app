@@ -1,0 +1,17 @@
+.card {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 2px;
+	width: 568px;
+	height: 80px;
+}
+
+.card_extra {
+	background: #1c1c21;
+}
+
+.card_pointer {
+	cursor: pointer;
+}
