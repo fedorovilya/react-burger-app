@@ -2,7 +2,8 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {API_INGREDIENTS_ENDPOINT} from "../../../const/const";
 
 const ingredientsInitialState = {
-	ingredients: [], // [ {item: {}, count: 2}]
+	ingredients: [],
+	counter: [], // [{id: id_element, count: 1}]
 	selectedIngredient: null,
 	status: 'idle', // 'idle' | 'loading' | 'success' | 'fail'
 	error: null,
@@ -34,8 +35,12 @@ const burgerIngredientsSlice = createSlice({
 	initialState: ingredientsInitialState,
 	reducers: {
 		setSelected: (state, action) => {
-			state.selectedIngredient = state.ingredients.filter(ingredient => ingredient.item.id === action.payload);
+			console.log('set selected', action.payload);
+			state.selectedIngredient = state.ingredients.find(ingredient => ingredient._id === action.payload);
 			//state.selectedIngredient = action.payload;
+		},
+		detachSelected: (state) => {
+			state.selectedIngredient = null
 		},
 		incrementIngredient: (state, action) => {
 			state.ingredients = state.ingredients.map(ingredient => (
@@ -71,11 +76,11 @@ const burgerIngredientsSlice = createSlice({
 			})
 			.addCase(fetchIngredients.rejected, (state, action) => {
 				state.error = action.payload || 'Ошибка получения списка ингредиентов';
-				state.status = 'error'
+				state.status = 'fail'
 				state.ingredients = null
 			})
 	}
 })
 
-export const {setSelected, decrementIngredient, incrementIngredient} = burgerIngredientsSlice.actions;
+export const {setSelected, detachSelected, decrementIngredient, incrementIngredient} = burgerIngredientsSlice.actions;
 export default burgerIngredientsSlice.reducer;

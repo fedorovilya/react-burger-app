@@ -2,25 +2,39 @@ import {
 	Counter,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState } from 'react';
-import { IngredientModal } from '@components/modal/ingredientModal';
+import {useState} from 'react';
+import {IngredientModal} from '@components/modal/ingredientModal';
 import PropTypes from 'prop-types';
-import { ingredientProps } from '@utils/props';
+import {ingredientProps} from '@utils/props';
+import {useDispatch, useSelector} from "react-redux";
+import {detachSelected, setSelected} from "@components/burger-ingredients/services/burgerIngredientsSlice";
 
-export const IngredientCard = ({ item, count, index }) => {
+export const IngredientCard = ({item, count, index}) => {
+	const dispatch = useDispatch();
+	const {selectedIngredient} = useSelector((state) => state.ingredients);
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const openModal = () => setIsModalOpen(true);
-	const closeModal = () => setIsModalOpen(false);
+	const openModal = (id) => {
+		dispatch(setSelected(id))
+		setIsModalOpen(true);
+	}
+	const closeModal = () => {
+		setIsModalOpen(false);
+		dispatch(detachSelected())
+	}
 
 	return (
 		<>
-			<IngredientModal
-				isOpen={isModalOpen}
-				onClose={closeModal}
-				data={item}></IngredientModal>
+			{selectedIngredient &&
+				<IngredientModal
+					isOpen={isModalOpen}
+					onClose={closeModal}
+					data={selectedIngredient}>
+				</IngredientModal>
+			}
 			<li
-				onClick={openModal}
+				onClick={e => openModal(item._id)}
 				id={`ingredient-${index}`}
 				style={{
 					display: 'flex',
@@ -32,7 +46,7 @@ export const IngredientCard = ({ item, count, index }) => {
 					cursor: 'pointer',
 				}}>
 				{count ? (
-					<div style={{ position: 'relative', left: '135px' }}>
+					<div style={{position: 'relative', left: '135px'}}>
 						<Counter count={count} size={'default'}></Counter>
 					</div>
 				) : undefined}
@@ -45,13 +59,13 @@ export const IngredientCard = ({ item, count, index }) => {
 				/>
 				<div
 					className={'pt-1 pb-1'}
-					style={{ display: 'flex', flexDirection: 'row' }}>
+					style={{display: 'flex', flexDirection: 'row'}}>
 					<p className={'text text_type_digits-default'}>{item.price}</p>
 					<CurrencyIcon type={'primary'}></CurrencyIcon>
 				</div>
 				<p
 					className={'text text_type_main-small'}
-					style={{ textAlign: 'center' }}>
+					style={{textAlign: 'center'}}>
 					{item.name}
 				</p>
 			</li>
