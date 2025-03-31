@@ -4,8 +4,13 @@ import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
 import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
 import styles from './burgerIngredients.module.css';
 import { ingredientsProps } from '@utils/props';
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../app/store";
+import {fetchIngredients} from "@components/burger-ingredients/services/burgerIngredientsSlice";
 
 export const BurgerIngredients = ({ ingredients }) => {
+	const dispatch = useDispatch();
+
 	const [current, setCurrent] = useState(TYPE_BUN);
 
 	const breadItems = ingredients.filter((item) => item.type === TYPE_BUN);
@@ -24,6 +29,10 @@ export const BurgerIngredients = ({ ingredients }) => {
 			ref.current.scrollIntoView({ behavior: 'smooth' });
 		}
 	};
+
+	useEffect(() => {
+		dispatch(fetchIngredients());
+	}, [])
 
 	// TODO не работает изменение активной категории при ручном скролле. починить
 	useEffect(() => {

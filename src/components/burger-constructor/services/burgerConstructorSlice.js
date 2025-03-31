@@ -1,9 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const burgerConstructorSlice = createSlice({
-	name: 'ingredientList',
+	name: 'burgerConstructor',
 	initialState: {
-		constructorList: [], // Список ингредиентов
+		constructorList: [], // Список добавленных ингредиентов [{item: {}, id: 1}] // id - порядковый номер
 	},
 	reducers: {
 		addIngredientToConstructor: (state, action) => {
@@ -17,3 +17,6 @@ const burgerConstructorSlice = createSlice({
 		},
 	},
 });
+export const { addIngredientToConstructor, removeIngredientFromConstructor, setIngredientsConstructorList } = burgerConstructorSlice.actions;
+
+export default burgerConstructorSlice.reducer;

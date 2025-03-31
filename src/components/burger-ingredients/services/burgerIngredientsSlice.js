@@ -2,21 +2,27 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {API_INGREDIENTS_ENDPOINT} from "../../../const/const";
 
 const ingredientsInitialState = {
-	ingredients: [],
+	ingredients: [], // [ {item: {}, count: 2}]
 	selectedIngredient: null,
 	status: 'idle', // 'idle' | 'loading' | 'success' | 'fail'
 	error: null,
 }
 
 export const fetchIngredients = createAsyncThunk(
-	'ingredients/fetchIngredients',
+	'burgerIngredients/fetchIngredients',
 	async (_, thunkAPI) => {
 		try {
 			const response = await fetch(API_INGREDIENTS_ENDPOINT);
 			if (!response.ok) {
 				throw new Error('Ошибка получения списка ингредиентов');
 			}
-			return await response.json();
+
+			let json = await response.json();
+
+			if (!json.success) {
+				throw new Error(`Удаленный сервер вернул ошибку при получении списка ингредиентов: status=${json.success}`);
+			}
+			return json;
 		} catch (error) {
 			return thunkAPI.rejectWithValue(error.message);
 		}
@@ -24,11 +30,32 @@ export const fetchIngredients = createAsyncThunk(
 );
 
 const burgerIngredientsSlice = createSlice({
-	name: 'ingredients',
+	name: 'burgerIngredients',
 	initialState: ingredientsInitialState,
 	reducers: {
 		setSelected: (state, action) => {
-			state.selectedIngredient = action.payload;
+			state.selectedIngredient = state.ingredients.filter(ingredient => ingredient.item.id === action.payload);
+			//state.selectedIngredient = action.payload;
+		},
+		incrementIngredient: (state, action) => {
+			state.ingredients = state.ingredients.map(ingredient => (
+					(ingredient.item.id === action.payload)
+						? {
+							...ingredient, count: ingredient.count + 1
+						}
+						: ingredient
+				)
+			)
+		},
+		decrementIngredient: (state, action) => {
+			state.ingredients = state.ingredients.map(ingredient => (
+					(ingredient.item.id === action.payload)
+						? {
+							...ingredient, count: ingredient.count - 1
+						}
+						: ingredient
+				)
+			)
 		}
 	},
 	extraReducers: (builder) => {
@@ -40,15 +67,15 @@ const burgerIngredientsSlice = createSlice({
 			.addCase(fetchIngredients.fulfilled, (state, action) => {
 				state.error = null;
 				state.status = 'success'
-				state.ingredients = action.payload
+				state.ingredients = action.payload.data
 			})
 			.addCase(fetchIngredients.rejected, (state, action) => {
 				state.error = action.payload || 'Ошибка получения списка ингредиентов';
 				state.status = 'error'
-				state.ingredients = action.payload
+				state.ingredients = null
 			})
 	}
 })
 
-export const {selectedIngredient} = burgerIngredientsSlice.actions;
+export const {setSelected, decrementIngredient, incrementIngredient} = burgerIngredientsSlice.actions;
 export default burgerIngredientsSlice.reducer;
