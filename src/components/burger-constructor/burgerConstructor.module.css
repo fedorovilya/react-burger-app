@@ -10,7 +10,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-	align-items: flex-start;
+	align-items: center;
 	max-height: 656px;
 	margin: 0;
 	padding: 0;
@@ -24,4 +24,31 @@
 	gap: 16px;
 	padding: 0;
 	overflow-y: auto;
+}
+
+.constructor_element {
+	padding: 16px 24px;
+	display: inline-block;
+	border-radius: var(--common-border-radius-s);
+	background: #1c1c21;
+	width: 536px;
+	max-height: 80px;
+	font-family: 'Jet Brains Mono', serif;
+	font-size: 16px;
+	line-height: 24px;
+	color: #F2F2F3;
+	box-sizing: border-box;
+}
+
+.constructor_element_pos_top {
+	border-radius: var(--top-constructor-item-border-radius);
+}
+
+.constructor_element_pos_bottom {
+	border-radius: var(--bottom-constructor-item-border-radius);
+}
+
+.constructor_element__text {
+	line-height: 24px;
+	text-align: center;
 }

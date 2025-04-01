@@ -1,22 +1,32 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 
 const burgerConstructorSlice = createSlice({
 	name: 'burgerConstructor',
 	initialState: {
-		constructorList: [], // Список добавленных ингредиентов [{item: {}, id: 1}] // id - порядковый номер
+		bun: null,
+		ingredients: [], // Список добавленных ингредиентов [{item: {}, id: 1}] // id - порядковый номер
 	},
 	reducers: {
 		addIngredientToConstructor: (state, action) => {
-			state.constructorList.push(action.payload);
+			state.ingredients.push({ id: uuidv4(), item: action.payload });
 		},
 		removeIngredientFromConstructor: (state, action) => {
-			state.constructorList.splice(action.payload, 1);
+			state.ingredients.filter((element) => element.id !== action.payload);
 		},
 		setIngredientsConstructorList: (state, action) => {
-			state.constructorList = action.payload;
+			state.ingredients = action.payload;
+		},
+		setBun: (state, action) => {
+			state.bun = action.payload;
 		},
 	},
 });
-export const { addIngredientToConstructor, removeIngredientFromConstructor, setIngredientsConstructorList } = burgerConstructorSlice.actions;
+export const {
+	addIngredientToConstructor,
+	removeIngredientFromConstructor,
+	setIngredientsConstructorList,
+	setBun,
+} = burgerConstructorSlice.actions;
 
 export default burgerConstructorSlice.reducer;

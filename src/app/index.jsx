@@ -1,7 +1,7 @@
-import {AppHeader} from '@components/app-header/appHeader.jsx';
-import {BurgerIngredients} from '@components/burger-ingredients/burgerIngredients';
-import {BurgerConstructor} from '@components/burger-constructor/burgerConstructor';
-import {useEffect, useState} from 'react';
+import { AppHeader } from '@components/app-header/appHeader.jsx';
+import { BurgerIngredients } from '@components/burger-ingredients/burgerIngredients';
+import { BurgerConstructor } from '@components/burger-constructor/burgerConstructor';
+import { useEffect, useState } from 'react';
 import icon from '@assets/favicon.png';
 import styles from './app.module.scss';
 
@@ -20,9 +20,9 @@ export const App = () => {
 
 	return (
 		<div className='page'>
-			<AppHeader/>
+			<AppHeader />
 			<div className={styles.flex}>
-				<BurgerIngredients/>
+				<BurgerIngredients />
 				<BurgerConstructor></BurgerConstructor>
 			</div>
 		</div>

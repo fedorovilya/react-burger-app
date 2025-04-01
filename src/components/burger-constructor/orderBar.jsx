@@ -3,20 +3,31 @@ import {
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './orderBar.module.css';
-import { useState } from 'react';
-import { OrderModal } from '@components/modal/orderModal';
+import {useCallback, useState} from 'react';
+import {OrderModal} from '@components/modal/orderModal';
 import PropTypes from 'prop-types';
+import {API_CREATE_ORDER_ENDPOINT} from "../../const/const";
+import {useDispatch, useSelector} from "react-redux";
+import {createOrderRequest} from "@components/burger-constructor/services/orderSlice";
 
-export const OrderBar = ({ totalCost }) => {
+export const OrderBar = ({totalCost}) => {
+	const dispatch = useDispatch();
+	const {order, status} = useSelector((state) => state.order);
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [orderId, setOrderId] = useState();
 
-	const openModal = () => setIsModalOpen(true);
+	const openModal = () => {
+		setIsModalOpen(true);
+	}
 	const closeModal = () => setIsModalOpen(false);
 
-	const handleClick = () => {
+	const handleClick = async () => {
+		await dispatch(createOrderRequest(
+			{
+				ingredients: ["643d69a5c3f7b9001cfa093c", "643d69a5c3f7b9001cfa093f", "643d69a5c3f7b9001cfa093c"]
+			}
+		));
 		openModal();
-		setOrderId('034536');
 	};
 
 	return (
@@ -24,7 +35,8 @@ export const OrderBar = ({ totalCost }) => {
 			<OrderModal
 				isOpen={isModalOpen}
 				onClose={closeModal}
-				orderId={orderId}></OrderModal>
+				orderId={order?.number}>
+			</OrderModal>
 			<div className={`pr-4 ${styles.order_bar_flex}`}>
 				<div className={styles.order_bar_cost}>
 					<p className='text text_type_digits-medium'>{totalCost}</p>
@@ -36,7 +48,7 @@ export const OrderBar = ({ totalCost }) => {
 					type={'primary'}
 					size={'large'}
 					onClick={handleClick}>
-					Оформить заказ
+					{status === 'loading' ? 'Создание заказа...' : 'Оформить заказ'}
 				</Button>
 			</div>
 		</>

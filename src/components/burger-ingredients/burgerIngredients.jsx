@@ -1,28 +1,51 @@
-import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useEffect, useMemo, useRef, useState} from 'react';
-import {IngredientCard} from '@components/burger-ingredients/ingredientCard';
-import {TYPE_BUN, TYPE_MAIN, TYPE_SAUCE} from '../../const/const';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
+import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
 import styles from './burgerIngredients.module.css';
-import {ingredientsProps} from '@utils/props';
-import {useDispatch, useSelector} from "react-redux";
-import {fetchIngredients} from "@components/burger-ingredients/services/burgerIngredientsSlice";
+import { ingredientsProps } from '@utils/props';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchIngredients } from '@components/burger-ingredients/services/burgerIngredientsSlice';
 
 export const BurgerIngredients = () => {
 	const dispatch = useDispatch();
-	const {ingredients, status, error} = useSelector((state) => state.ingredients);
+	const { ingredients, status, error } = useSelector(
+		(state) => state.ingredients
+	);
+	const { ingredients: constructorIngredients, bun: constructorBun } =
+		useSelector((state) => state.constructor);
+
+	const counterArray = useMemo(() => {
+		const result = [];
+		constructorIngredients?.forEach((ingredient) => {
+			const id = ingredient.item._id;
+
+			const elementInResult = result.find(
+				(counterItem) => counterItem.id === id
+			);
+
+			elementInResult
+				? (elementInResult.count += 1)
+				: result.push({ id: id, count: 1 });
+		});
+		constructorBun && result.push({ id: constructorBun._id, count: 1 });
+		return result;
+	}, [constructorIngredients, constructorBun]);
 
 	const [currentTab, setCurrentTab] = useState(TYPE_BUN);
 
 	const breadItems = useMemo(() => {
-		return ingredients && ingredients.filter((item) => item.type === TYPE_BUN)
+		return ingredients && ingredients.filter((item) => item.type === TYPE_BUN);
 	}, [ingredients]);
 
 	const sauceItems = useMemo(() => {
-		return ingredients && ingredients.filter((item) => item.type === TYPE_SAUCE)
+		return (
+			ingredients && ingredients.filter((item) => item.type === TYPE_SAUCE)
+		);
 	}, [ingredients]);
 
 	const mainItems = useMemo(() => {
-		return ingredients && ingredients.filter((item) => item.type === TYPE_MAIN)
+		return ingredients && ingredients.filter((item) => item.type === TYPE_MAIN);
 	}, [ingredients]);
 
 	const categoryBunRef = useRef(null);
@@ -34,13 +57,13 @@ export const BurgerIngredients = () => {
 	const handleCategoryClick = (category, ref) => {
 		if (ref && ref.current) {
 			setCurrentTab(category);
-			ref.current.scrollIntoView({behavior: 'smooth'});
+			ref.current.scrollIntoView({ behavior: 'smooth' });
 		}
 	};
 
 	useEffect(() => {
 		dispatch(fetchIngredients());
-	}, [])
+	}, []);
 
 	// TODO не работает изменение активной категории при ручном скролле. починить
 	useEffect(() => {
@@ -67,19 +90,19 @@ export const BurgerIngredients = () => {
 	}, [status]);
 
 	const errorList = () => {
-		return (
-			<p className={'text text_type_main-medium pt-10'}>{error}</p>
-		)
-	}
+		return <p className={'text text_type_main-medium pt-10'}>{error}</p>;
+	};
 	const loadingList = () => {
 		return (
-			<p className={'text text_type_main-medium pt-10'}>Загрузка списка ингредиентов...</p>
-		)
-	}
+			<p className={'text text_type_main-medium pt-10'}>
+				Загрузка списка ингредиентов...
+			</p>
+		);
+	};
 	return (
 		<div className={styles.ingredients_flex}>
 			<p className={'pt-10 text text_type_main-large'}>Соберите бургер</p>
-			<div className={'pt-5'} style={{display: 'flex'}}>
+			<div className={'pt-5'} style={{ display: 'flex' }}>
 				<Tab
 					value={TYPE_BUN}
 					active={currentTab === TYPE_BUN}
@@ -101,7 +124,7 @@ export const BurgerIngredients = () => {
 			</div>
 			{status === 'loading' && loadingList()}
 			{status === 'fail' && errorList()}
-			{status === 'success' &&
+			{status === 'success' && (
 				<ul ref={scrollContainerRef} className={styles.ingredients_flex_list}>
 					<div id={'bun_block'} className={'pt-10'} ref={categoryBunRef}>
 						<p className={'text text_type_main-medium pt-10'}>Булки</p>
@@ -133,16 +156,16 @@ export const BurgerIngredients = () => {
 						<div className={`pt-6 pl-4 pr-4 ${styles.ingredients_grid}`}>
 							{mainItems
 								? mainItems.map((item, index) => (
-									<IngredientCard
-										key={index}
-										item={item}
-										index={index}></IngredientCard>
-								))
+										<IngredientCard
+											key={index}
+											item={item}
+											index={index}></IngredientCard>
+								  ))
 								: undefined}
 						</div>
 					</div>
 				</ul>
-			}
+			)}
 		</div>
 	);
 };

@@ -1,11 +1,5 @@
 export const SELECTED_DATA = [
 	{
-		name: 'Краторная булка N-200i',
-		type: 'bun',
-		price: 3000,
-		image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-	},
-	{
 		name: 'Говяжий метеорит (отбивная)',
 		type: 'main',
 		price: 3000,

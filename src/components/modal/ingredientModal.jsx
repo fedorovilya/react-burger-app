@@ -2,7 +2,7 @@ import { Modal } from '@components/modal/modal';
 import styles from './ingredientModal.module.css';
 import PropTypes from 'prop-types';
 import { cardItemProps } from '@utils/props';
-import {useSelector} from "react-redux";
+import { useSelector } from 'react-redux';
 
 export const IngredientModal = ({ isOpen, onClose, data }) => {
 	return (
