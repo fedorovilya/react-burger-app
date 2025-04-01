@@ -29,16 +29,6 @@ export const fetchIngredients = createAsyncThunk(
 const burgerIngredientsSlice = createSlice({
 	name: 'burgerIngredients',
 	initialState: ingredientsInitialState,
-	reducers: {
-		setSelected: (state, action) => {
-			state.selectedIngredient = state.ingredients.find(
-				(ingredient) => ingredient._id === action.payload
-			);
-		},
-		detachSelected: (state) => {
-			state.selectedIngredient = null;
-		},
-	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchIngredients.pending, (state) => {
@@ -58,5 +48,4 @@ const burgerIngredientsSlice = createSlice({
 	},
 });
 
-export const {setSelected, detachSelected} = burgerIngredientsSlice.actions;
 export default burgerIngredientsSlice.reducer;

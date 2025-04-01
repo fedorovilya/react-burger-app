@@ -10,16 +10,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	detachSelected,
 	setSelected,
-} from '@components/burger-ingredients/services/burgerIngredientsSlice';
+} from '@components/burger-ingredients/services/selectedIngredientSlice';
 
 export const IngredientCard = ({ item, count, index }) => {
 	const dispatch = useDispatch();
-	const { selectedIngredient } = useSelector((state) => state.ingredients);
+	const { selectedIngredient } = useSelector((state) => state.selectedIngredient);
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const openModal = (id) => {
-		dispatch(setSelected(id));
+	const openModal = (item) => {
+		dispatch(setSelected(item));
 		setIsModalOpen(true);
 	};
 	const closeModal = () => {
@@ -36,7 +36,7 @@ export const IngredientCard = ({ item, count, index }) => {
 					data={selectedIngredient}></IngredientModal>
 			)}
 			<li
-				onClick={(e) => openModal(item._id)}
+				onClick={(e) => openModal(item)}
 				id={`ingredient-${index}`}
 				style={{
 					display: 'flex',
