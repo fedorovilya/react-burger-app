@@ -10,7 +10,7 @@ export const store = configureStore({
 	reducer: {
 		ingredients: burgerIngredientsReducer,
 		selectedIngredient: selectedIngredientReducer,
-		constructor: burgerConstructorReducer,
+		burgerConstructor: burgerConstructorReducer,
 		order: orderReducer,
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),

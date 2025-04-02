@@ -2,7 +2,7 @@ import {
 	Counter,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IngredientModal } from '@components/modal/ingredientModal';
 import PropTypes from 'prop-types';
 import { ingredientProps } from '@utils/props';
@@ -11,10 +11,19 @@ import {
 	detachSelected,
 	setSelected,
 } from '@components/burger-ingredients/services/selectedIngredientSlice';
+import { useDrag } from 'react-dnd';
+import { DRAG_BUN, DRAG_INGREDIENT } from '../../const/const';
 
-export const IngredientCard = ({ item, count, index }) => {
+export const IngredientCard = ({
+	item,
+	count,
+	index,
+	setIsDraggingOverConstructor,
+}) => {
 	const dispatch = useDispatch();
-	const { selectedIngredient } = useSelector((state) => state.selectedIngredient);
+	const { selectedIngredient } = useSelector(
+		(state) => state.selectedIngredient
+	);
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -27,6 +36,25 @@ export const IngredientCard = ({ item, count, index }) => {
 		dispatch(detachSelected());
 	};
 
+	const [{ isDragging }, drag] = useDrag(() => ({
+		type: DRAG_INGREDIENT,
+		item: item,
+		collect: (monitor) => ({
+			isDragging: monitor.isDragging(),
+		}),
+		end(item, monitor) {
+			if (monitor.didDrop()) {
+				setIsDraggingOverConstructor(false);
+			}
+		},
+	}));
+
+	useEffect(() => {
+		if (isDragging) {
+			setIsDraggingOverConstructor(true);
+		}
+	}, [isDragging]);
+
 	return (
 		<>
 			{selectedIngredient && (
@@ -36,6 +64,7 @@ export const IngredientCard = ({ item, count, index }) => {
 					data={selectedIngredient}></IngredientModal>
 			)}
 			<li
+				ref={drag}
 				onClick={(e) => openModal(item)}
 				id={`ingredient-${index}`}
 				style={{

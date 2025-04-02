@@ -65,7 +65,7 @@ const ModalHeader = ({ title, onClose }) => {
 Modal.propTypes = {
 	children: PropTypes.node.isRequired,
 	title: PropTypes.string,
-	isOpen: PropTypes.bool.isRequired,
+	isOpen: PropTypes.bool,
 	onClose: PropTypes.func.isRequired,
 };
 
@@ -79,13 +79,11 @@ ModalOverlay.propTypes = {
 ModalContent.propTypes = {
 	children: PropTypes.node.isRequired,
 	title: PropTypes.string,
-	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 };
 
 ModalHeader.propTypes = {
 	children: PropTypes.node.isRequired,
 	title: PropTypes.string,
-	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 };

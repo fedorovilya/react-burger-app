@@ -3,17 +3,22 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
 import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
 import styles from './burgerIngredients.module.css';
-import { ingredientsProps } from '@utils/props';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchIngredients } from '@components/burger-ingredients/services/burgerIngredientsSlice';
+import { useDrag, useDrop } from 'react-dnd';
 
-export const BurgerIngredients = () => {
+export const BurgerIngredients = ({ setIsDraggingOverConstructor }) => {
 	const dispatch = useDispatch();
 	const { ingredients, status, error } = useSelector(
 		(state) => state.ingredients
 	);
 	const { ingredients: constructorIngredients, bun: constructorBun } =
-		useSelector((state) => state.constructor);
+		useSelector((state) => state.burgerConstructor);
+
+	const categoryBunRef = useRef(null);
+	const categorySauceRef = useRef(null);
+	const categoryMainRef = useRef(null);
+	const scrollContainerRef = useRef(null);
 
 	const counterArray = useMemo(() => {
 		const result = [];
@@ -28,9 +33,13 @@ export const BurgerIngredients = () => {
 				? (elementInResult.count += 1)
 				: result.push({ id: id, count: 1 });
 		});
-		constructorBun && result.push({ id: constructorBun._id, count: 1 });
+		constructorBun && result.push({ id: constructorBun._id, count: 2 });
 		return result;
 	}, [constructorIngredients, constructorBun]);
+
+	const getCountById = (id) => {
+		return counterArray?.find((item) => item.id === id)?.count;
+	};
 
 	const [currentTab, setCurrentTab] = useState(TYPE_BUN);
 
@@ -47,12 +56,6 @@ export const BurgerIngredients = () => {
 	const mainItems = useMemo(() => {
 		return ingredients && ingredients.filter((item) => item.type === TYPE_MAIN);
 	}, [ingredients]);
-
-	const categoryBunRef = useRef(null);
-	const categorySauceRef = useRef(null);
-	const categoryMainRef = useRef(null);
-
-	const scrollContainerRef = useRef(null);
 
 	const handleCategoryClick = (category, ref) => {
 		if (ref && ref.current) {
@@ -99,6 +102,7 @@ export const BurgerIngredients = () => {
 			</p>
 		);
 	};
+
 	return (
 		<div className={styles.ingredients_flex}>
 			<p className={'pt-10 text text_type_main-large'}>Соберите бургер</p>
@@ -134,7 +138,9 @@ export const BurgerIngredients = () => {
 									key={index}
 									item={item}
 									index={index}
-									count={1}></IngredientCard>
+									count={getCountById(item._id)}
+									setIsDraggingOverConstructor={setIsDraggingOverConstructor}
+								/>
 							))}
 						</div>
 					</div>
@@ -146,7 +152,10 @@ export const BurgerIngredients = () => {
 								<IngredientCard
 									key={index}
 									item={item}
-									index={index}></IngredientCard>
+									index={index}
+									count={getCountById(item._id)}
+									setIsDraggingOverConstructor={setIsDraggingOverConstructor}
+								/>
 							))}
 						</div>
 					</div>
@@ -154,22 +163,19 @@ export const BurgerIngredients = () => {
 					<div id={'main_block'} className={'pt-10'} ref={categoryMainRef}>
 						<p className={'text text_type_main-medium pt-10'}>Начинки</p>
 						<div className={`pt-6 pl-4 pr-4 ${styles.ingredients_grid}`}>
-							{mainItems
-								? mainItems.map((item, index) => (
-										<IngredientCard
-											key={index}
-											item={item}
-											index={index}></IngredientCard>
-								  ))
-								: undefined}
+							{mainItems?.map((item, index) => (
+								<IngredientCard
+									key={index}
+									item={item}
+									index={index}
+									count={getCountById(item._id)}
+									setIsDraggingOverConstructor={setIsDraggingOverConstructor}
+								/>
+							))}
 						</div>
 					</div>
 				</ul>
 			)}
 		</div>
 	);
-};
-
-BurgerIngredients.propTypes = {
-	ingredients: ingredientsProps.isRequired,
 };

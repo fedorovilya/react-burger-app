@@ -27,17 +27,17 @@
 }
 
 .constructor_element {
-	padding: 16px 24px;
 	display: inline-block;
-	border-radius: var(--common-border-radius-s);
-	background: #1c1c21;
+	box-sizing: border-box;
 	width: 536px;
 	max-height: 80px;
-	font-family: 'Jet Brains Mono', serif;
+	padding: 16px 24px;
+	color: #f2f2f3;
 	font-size: 16px;
+	font-family: 'Jet Brains Mono', serif;
 	line-height: 24px;
-	color: #F2F2F3;
-	box-sizing: border-box;
+	background: #1c1c21;
+	border-radius: var(--common-border-radius-s);
 }
 
 .constructor_element_pos_top {

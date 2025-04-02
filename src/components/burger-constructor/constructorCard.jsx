@@ -6,8 +6,16 @@ import { POSITION_BOTTOM, POSITION_TOP } from '../../const/const';
 import styles from './constructorCard.module.css';
 import PropTypes from 'prop-types';
 import { cardItemProps } from '@utils/props';
+import { useDispatch } from 'react-redux';
+import { removeIngredientFromConstructor } from '@components/burger-constructor/services/burgerConstructorSlice';
 
-export const ConstructorCard = ({ item, locked, position }) => {
+export const ConstructorCard = ({ item, id, locked, position }) => {
+	const dispatch = useDispatch();
+
+	const handleClick = (id) => {
+		dispatch(removeIngredientFromConstructor(id));
+	};
+
 	const getOptionalPositionText = (item) => {
 		if (position === POSITION_TOP) {
 			return `${item.name} (верх)`;
@@ -28,6 +36,7 @@ export const ConstructorCard = ({ item, locked, position }) => {
 				text={getOptionalPositionText(item)}
 				thumbnail={item.image}
 				price={item.price}
+				handleClose={() => handleClick(id)}
 			/>
 		</div>
 	);

@@ -4,8 +4,13 @@ import { BurgerConstructor } from '@components/burger-constructor/burgerConstruc
 import { useEffect, useState } from 'react';
 import icon from '@assets/favicon.png';
 import styles from './app.module.scss';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export const App = () => {
+	const [isDraggingOverConstructor, setIsDraggingOverConstructor] =
+		useState(false);
+
 	useEffect(() => {
 		const link = document.createElement('link');
 		link.rel = 'icon';
@@ -19,12 +24,18 @@ export const App = () => {
 	}, []);
 
 	return (
-		<div className='page'>
-			<AppHeader />
-			<div className={styles.flex}>
-				<BurgerIngredients />
-				<BurgerConstructor></BurgerConstructor>
+		<DndProvider backend={HTML5Backend}>
+			<div className='page'>
+				<AppHeader />
+				<div className={styles.flex}>
+					<BurgerIngredients
+						setIsDraggingOverConstructor={setIsDraggingOverConstructor}
+					/>
+					<BurgerConstructor
+						isDraggingOverConstructor={isDraggingOverConstructor}
+					/>
+				</div>
 			</div>
-		</div>
+		</DndProvider>
 	);
 };

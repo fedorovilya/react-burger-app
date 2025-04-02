@@ -1,5 +1,5 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {API_INGREDIENTS_ENDPOINT} from '../../../const/const';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { API_INGREDIENTS_ENDPOINT } from '../../../const/const';
 
 const ingredientsInitialState = {
 	ingredients: [],
@@ -21,7 +21,9 @@ export const fetchIngredients = createAsyncThunk(
 			}
 			return json;
 		} catch (error) {
-			return thunkAPI.rejectWithValue(error.message || 'Ошибка получения списка ингредиентов');
+			return thunkAPI.rejectWithValue(
+				error.message || 'Ошибка получения списка ингредиентов'
+			);
 		}
 	}
 );

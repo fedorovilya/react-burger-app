@@ -1,16 +1,17 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {API_CREATE_ORDER_ENDPOINT} from "../../../const/const";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { API_CREATE_ORDER_ENDPOINT } from '../../../const/const';
 
 export const createOrderRequest = createAsyncThunk(
 	'order/createOrderRequest',
 	async (orderItems, thunkAPI) => {
 		try {
+			console.log('orderItems: ', orderItems);
 			const response = await fetch(API_CREATE_ORDER_ENDPOINT, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(orderItems)
+				body: JSON.stringify(orderItems),
 			});
 
 			let json = await response.json();
@@ -21,7 +22,9 @@ export const createOrderRequest = createAsyncThunk(
 			}
 			return json;
 		} catch (error) {
-			return thunkAPI.rejectWithValue(error.message || 'Ошибка создания заказа');
+			return thunkAPI.rejectWithValue(
+				error.message || 'Ошибка создания заказа'
+			);
 		}
 	}
 );

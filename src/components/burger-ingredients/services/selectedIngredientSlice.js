@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const selectedIngredientsSlice = createSlice({
 	name: 'selectedIngredient',
@@ -12,8 +12,8 @@ const selectedIngredientsSlice = createSlice({
 		detachSelected: (state) => {
 			state.selectedIngredient = null;
 		},
-	}
+	},
 });
 
-export const {setSelected, detachSelected} = selectedIngredientsSlice.actions;
+export const { setSelected, detachSelected } = selectedIngredientsSlice.actions;
 export default selectedIngredientsSlice.reducer;
