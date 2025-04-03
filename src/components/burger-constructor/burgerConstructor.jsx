@@ -4,21 +4,22 @@ import {
 	POSITION_BOTTOM,
 	POSITION_TOP,
 } from '../../const/const';
-import {ConstructorCard} from '@components/burger-constructor/constructorCard';
-import {OrderBar} from '@components/burger-constructor/orderBar';
+import { ConstructorCard } from '@components/burger-constructor/constructorCard';
+import { OrderBar } from '@components/burger-constructor/orderBar';
 import styles from './burgerConstructor.module.css';
-import {useDispatch, useSelector} from 'react-redux';
-import {useCallback, useMemo} from 'react';
-import {useDrop} from 'react-dnd';
-import {v4 as uuidv4} from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCallback, useMemo } from 'react';
+import { useDrop } from 'react-dnd';
+import { v4 as uuidv4 } from 'uuid';
 import {
-	addIngredientToConstructor, setBun,
+	addIngredientToConstructor,
+	setBun,
 	setIngredientsConstructorList,
 } from '@components/burger-constructor/services/burgerConstructorSlice';
 
 export const BurgerConstructor = () => {
 	const dispatch = useDispatch();
-	const {ingredients: constructorIngredients, bun: constructorBun} =
+	const { ingredients: constructorIngredients, bun: constructorBun } =
 		useSelector((state) => state.burgerConstructor);
 
 	const totalCost = useMemo(() => {
@@ -45,38 +46,40 @@ export const BurgerConstructor = () => {
 		return orderItemsResult;
 	}, [constructorIngredients, constructorBun]);
 
-	const moveItem = useCallback((dragIndex, hoverIndex) => {
-		const newList = [...constructorIngredients];
+	const moveItem = useCallback(
+		(dragIndex, hoverIndex) => {
+			const newList = [...constructorIngredients];
 
-		const dragId = newList.findIndex(item => item.id === dragIndex);
-		const hoverId = newList.findIndex(item => item.id === hoverIndex);
+			const dragId = newList.findIndex((item) => item.id === dragIndex);
+			const hoverId = newList.findIndex((item) => item.id === hoverIndex);
 
-		if (dragId === -1 || hoverId === -1) {
-			return;
-		}
+			if (dragId === -1 || hoverId === -1) {
+				return;
+			}
 
-		const [movedItem] = newList.splice(dragId, 1);
-		newList.splice(hoverId, 0, movedItem);
+			const [movedItem] = newList.splice(dragId, 1);
+			newList.splice(hoverId, 0, movedItem);
 
-		dispatch(setIngredientsConstructorList(newList));
-	}, [constructorIngredients]);
+			dispatch(setIngredientsConstructorList(newList));
+		},
+		[constructorIngredients]
+	);
 
-	const [{canDrop, isOver}, drop] = useDrop({
+	const [{ canDrop, isOver }, drop] = useDrop({
 		accept: DRAG_INGREDIENT,
 		drop: (item) => {
 			if (item?.id) return;
 
-			const newElem = {id: uuidv4(), item: item};
+			const newElem = { id: uuidv4(), item: item };
 			dispatch(addIngredientToConstructor(newElem));
 		},
 		collect: (monitor) => ({
 			isOver: monitor.isOver(),
 			canDrop: monitor.canDrop(),
 		}),
-
 	});
 
-	const [{canDropTopBun, isOverTopBun}, dropTopBun] = useDrop({
+	const [{ canDropTopBun, isOverTopBun }, dropTopBun] = useDrop({
 		accept: DRAG_BUN,
 		drop: (item) => {
 			if (item?.id) return;
@@ -86,10 +89,9 @@ export const BurgerConstructor = () => {
 			isOverTopBun: monitor.isOver(),
 			canDropTopBun: monitor.canDrop(),
 		}),
-
 	});
 
-	const [{canDropBottomBun, isOverBottomBun}, dropBottomBun] = useDrop({
+	const [{ canDropBottomBun, isOverBottomBun }, dropBottomBun] = useDrop({
 		accept: DRAG_BUN,
 		drop: (item) => {
 			if (item?.id) return;
@@ -99,7 +101,6 @@ export const BurgerConstructor = () => {
 			isOverBottomBun: monitor.isOver(),
 			canDropBottomBun: monitor.canDrop(),
 		}),
-
 	});
 
 	const getEmptyCard = (position) => {
@@ -137,11 +138,17 @@ export const BurgerConstructor = () => {
 	return (
 		<div className={`pt-25 pl-4 pr-4 ${styles.flex_main}`}>
 			<div className={styles.flex_cards}>
-				<div ref={dropTopBun} style={{
-					border: canDropTopBun ? (isOverTopBun ? '5px solid #646cff' : '1px solid #646cff') : 'transparent',
-					boxShadow: canDropTopBun ? '0 0 3px 3px #646CFF86' : 'none',
-					borderRadius: '10px'
-				}}>
+				<div
+					ref={dropTopBun}
+					style={{
+						border: canDropTopBun
+							? isOverTopBun
+								? '5px solid #646cff'
+								: '1px solid #646cff'
+							: 'transparent',
+						boxShadow: canDropTopBun ? '0 0 3px 3px #646CFF86' : 'none',
+						borderRadius: '10px',
+					}}>
 					{constructorBun ? (
 						<ConstructorCard
 							id={'bun_top'}
@@ -153,31 +160,42 @@ export const BurgerConstructor = () => {
 					)}
 				</div>
 
-				<ul ref={drop} className={`pt-4 pb-4 ${styles.flex_cards_list}`} style={{
-					border: canDrop ? (isOver ? '5px solid #646cff' : '1px solid #646cff') : 'transparent',
-					boxShadow: canDrop ? '0 0 3px 3px #646CFF86' : 'none',
-					borderRadius: '10px'
-				}}>
+				<ul
+					ref={drop}
+					className={`pt-4 pb-4 ${styles.flex_cards_list}`}
+					style={{
+						border: canDrop
+							? isOver
+								? '5px solid #646cff'
+								: '1px solid #646cff'
+							: 'transparent',
+						boxShadow: canDrop ? '0 0 3px 3px #646CFF86' : 'none',
+						borderRadius: '10px',
+					}}>
 					{constructorIngredients && constructorIngredients.length !== 0
 						? constructorIngredients.map((element) => (
-							<li key={element.id}>
-								<ConstructorCard
-									item={element.item}
-									id={element.id}
-									locked={false}
-									moveItem={moveItem}
-								>
-								</ConstructorCard>
-							</li>
-						))
+								<li key={element.id}>
+									<ConstructorCard
+										item={element.item}
+										id={element.id}
+										locked={false}
+										moveItem={moveItem}></ConstructorCard>
+								</li>
+						  ))
 						: getEmptyCard()}
 				</ul>
 
-				<div ref={dropBottomBun} style={{
-					border: canDropBottomBun ? (isOverBottomBun ? '5px solid #646cff' : '1px solid #646cff') : 'transparent',
-					boxShadow: canDropBottomBun ? '0 0 3px 3px #646CFF86' : 'none',
-					borderRadius: '10px'
-				}}>
+				<div
+					ref={dropBottomBun}
+					style={{
+						border: canDropBottomBun
+							? isOverBottomBun
+								? '5px solid #646cff'
+								: '1px solid #646cff'
+							: 'transparent',
+						boxShadow: canDropBottomBun ? '0 0 3px 3px #646CFF86' : 'none',
+						borderRadius: '10px',
+					}}>
 					{constructorBun ? (
 						<ConstructorCard
 							id={'bun_top'}
@@ -190,7 +208,7 @@ export const BurgerConstructor = () => {
 				</div>
 			</div>
 			{orderItems.length > 0 && totalCost > 0 && (
-				<OrderBar totalCost={totalCost} orderItems={orderItems}/>
+				<OrderBar totalCost={totalCost} orderItems={orderItems} />
 			)}
 		</div>
 	);

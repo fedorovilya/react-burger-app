@@ -25,8 +25,8 @@ export const App = () => {
 			<div className='page'>
 				<AppHeader />
 				<div className={styles.flex}>
-					<BurgerIngredients/>
-					<BurgerConstructor/>
+					<BurgerIngredients />
+					<BurgerConstructor />
 				</div>
 			</div>
 		</DndProvider>

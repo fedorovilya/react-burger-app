@@ -1,4 +1,4 @@
-import { compose, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
 import burgerIngredientsReducer from '@components/burger-ingredients/services/burgerIngredientsSlice';

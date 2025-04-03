@@ -55,7 +55,11 @@ const ModalHeader = ({ title, onClose }) => {
 	return (
 		<div className={styles.modal_header}>
 			<p className='text text_type_main-large'>{title}</p>
-			<Button type='secondary' htmlType='button' onClick={onClose} style={{ cursor: 'pointer' }}>
+			<Button
+				type='secondary'
+				htmlType='button'
+				onClick={onClose}
+				style={{ cursor: 'pointer' }}>
 				<CloseIcon type={'primary'}></CloseIcon>
 			</Button>
 		</div>

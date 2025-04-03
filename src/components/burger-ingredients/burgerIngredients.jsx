@@ -1,15 +1,17 @@
-import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useEffect, useMemo, useRef, useState} from 'react';
-import {IngredientCard} from '@components/burger-ingredients/ingredientCard';
-import {TYPE_BUN, TYPE_MAIN, TYPE_SAUCE} from '../../const/const';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
+import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
 import styles from './burgerIngredients.module.css';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchIngredients} from '@components/burger-ingredients/services/burgerIngredientsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchIngredients } from '@components/burger-ingredients/services/burgerIngredientsSlice';
 
 export const BurgerIngredients = () => {
 	const dispatch = useDispatch();
-	const {ingredients, status, error} = useSelector((state) => state.ingredients);
-	const {ingredients: constructorIngredients, bun: constructorBun} =
+	const { ingredients, status, error } = useSelector(
+		(state) => state.ingredients
+	);
+	const { ingredients: constructorIngredients, bun: constructorBun } =
 		useSelector((state) => state.burgerConstructor);
 
 	const [currentTab, setCurrentTab] = useState(TYPE_BUN);
@@ -30,9 +32,9 @@ export const BurgerIngredients = () => {
 
 			elementInResult
 				? (elementInResult.count += 1)
-				: result.push({id: id, count: 1});
+				: result.push({ id: id, count: 1 });
 		});
-		constructorBun && result.push({id: constructorBun._id, count: 2});
+		constructorBun && result.push({ id: constructorBun._id, count: 2 });
 		return result;
 	}, [constructorIngredients, constructorBun]);
 
@@ -57,7 +59,7 @@ export const BurgerIngredients = () => {
 	const handleCategoryClick = (category, ref) => {
 		if (ref && ref.current) {
 			setCurrentTab(category);
-			ref.current.scrollIntoView({behavior: 'smooth'});
+			ref.current.scrollIntoView({ behavior: 'smooth' });
 		}
 	};
 
@@ -71,9 +73,9 @@ export const BurgerIngredients = () => {
 
 		// Создаем массив с категориями и их расстояниями до верхнего края контейнера
 		const categories = [
-			{name: TYPE_BUN, rect: bunRect},
-			{name: TYPE_SAUCE, rect: sauceRect},
-			{name: TYPE_MAIN, rect: mainRect},
+			{ name: TYPE_BUN, rect: bunRect },
+			{ name: TYPE_SAUCE, rect: sauceRect },
+			{ name: TYPE_MAIN, rect: mainRect },
 		];
 
 		let closestCategory = null;
@@ -81,7 +83,7 @@ export const BurgerIngredients = () => {
 
 		// Находим категорию с минимальным расстоянием до верхнего края контейнера
 		// Независимо от нахождения в области видимости сверху/снизу от верхней границы контейнера
-		categories.forEach(({name, rect}) => {
+		categories.forEach(({ name, rect }) => {
 			// Расстояние от верхнего края блока (его заголовка) до верхнего края контейнера
 			const distance = Math.abs(rect.top - containerRect.top);
 
@@ -114,12 +116,12 @@ export const BurgerIngredients = () => {
 
 			const container = scrollContainerRef.current;
 			if (container) {
-				container.addEventListener("scroll", handleScroll);
+				container.addEventListener('scroll', handleScroll);
 			}
 
 			return () => {
 				if (container) {
-					container.removeEventListener("scroll", handleScroll);
+					container.removeEventListener('scroll', handleScroll);
 				}
 			};
 		}
@@ -139,7 +141,7 @@ export const BurgerIngredients = () => {
 	return (
 		<div className={styles.ingredients_flex}>
 			<p className={'pt-10 text text_type_main-large'}>Соберите бургер</p>
-			<div className={'pt-5'} style={{display: 'flex'}}>
+			<div className={'pt-5'} style={{ display: 'flex' }}>
 				<Tab
 					value={TYPE_BUN}
 					active={currentTab === TYPE_BUN}
