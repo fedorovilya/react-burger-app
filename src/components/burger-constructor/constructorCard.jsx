@@ -7,7 +7,7 @@ import styles from './constructorCard.module.css';
 import PropTypes from 'prop-types';
 import { cardItemProps } from '@utils/props';
 import { useDispatch } from 'react-redux';
-import { removeIngredientFromConstructor } from '@components/burger-constructor/services/burgerConstructorSlice';
+import { removeIngredientFromConstructor } from '@services/slice/burgerConstructorSlice';
 import { useDrag, useDrop } from 'react-dnd';
 import { useRef } from 'react';
 

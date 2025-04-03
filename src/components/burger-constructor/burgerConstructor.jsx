@@ -15,7 +15,7 @@ import {
 	addIngredientToConstructor,
 	setBun,
 	setIngredientsConstructorList,
-} from '@components/burger-constructor/services/burgerConstructorSlice';
+} from '@services/slice/burgerConstructorSlice';
 
 export const BurgerConstructor = () => {
 	const dispatch = useDispatch();

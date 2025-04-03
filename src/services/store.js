@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
-import burgerIngredientsReducer from '@components/burger-ingredients/services/burgerIngredientsSlice';
-import selectedIngredientReducer from '@components/burger-ingredients/services/selectedIngredientSlice';
-import burgerConstructorReducer from '@components/burger-constructor/services/burgerConstructorSlice';
-import orderReducer from '@components/burger-constructor/services/orderSlice';
+import burgerIngredientsReducer from '@services/slice/burgerIngredientsSlice';
+import selectedIngredientReducer from '@services/slice/selectedIngredientSlice';
+import burgerConstructorReducer from '@services/slice/burgerConstructorSlice';
+import orderReducer from '@services/slice/orderSlice';
 
 export const store = configureStore({
 	reducer: {

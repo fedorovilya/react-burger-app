@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { API_INGREDIENTS_ENDPOINT } from '../../../const/const';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {request} from "@utils/request";
 
 const ingredientsInitialState = {
 	ingredients: [],
@@ -12,18 +12,10 @@ export const fetchIngredients = createAsyncThunk(
 	'burgerIngredients/fetchIngredients',
 	async (_, thunkAPI) => {
 		try {
-			const response = await fetch(API_INGREDIENTS_ENDPOINT);
-			let json = await response.json();
-			if (!json.success) {
-				throw new Error(
-					`Удаленный сервер вернул ошибку при получении списка ингредиентов: status=${json.success}`
-				);
-			}
-			return json;
+			return await request('ingredients');
 		} catch (error) {
-			return thunkAPI.rejectWithValue(
-				error.message || 'Ошибка получения списка ингредиентов'
-			);
+			const errorMessage = error.message || error.toString() || 'Неожиданная ошибка';
+			return thunkAPI.rejectWithValue(errorMessage);
 		}
 	}
 );
@@ -43,7 +35,7 @@ const burgerIngredientsSlice = createSlice({
 				state.ingredients = action.payload.data;
 			})
 			.addCase(fetchIngredients.rejected, (state, action) => {
-				state.error = action.payload || 'Ошибка получения списка ингредиентов';
+				state.error = `Ошибка получения списка ингредиентов: ${action.payload}`;
 				state.status = 'fail';
 				state.ingredients = [];
 			});

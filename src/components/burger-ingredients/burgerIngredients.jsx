@@ -4,7 +4,7 @@ import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
 import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
 import styles from './burgerIngredients.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchIngredients } from '@components/burger-ingredients/services/burgerIngredientsSlice';
+import { fetchIngredients } from '@services/slice/burgerIngredientsSlice';
 
 export const BurgerIngredients = () => {
 	const dispatch = useDispatch();
@@ -141,7 +141,7 @@ export const BurgerIngredients = () => {
 	return (
 		<div className={styles.ingredients_flex}>
 			<p className={'pt-10 text text_type_main-large'}>Соберите бургер</p>
-			<div className={'pt-5'} style={{ display: 'flex' }}>
+			<div className={`pt-5 ${styles.ingredients_flex_tabs}`}>
 				<Tab
 					value={TYPE_BUN}
 					active={currentTab === TYPE_BUN}
@@ -168,11 +168,11 @@ export const BurgerIngredients = () => {
 					<div id={'bun_block'} ref={categoryBunRef}>
 						<p className={'text text_type_main-medium pt-10'}>Булки</p>
 						<div className={`pt-6 pl-4 pr-4 ${styles.ingredients_grid}`}>
-							{breadItems?.map((item, index) => (
+							{breadItems?.map((item) => (
 								<IngredientCard
-									key={index}
+									key={item._id}
 									item={item}
-									index={index}
+									index={item._id}
 									count={getCountById(item._id)}
 								/>
 							))}
@@ -182,11 +182,11 @@ export const BurgerIngredients = () => {
 					<div id={'sauce_block'} ref={categorySauceRef}>
 						<p className={'text text_type_main-medium pt-10'}>Соусы</p>
 						<div className={`pt-6 pl-4 pr-4 ${styles.ingredients_grid}`}>
-							{sauceItems?.map((item, index) => (
+							{sauceItems?.map((item) => (
 								<IngredientCard
-									key={index}
+									key={item._id}
 									item={item}
-									index={index}
+									index={item._id}
 									count={getCountById(item._id)}
 								/>
 							))}
@@ -196,11 +196,11 @@ export const BurgerIngredients = () => {
 					<div id={'main_block'} ref={categoryMainRef}>
 						<p className={'text text_type_main-medium pt-10'}>Начинки</p>
 						<div className={`pt-6 pl-4 pr-4 ${styles.ingredients_grid}`}>
-							{mainItems?.map((item, index) => (
+							{mainItems?.map((item) => (
 								<IngredientCard
-									key={index}
+									key={item._id}
 									item={item}
-									index={index}
+									index={item._id}
 									count={getCountById(item._id)}
 								/>
 							))}
