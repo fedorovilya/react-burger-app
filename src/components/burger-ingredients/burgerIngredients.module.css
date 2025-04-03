@@ -7,6 +7,10 @@
 	max-height: 912px;
 }
 
+.ingredients_flex_tabs {
+	display: flex
+}
+
 .ingredients_flex_list {
 	max-height: 800px;
 	margin: 0;
