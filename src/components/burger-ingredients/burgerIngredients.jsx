@@ -1,19 +1,18 @@
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
-import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
+import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
+import {useEffect, useMemo, useRef, useState} from 'react';
+import {IngredientCard} from '@components/burger-ingredients/ingredientCard';
+import {TYPE_BUN, TYPE_MAIN, TYPE_SAUCE} from '../../const/const';
 import styles from './burgerIngredients.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchIngredients } from '@components/burger-ingredients/services/burgerIngredientsSlice';
-import { useDrag, useDrop } from 'react-dnd';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchIngredients} from '@components/burger-ingredients/services/burgerIngredientsSlice';
 
-export const BurgerIngredients = ({ setIsDraggingOverConstructor }) => {
+export const BurgerIngredients = () => {
 	const dispatch = useDispatch();
-	const { ingredients, status, error } = useSelector(
-		(state) => state.ingredients
-	);
-	const { ingredients: constructorIngredients, bun: constructorBun } =
+	const {ingredients, status, error} = useSelector((state) => state.ingredients);
+	const {ingredients: constructorIngredients, bun: constructorBun} =
 		useSelector((state) => state.burgerConstructor);
+
+	const [currentTab, setCurrentTab] = useState(TYPE_BUN);
 
 	const categoryBunRef = useRef(null);
 	const categorySauceRef = useRef(null);
@@ -31,17 +30,11 @@ export const BurgerIngredients = ({ setIsDraggingOverConstructor }) => {
 
 			elementInResult
 				? (elementInResult.count += 1)
-				: result.push({ id: id, count: 1 });
+				: result.push({id: id, count: 1});
 		});
-		constructorBun && result.push({ id: constructorBun._id, count: 2 });
+		constructorBun && result.push({id: constructorBun._id, count: 2});
 		return result;
 	}, [constructorIngredients, constructorBun]);
-
-	const getCountById = (id) => {
-		return counterArray?.find((item) => item.id === id)?.count;
-	};
-
-	const [currentTab, setCurrentTab] = useState(TYPE_BUN);
 
 	const breadItems = useMemo(() => {
 		return ingredients && ingredients.filter((item) => item.type === TYPE_BUN);
@@ -57,10 +50,50 @@ export const BurgerIngredients = ({ setIsDraggingOverConstructor }) => {
 		return ingredients && ingredients.filter((item) => item.type === TYPE_MAIN);
 	}, [ingredients]);
 
+	const getCountById = (id) => {
+		return counterArray?.find((item) => item.id === id)?.count;
+	};
+
 	const handleCategoryClick = (category, ref) => {
 		if (ref && ref.current) {
 			setCurrentTab(category);
-			ref.current.scrollIntoView({ behavior: 'smooth' });
+			ref.current.scrollIntoView({behavior: 'smooth'});
+		}
+	};
+
+	const checkVisibleCategory = () => {
+		if (!scrollContainerRef.current) return;
+
+		const containerRect = scrollContainerRef.current.getBoundingClientRect();
+		const bunRect = categoryBunRef.current?.getBoundingClientRect();
+		const sauceRect = categorySauceRef.current?.getBoundingClientRect();
+		const mainRect = categoryMainRef.current?.getBoundingClientRect();
+
+		// Создаем массив с категориями и их расстояниями до верхнего края контейнера
+		const categories = [
+			{name: TYPE_BUN, rect: bunRect},
+			{name: TYPE_SAUCE, rect: sauceRect},
+			{name: TYPE_MAIN, rect: mainRect},
+		];
+
+		let closestCategory = null;
+		let minDistance = Infinity;
+
+		// Находим категорию с минимальным расстоянием до верхнего края контейнера
+		// Независимо от нахождения в области видимости сверху/снизу от верхней границы контейнера
+		categories.forEach(({name, rect}) => {
+			// Расстояние от верхнего края блока (его заголовка) до верхнего края контейнера
+			const distance = Math.abs(rect.top - containerRect.top);
+
+			// Если расстояние меньше текущего минимального, обновляем ближайшую категорию
+			if (distance < minDistance) {
+				minDistance = distance;
+				closestCategory = name;
+			}
+		});
+
+		if (closestCategory) {
+			setCurrentTab(closestCategory);
 		}
 	};
 
@@ -68,27 +101,27 @@ export const BurgerIngredients = ({ setIsDraggingOverConstructor }) => {
 		dispatch(fetchIngredients());
 	}, []);
 
-	// TODO не работает изменение активной категории при ручном скролле. починить
 	useEffect(() => {
 		if (status === 'success') {
-			const scrollContainer = scrollContainerRef.current;
+			let timeoutId = null;
 
 			const handleScroll = () => {
-				const scrollPosition = scrollContainer.scrollTop + 100;
-				const isCategoryVisible = (ref) => {
-					return (
-						ref.offsetTop <= scrollPosition &&
-						ref.offsetTop + ref.offsetHeight > scrollPosition
-					);
-				};
-
-				if (isCategoryVisible(categoryBunRef)) setCurrentTab(TYPE_BUN);
-				else if (isCategoryVisible(categorySauceRef)) setCurrentTab(TYPE_SAUCE);
-				else if (isCategoryVisible(categoryMainRef)) setCurrentTab(TYPE_MAIN);
+				clearTimeout(timeoutId);
+				timeoutId = setTimeout(() => {
+					checkVisibleCategory();
+				}, 100);
 			};
 
-			scrollContainer.addEventListener('scroll', handleScroll);
-			return () => scrollContainer.removeEventListener('scroll', handleScroll);
+			const container = scrollContainerRef.current;
+			if (container) {
+				container.addEventListener("scroll", handleScroll);
+			}
+
+			return () => {
+				if (container) {
+					container.removeEventListener("scroll", handleScroll);
+				}
+			};
 		}
 	}, [status]);
 
@@ -106,7 +139,7 @@ export const BurgerIngredients = ({ setIsDraggingOverConstructor }) => {
 	return (
 		<div className={styles.ingredients_flex}>
 			<p className={'pt-10 text text_type_main-large'}>Соберите бургер</p>
-			<div className={'pt-5'} style={{ display: 'flex' }}>
+			<div className={'pt-5'} style={{display: 'flex'}}>
 				<Tab
 					value={TYPE_BUN}
 					active={currentTab === TYPE_BUN}
@@ -130,7 +163,7 @@ export const BurgerIngredients = ({ setIsDraggingOverConstructor }) => {
 			{status === 'fail' && errorList()}
 			{status === 'success' && (
 				<ul ref={scrollContainerRef} className={styles.ingredients_flex_list}>
-					<div id={'bun_block'} className={'pt-10'} ref={categoryBunRef}>
+					<div id={'bun_block'} ref={categoryBunRef}>
 						<p className={'text text_type_main-medium pt-10'}>Булки</p>
 						<div className={`pt-6 pl-4 pr-4 ${styles.ingredients_grid}`}>
 							{breadItems?.map((item, index) => (
@@ -139,13 +172,12 @@ export const BurgerIngredients = ({ setIsDraggingOverConstructor }) => {
 									item={item}
 									index={index}
 									count={getCountById(item._id)}
-									setIsDraggingOverConstructor={setIsDraggingOverConstructor}
 								/>
 							))}
 						</div>
 					</div>
 
-					<div id={'sauce_block'} className={'pt-10'} ref={categorySauceRef}>
+					<div id={'sauce_block'} ref={categorySauceRef}>
 						<p className={'text text_type_main-medium pt-10'}>Соусы</p>
 						<div className={`pt-6 pl-4 pr-4 ${styles.ingredients_grid}`}>
 							{sauceItems?.map((item, index) => (
@@ -154,13 +186,12 @@ export const BurgerIngredients = ({ setIsDraggingOverConstructor }) => {
 									item={item}
 									index={index}
 									count={getCountById(item._id)}
-									setIsDraggingOverConstructor={setIsDraggingOverConstructor}
 								/>
 							))}
 						</div>
 					</div>
 
-					<div id={'main_block'} className={'pt-10'} ref={categoryMainRef}>
+					<div id={'main_block'} ref={categoryMainRef}>
 						<p className={'text text_type_main-medium pt-10'}>Начинки</p>
 						<div className={`pt-6 pl-4 pr-4 ${styles.ingredients_grid}`}>
 							{mainItems?.map((item, index) => (
@@ -169,7 +200,6 @@ export const BurgerIngredients = ({ setIsDraggingOverConstructor }) => {
 									item={item}
 									index={index}
 									count={getCountById(item._id)}
-									setIsDraggingOverConstructor={setIsDraggingOverConstructor}
 								/>
 							))}
 						</div>

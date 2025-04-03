@@ -30,5 +30,5 @@ export const OrderModal = ({ isOpen, onClose, orderId }) => {
 OrderModal.propTypes = {
 	isOpen: PropTypes.bool,
 	onClose: PropTypes.func,
-	orderId: PropTypes.string,
+	orderId: PropTypes.number,
 };

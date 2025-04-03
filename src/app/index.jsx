@@ -1,16 +1,13 @@
 import { AppHeader } from '@components/app-header/appHeader.jsx';
 import { BurgerIngredients } from '@components/burger-ingredients/burgerIngredients';
 import { BurgerConstructor } from '@components/burger-constructor/burgerConstructor';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import icon from '@assets/favicon.png';
 import styles from './app.module.scss';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export const App = () => {
-	const [isDraggingOverConstructor, setIsDraggingOverConstructor] =
-		useState(false);
-
 	useEffect(() => {
 		const link = document.createElement('link');
 		link.rel = 'icon';
@@ -28,12 +25,8 @@ export const App = () => {
 			<div className='page'>
 				<AppHeader />
 				<div className={styles.flex}>
-					<BurgerIngredients
-						setIsDraggingOverConstructor={setIsDraggingOverConstructor}
-					/>
-					<BurgerConstructor
-						isDraggingOverConstructor={isDraggingOverConstructor}
-					/>
+					<BurgerIngredients/>
+					<BurgerConstructor/>
 				</div>
 			</div>
 		</DndProvider>

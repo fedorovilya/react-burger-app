@@ -5,7 +5,6 @@ export const createOrderRequest = createAsyncThunk(
 	'order/createOrderRequest',
 	async (orderItems, thunkAPI) => {
 		try {
-			console.log('orderItems: ', orderItems);
 			const response = await fetch(API_CREATE_ORDER_ENDPOINT, {
 				method: 'POST',
 				headers: {

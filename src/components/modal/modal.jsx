@@ -55,7 +55,7 @@ const ModalHeader = ({ title, onClose }) => {
 	return (
 		<div className={styles.modal_header}>
 			<p className='text text_type_main-large'>{title}</p>
-			<Button type='secondary' onClick={onClose} style={{ cursor: 'pointer' }}>
+			<Button type='secondary' htmlType='button' onClick={onClose} style={{ cursor: 'pointer' }}>
 				<CloseIcon type={'primary'}></CloseIcon>
 			</Button>
 		</div>
@@ -70,20 +70,20 @@ Modal.propTypes = {
 };
 
 ModalOverlay.propTypes = {
-	children: PropTypes.node.isRequired,
+	children: PropTypes.node,
 	title: PropTypes.string,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 };
 
 ModalContent.propTypes = {
-	children: PropTypes.node.isRequired,
+	children: PropTypes.node,
 	title: PropTypes.string,
 	onClose: PropTypes.func.isRequired,
 };
 
 ModalHeader.propTypes = {
-	children: PropTypes.node.isRequired,
+	children: PropTypes.node,
 	title: PropTypes.string,
 	onClose: PropTypes.func.isRequired,
 };

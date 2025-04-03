@@ -2,26 +2,21 @@ import {
 	Counter,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
-import { IngredientModal } from '@components/modal/ingredientModal';
+import {useEffect, useState} from 'react';
+import {IngredientModal} from '@components/modal/ingredientModal';
 import PropTypes from 'prop-types';
-import { ingredientProps } from '@utils/props';
-import { useDispatch, useSelector } from 'react-redux';
+import {ingredientProps} from '@utils/props';
+import {useDispatch, useSelector} from 'react-redux';
 import {
 	detachSelected,
 	setSelected,
 } from '@components/burger-ingredients/services/selectedIngredientSlice';
-import { useDrag } from 'react-dnd';
-import { DRAG_BUN, DRAG_INGREDIENT } from '../../const/const';
+import {useDrag} from 'react-dnd';
+import {DRAG_BUN, DRAG_INGREDIENT, TYPE_BUN} from '../../const/const';
 
-export const IngredientCard = ({
-	item,
-	count,
-	index,
-	setIsDraggingOverConstructor,
-}) => {
+export const IngredientCard = ({item, count, index}) => {
 	const dispatch = useDispatch();
-	const { selectedIngredient } = useSelector(
+	const {selectedIngredient} = useSelector(
 		(state) => state.selectedIngredient
 	);
 
@@ -36,7 +31,7 @@ export const IngredientCard = ({
 		dispatch(detachSelected());
 	};
 
-	const [{ isDragging }, drag] = useDrag(() => ({
+	const [{isDragging}, drag] = useDrag(() => ({
 		type: DRAG_INGREDIENT,
 		item: item,
 		collect: (monitor) => ({
@@ -44,17 +39,23 @@ export const IngredientCard = ({
 		}),
 		end(item, monitor) {
 			if (monitor.didDrop()) {
-				setIsDraggingOverConstructor(false);
 			}
 		},
 	}));
 
-	useEffect(() => {
-		if (isDragging) {
-			setIsDraggingOverConstructor(true);
-		}
-	}, [isDragging]);
+	const [{isDraggingBun}, dragBun] = useDrag(() => ({
+		type: DRAG_BUN,
+		item: item,
+		collect: (monitor) => ({
+			isDraggingBun: monitor.isDragging(),
+		}),
+		end(item, monitor) {
+			if (monitor.didDrop()) {
+			}
+		},
+	}));
 
+	const color = 'rgba(62,62,62,0.57)';
 	return (
 		<>
 			{selectedIngredient && (
@@ -64,8 +65,6 @@ export const IngredientCard = ({
 					data={selectedIngredient}></IngredientModal>
 			)}
 			<li
-				ref={drag}
-				onClick={(e) => openModal(item)}
 				id={`ingredient-${index}`}
 				style={{
 					display: 'flex',
@@ -74,29 +73,35 @@ export const IngredientCard = ({
 					width: '272px',
 					justifyContent: 'flex-start',
 					alignItems: 'center',
-					cursor: 'pointer',
+					border: (isDragging || isDraggingBun) ? '1px solid #3E3E3EFF' : 'transparent',
+					boxShadow: (isDragging || isDraggingBun)  ? '0 0 1px 1px #3E3E3E91' : 'none',
+					borderRadius: '10px'
+
 				}}>
 				{count ? (
-					<div style={{ position: 'relative', left: '135px' }}>
+					<div style={{position: 'relative', left: '135px'}}>
 						<Counter count={count} size={'default'}></Counter>
 					</div>
 				) : undefined}
 				<img
+					ref={item.type === TYPE_BUN ? dragBun : drag}
+					onClick={(e) => openModal(item)}
 					className={'pl-4 pr-4'}
 					src={item.image}
 					alt='Избображение'
 					width={'240px'}
 					height={'120px'}
+					style={{cursor: "pointer"}}
 				/>
 				<div
 					className={'pt-1 pb-1'}
-					style={{ display: 'flex', flexDirection: 'row' }}>
+					style={{display: 'flex', flexDirection: 'row'}}>
 					<p className={'text text_type_digits-default'}>{item.price}</p>
 					<CurrencyIcon type={'primary'}></CurrencyIcon>
 				</div>
 				<p
 					className={'text text_type_main-small'}
-					style={{ textAlign: 'center' }}>
+					style={{textAlign: 'center'}}>
 					{item.name}
 				</p>
 			</li>
