@@ -5,10 +5,10 @@ import {
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './appHeader.module.css';
+import {Link} from "react-router-dom";
 
 export const AppHeader = () => {
-	// TODO возможно, надо будет поменять когда буду делать навигацию (пока страница грузится заново при клике на адрес)
-	const CONSTRUCTOR_LINK = '/constructor';
+	const CONSTRUCTOR_LINK = '/';
 	const ORDER_LIST_LINK = '/orders';
 	const PROFILE_LINK = '/profile';
 
@@ -16,7 +16,7 @@ export const AppHeader = () => {
 		<header className={styles.header}>
 			<div className={styles.header_flex}>
 				<div className={`p-2 ${styles.header_flex_left}`}>
-					<a href={CONSTRUCTOR_LINK} className={'p-4'}>
+					<Link to={CONSTRUCTOR_LINK} className={'p-4'}>
 						<div className={`ml-2 ${styles.header_link}`}>
 							<BurgerIcon type={'primary'}></BurgerIcon>
 							<p
@@ -28,8 +28,8 @@ export const AppHeader = () => {
 								Конструктор
 							</p>
 						</div>
-					</a>
-					<a href={ORDER_LIST_LINK} className={'p-4'}>
+					</Link>
+					<Link to={ORDER_LIST_LINK} className={'p-4'}>
 						<div className={`ml-2 ${styles.header_link}`}>
 							<ListIcon type={'primary'}></ListIcon>
 							<p
@@ -41,12 +41,12 @@ export const AppHeader = () => {
 								Лента заказов
 							</p>
 						</div>
-					</a>
+					</Link>
 				</div>
-				<a href={CONSTRUCTOR_LINK} className={`p-4 ${styles.header_flex_logo}`}>
+				<Link to={CONSTRUCTOR_LINK} className={`p-4 ${styles.header_flex_logo}`}>
 					<Logo></Logo>
-				</a>
-				<a href={PROFILE_LINK} className={'p-4'}>
+				</Link>
+				<Link to={PROFILE_LINK} className={'p-4'}>
 					<div className={`ml-2 ${styles.header_link}`}>
 						<ProfileIcon type={'primary'}></ProfileIcon>
 						<p
@@ -58,7 +58,7 @@ export const AppHeader = () => {
 							Личный кабинет
 						</p>
 					</div>
-				</a>
+				</Link>
 			</div>
 		</header>
 	);
