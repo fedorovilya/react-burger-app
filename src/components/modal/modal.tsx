@@ -4,14 +4,35 @@ import {
 	Button,
 	CloseIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {useEffect} from 'react';
-import PropTypes from 'prop-types';
+import React, {useEffect} from 'react';
 
-const modalRoot = document.getElementById('react-modals');
+const modalRoot = document.getElementById('react-modals') as HTMLElement;
 
-export const Modal = ({children, title, onClose}) => {
+interface ModalProps {
+	children: React.ReactNode,
+	title?: string,
+	onClose: () => void
+}
+
+interface ModalOverlayProps {
+	children: React.ReactNode,
+	onClose: () => void
+}
+
+interface ModalContentProps {
+	children: React.ReactNode,
+	title?: string,
+	onClose: () => void
+}
+
+interface ModalHeaderProps {
+	title?: string,
+	onClose: () => void
+}
+
+export const Modal = ({children, title, onClose}: ModalProps) => {
 	useEffect(() => {
-		const handleKeyDown = (e) => {
+		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') onClose();
 		};
 
@@ -20,7 +41,7 @@ export const Modal = ({children, title, onClose}) => {
 		return () => {
 			window.removeEventListener('keydown', handleKeyDown);
 		};
-	}, [onClose]);
+	}, [onClose])
 
 	return createPortal(
 		<ModalOverlay onClose={onClose}>
@@ -29,27 +50,27 @@ export const Modal = ({children, title, onClose}) => {
 			</ModalContent>
 		</ModalOverlay>,
 		modalRoot
-	);
-};
+	)
+}
 
-const ModalOverlay = ({onClose, children}) => {
+const ModalOverlay = ({onClose, children}: ModalOverlayProps) => {
 	return (
 		<div className={styles.modal_overlay} onClick={onClose}>
 			<div onClick={(e) => e.stopPropagation()}>{children}</div>
 		</div>
 	)
-};
+}
 
-const ModalContent = ({title, onClose, children}) => {
+const ModalContent = ({title, onClose, children}: ModalContentProps) => {
 	return (
 		<div className={`${styles.modal_content} pl-10 pt-10 pr-10 pb-15`}>
 			<ModalHeader title={title} onClose={onClose}/>
 			{children}
 		</div>
-	);
-};
+	)
+}
 
-const ModalHeader = ({title, onClose}) => {
+const ModalHeader = ({title, onClose}: ModalHeaderProps) => {
 	return (
 		<div className={styles.modal_header}>
 			<p className='text text_type_main-large'>{title}</p>
@@ -61,29 +82,5 @@ const ModalHeader = ({title, onClose}) => {
 				<CloseIcon type={'primary'}></CloseIcon>
 			</Button>
 		</div>
-	);
-};
-
-Modal.propTypes = {
-	children: PropTypes.node.isRequired,
-	title: PropTypes.string,
-	onClose: PropTypes.func.isRequired,
-};
-
-ModalOverlay.propTypes = {
-	children: PropTypes.node,
-	title: PropTypes.string,
-	onClose: PropTypes.func.isRequired,
-};
-
-ModalContent.propTypes = {
-	children: PropTypes.node,
-	title: PropTypes.string,
-	onClose: PropTypes.func.isRequired,
-};
-
-ModalHeader.propTypes = {
-	children: PropTypes.node,
-	title: PropTypes.string,
-	onClose: PropTypes.func.isRequired,
-};
+	)
+}

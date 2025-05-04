@@ -1,8 +1,10 @@
 import styles from '@components/burger-constructor/orderDetails.module.css';
 import icon from '@assets/iconOrderOk.png';
-import PropTypes from 'prop-types';
 
-export const OrderDetails = ({ orderId }) => {
+interface Props {
+	orderId: number
+}
+export const OrderDetails = ({ orderId }: Props) => {
 	return (
 		<div className={`${styles.flex} pt-10 pb-15`}>
 			<p className='text text_type_digits-large'>{orderId}</p>
@@ -22,8 +24,4 @@ export const OrderDetails = ({ orderId }) => {
 			</p>
 		</div>
 	)
-};
-
-OrderDetails.propTypes = {
-	orderId: PropTypes.number,
-};
+}

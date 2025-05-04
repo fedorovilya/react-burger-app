@@ -5,7 +5,6 @@ import {
 import {IngredientDetails} from '@components/burger-ingredients/ingredientDetails';
 import PropTypes from 'prop-types';
 import {ingredientProps} from '@utils/props';
-import {useDispatch, useSelector} from 'react-redux';
 import {
 	detachSelected,
 	setSelected,
@@ -14,11 +13,12 @@ import {useDrag} from 'react-dnd';
 import {DRAG_BUN, DRAG_INGREDIENT, TYPE_BUN} from '../../const/const';
 import {Modal} from "@components/modal/modal";
 import {useModal} from "../../hooks/useModal";
+import {useAppDispatch, useAppSelector} from "@services/store";
 
 export const IngredientCard = ({item, count, index}) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const {isModalOpen, openModal, closeModal} = useModal();
-	const {selectedIngredient} = useSelector((state) => state.selectedIngredient);
+	const {selectedIngredient} = useAppSelector((state) => state.selectedIngredient);
 
 	const handleOnClick = (item) => {
 		dispatch(setSelected(item));

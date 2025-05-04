@@ -6,12 +6,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './appHeader.module.css';
 import {Link} from "react-router-dom";
+import {CONSTRUCTOR_LINK, ORDERS_LINK, PROFILE_LINK} from "../../const/const";
 
 export const AppHeader = () => {
-	const CONSTRUCTOR_LINK = '/';
-	const ORDER_LIST_LINK = '/orders';
-	const PROFILE_LINK = '/profile';
-
 	return (
 		<header className={styles.header}>
 			<div className={styles.header_flex}>
@@ -29,12 +26,12 @@ export const AppHeader = () => {
 							</p>
 						</div>
 					</Link>
-					<Link to={ORDER_LIST_LINK} className={'p-4'}>
+					<Link to={ORDERS_LINK} className={'p-4'}>
 						<div className={`ml-2 ${styles.header_link}`}>
 							<ListIcon type={'primary'}></ListIcon>
 							<p
 								className={
-									window.location.pathname === ORDER_LIST_LINK
+									window.location.pathname === ORDERS_LINK
 										? 'text text_type_main-default'
 										: 'text text_type_main-default text_color_inactive'
 								}>

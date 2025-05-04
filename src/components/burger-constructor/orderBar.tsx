@@ -4,31 +4,48 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './orderBar.module.css';
 import {OrderDetails} from '@components/burger-constructor/orderDetails';
-import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
 import {createOrderRequest} from '@services/slice/orderSlice';
 import {Modal} from "@components/modal/modal";
 import {useModal} from "../../hooks/useModal";
+import {useAppDispatch, useAppSelector} from "@services/store";
+import {UserData} from "@services/slice/userSlice";
+import {useNavigate} from "react-router-dom";
+import {LOGIN_LINK} from "../../const/const";
+import {clearList} from "@services/slice/burgerConstructorSlice";
+import {useCallback, useEffect, useState} from "react";
 
-export const OrderBar = ({orderItems, totalCost}) => {
-	const dispatch = useDispatch();
+interface Props {
+	orderItems: String [],
+	totalCost: number
+}
+
+export const OrderBar = ({orderItems, totalCost}: Props) => {
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
 	const {isModalOpen, openModal, closeModal} = useModal();
-	const {order, status} = useSelector((state) => state.order);
+	const user: UserData = useAppSelector((state) => state.user);
+	const {order, status} = useAppSelector((state) => state.order);
 
 	const handleClick = async () => {
-		await dispatch(
+		if (!user.isAuthorized) {
+			return navigate(LOGIN_LINK)
+		}
+		const resultAction = await dispatch(
 			createOrderRequest({
 				ingredients: orderItems,
 			})
 		);
-		openModal();
-	};
+		if (createOrderRequest.fulfilled.match(resultAction)) {
+			openModal();
+		}
+	}
 
 	return (
 		<>
-			{isModalOpen && (
+			{isModalOpen && order && order.number && (
 				<Modal onClose={closeModal}>
-					<OrderDetails orderId={order?.number}/>
+					<OrderDetails orderId={order.number}/>
 				</Modal>
 			)
 			}
@@ -48,8 +65,4 @@ export const OrderBar = ({orderItems, totalCost}) => {
 			</div>
 		</>
 	);
-};
-
-OrderBar.propTypes = {
-	totalCost: PropTypes.number,
-};
+}

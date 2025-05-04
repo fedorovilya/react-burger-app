@@ -6,13 +6,13 @@ import { POSITION_BOTTOM, POSITION_TOP } from '../../const/const';
 import styles from './constructorCard.module.css';
 import PropTypes from 'prop-types';
 import { cardItemProps } from '@utils/props';
-import { useDispatch } from 'react-redux';
 import { removeIngredientFromConstructor } from '@services/slice/burgerConstructorSlice';
 import { useDrag, useDrop } from 'react-dnd';
 import { useRef } from 'react';
+import {useAppDispatch} from "@services/store";
 
 export const ConstructorCard = ({ item, id, locked, position, moveItem }) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const handleClick = (id) => {
 		dispatch(removeIngredientFromConstructor(id));

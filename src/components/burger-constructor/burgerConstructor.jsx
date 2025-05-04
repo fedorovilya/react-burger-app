@@ -7,7 +7,6 @@ import {
 import { ConstructorCard } from '@components/burger-constructor/constructorCard';
 import { OrderBar } from '@components/burger-constructor/orderBar';
 import styles from './burgerConstructor.module.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useMemo } from 'react';
 import { useDrop } from 'react-dnd';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,11 +15,12 @@ import {
 	setBun,
 	setIngredientsConstructorList,
 } from '@services/slice/burgerConstructorSlice';
+import {useAppDispatch, useAppSelector} from "@services/store";
 
 export const BurgerConstructor = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const { ingredients: constructorIngredients, bun: constructorBun } =
-		useSelector((state) => state.burgerConstructor);
+		useAppSelector((state) => state.burgerConstructor);
 
 	const totalCost = useMemo(() => {
 		const ingredientsSum = constructorIngredients?.reduce((sum, element) => {

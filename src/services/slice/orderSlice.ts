@@ -1,7 +1,21 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {request} from "@utils/request";
+import {Order, OrderResponse} from "../../types/orderResponse";
+import {OrderRequest} from "../../types/orderRequest";
 
-export const createOrderRequest = createAsyncThunk(
+export interface OrderData {
+	status: 'idle' | 'loading' | 'success' | 'fail',
+	error: string | null,
+	order: Order | null
+}
+
+const initialState: OrderData = {
+	order: null,
+	status: 'idle',
+	error: null,
+}
+
+export const createOrderRequest = createAsyncThunk<OrderResponse, OrderRequest>(
 	'order/createOrderRequest',
 	async (orderItems, thunkAPI) => {
 		try {
@@ -11,9 +25,11 @@ export const createOrderRequest = createAsyncThunk(
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(orderItems),
-			});
-		} catch (error) {
-			const errorMessage = error.message || error.toString() || 'Неожиданная ошибка';
+			}) as OrderResponse;
+		} catch (error: any) {
+			const errorMessage = error.message
+				? `Ошибка создания заказа: ${error.message}`
+				: error.toString() || 'Неожиданная ошибка';
 			return thunkAPI.rejectWithValue(errorMessage);
 		}
 	}
@@ -21,11 +37,8 @@ export const createOrderRequest = createAsyncThunk(
 
 const orderSlice = createSlice({
 	name: 'order',
-	initialState: {
-		order: null,
-		status: 'idle', // 'idle' | 'loading' | 'success' | 'fail'
-		error: null,
-	},
+	initialState: initialState,
+	reducers: {},
 	extraReducers: (builder) => {
 		builder
 			.addCase(createOrderRequest.pending, (state) => {
@@ -38,9 +51,8 @@ const orderSlice = createSlice({
 				state.order = action.payload.order;
 			})
 			.addCase(createOrderRequest.rejected, (state, action) => {
-				state.error = `Ошибка создания заказа: ${action.payload}`;
+				state.error = action.payload as string;
 				state.status = 'fail';
-				state.ingredients = null;
 			});
 	},
 });

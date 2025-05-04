@@ -22,6 +22,10 @@ const burgerConstructorSlice = createSlice({
 		setBun: (state, action) => {
 			state.bun = action.payload;
 		},
+		clearList: (state) => {
+			state.bun = null;
+			state.ingredients = []
+		}
 	},
 });
 
@@ -30,6 +34,7 @@ export const {
 	removeIngredientFromConstructor,
 	setIngredientsConstructorList,
 	setBun,
+	clearList
 } = burgerConstructorSlice.actions;
 
 export default burgerConstructorSlice.reducer;

@@ -3,16 +3,16 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
 import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
 import styles from './burgerIngredients.module.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchIngredients } from '@services/slice/burgerIngredientsSlice';
+import {useAppDispatch, useAppSelector} from "@services/store";
 
 export const BurgerIngredients = () => {
-	const dispatch = useDispatch();
-	const { ingredients, status, error } = useSelector(
+	const dispatch = useAppDispatch();
+	const { ingredients, status, error } = useAppSelector(
 		(state) => state.ingredients
 	);
 	const { ingredients: constructorIngredients, bun: constructorBun } =
-		useSelector((state) => state.burgerConstructor);
+		useAppSelector((state) => state.burgerConstructor);
 
 	const [currentTab, setCurrentTab] = useState(TYPE_BUN);
 

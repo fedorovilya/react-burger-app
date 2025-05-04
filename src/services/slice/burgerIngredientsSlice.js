@@ -14,7 +14,9 @@ export const fetchIngredients = createAsyncThunk(
 		try {
 			return await request('ingredients');
 		} catch (error) {
-			const errorMessage = error.message || error.toString() || 'Неожиданная ошибка';
+			const errorMessage = error.message
+				? `Ошибка получения списка ингредиентов: ${error.message}`
+				: error.toString() || 'Неожиданная ошибка';
 			return thunkAPI.rejectWithValue(errorMessage);
 		}
 	}
@@ -35,7 +37,7 @@ const burgerIngredientsSlice = createSlice({
 				state.ingredients = action.payload.data;
 			})
 			.addCase(fetchIngredients.rejected, (state, action) => {
-				state.error = `Ошибка получения списка ингредиентов: ${action.payload}`;
+				state.error = action.payload;
 				state.status = 'fail';
 				state.ingredients = [];
 			});

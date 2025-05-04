@@ -1,26 +1,28 @@
 import {AppHeader} from "@components/app-header/appHeader";
 import styles from "./profile.module.css";
-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useState} from "react";
+import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {ChangeEvent, useState} from "react";
 import {Link} from "react-router-dom";
+import {LOGOUT_LINK, ORDERS_LINK, PROFILE_LINK} from "../../const/const";
+import {UserData} from "@services/slice/userSlice";
+import {useAppSelector} from "@services/store";
+import {LogoutLink} from "@components/logout-link/logoutLink";
 
 export const Profile = () => {
-	const PROFILE_LINK = '/profile';
-	const ORDERS_LINK = '/orders';
-	const LOGOUT_LINK = '/logout';
+	const user: UserData = useAppSelector((state) => state.user);
 
-	const [name, setName] = useState()
-	const onNameChange = e => {
+	const [name, setName] = useState(user.user?.name ?? String)
+	const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setName(e.target.value)
 	}
 
-	const [login, setLogin] = useState()
-	const onLoginChange = e => {
+	const [login, setLogin] = useState(user.user?.email ?? String)
+	const onLoginChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setLogin(e.target.value)
 	}
 
-	const [password, setPassword] = useState()
-	const onPasswordChange = e => {
+	const [password, setPassword] = useState(String)
+	const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value)
 	}
 
@@ -49,7 +51,7 @@ export const Profile = () => {
 							История заказов
 						</p>
 					</Link>
-					<Link to={LOGOUT_LINK} className={"mt-4 mb-4"}>
+					<LogoutLink>
 						<p
 							className={
 								window.location.pathname === LOGOUT_LINK
@@ -58,7 +60,7 @@ export const Profile = () => {
 							}>
 							Выход
 						</p>
-					</Link>
+					</LogoutLink>
 					<p className={"pt-20 text text_type_main-small text_color_inactive"} style={{opacity: "40%"}}>
 						В этом разделе вы можете изменить свои персональные данные
 					</p>
