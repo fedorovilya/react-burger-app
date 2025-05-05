@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {request} from "@utils/request";
+import {AuthError, request} from "@utils/request";
 import {Order, OrderResponse} from "../../types/orderResponse";
 import {OrderRequest} from "../../types/orderRequest";
 
@@ -27,6 +27,9 @@ export const createOrderRequest = createAsyncThunk<OrderResponse, OrderRequest>(
 				body: JSON.stringify(orderItems),
 			}) as OrderResponse;
 		} catch (error: any) {
+			if (error instanceof AuthError) {
+				return thunkAPI.rejectWithValue({ error: error.message, isAuthError: true });
+			}
 			const errorMessage = error.message
 				? `Ошибка создания заказа: ${error.message}`
 				: error.toString() || 'Неожиданная ошибка';

@@ -1,17 +1,16 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {request} from "@utils/request";
+import {AuthError, request} from "@utils/request";
 import {RegisterRequest} from "../../types/registerRequest";
 import {LoginRequest} from "../../types/loginRequest";
 import {User, UserResponse} from "../../types/userResponse";
 import {ApiResponse} from "../../types/apiResponse";
 import {LogoutRequest} from "../../types/logoutRequest";
+import Cookies from "js-cookie";
 
 export interface UserData {
 	status: 'idle' | 'loading' | 'success' | 'fail',
 	error: string | null,
 	user: User | null,
-	accessToken: string | null,
-	refreshToken: string | null,
 	isAuthorized: boolean
 }
 
@@ -19,8 +18,6 @@ const initialState: UserData = {
 	user: null,
 	status: 'idle',
 	error: null,
-	accessToken: null,
-	refreshToken: localStorage.getItem("refreshToken") || null,
 	isAuthorized: false
 }
 
@@ -38,6 +35,10 @@ export const createRegisterRequest = createAsyncThunk<UserResponse, RegisterRequ
 			if (!response.user || !response.accessToken || !response.refreshToken) {
 				return thunkAPI.rejectWithValue("Данные для успешной регистрации не получены в ответе")
 			}
+
+			localStorage.setItem('refreshToken', response.refreshToken as string);
+			Cookies.set("token", response.accessToken as string, {expires: 20 / (60 * 24)});
+
 			return response;
 		} catch (error: any) {
 			const errorMessage = error.message
@@ -62,6 +63,10 @@ export const createLoginRequest = createAsyncThunk<UserResponse, LoginRequest>(
 			if (!response.user || !response.accessToken || !response.refreshToken) {
 				return thunkAPI.rejectWithValue("Данные для успешной авторизации не получены в ответе")
 			}
+
+			localStorage.setItem('refreshToken', response.refreshToken as string);
+			Cookies.set("token", response.accessToken as string, {expires: 20 / (60 * 24)});
+
 			return response;
 		} catch (error: any) {
 			const errorMessage = error.message
@@ -76,13 +81,18 @@ export const createLogoutRequest = createAsyncThunk<ApiResponse, LogoutRequest>(
 	'user/createLogoutRequest',
 	async (logoutData, thunkAPI) => {
 		try {
-			return await request('auth/logout', {
+			let response = await request('auth/logout', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(logoutData),
 			});
+
+			localStorage.clear();
+			Cookies.remove("token");
+
+			return response;
 		} catch (error: any) {
 			const errorMessage = error.message
 				? `Ошибка выхода из приложения: ${error.message}`
@@ -98,23 +108,18 @@ const handlePending = (state: UserData) => {
 };
 
 const handleFulfilled = (state: UserData, action: PayloadAction<UserResponse>) => {
-	const {user, accessToken, refreshToken} = action.payload;
+	const {user} = action.payload;
 
 	state.status = 'success';
 	state.error = null;
 	state.user = user as User;
-	state.accessToken = accessToken as string;
 	state.isAuthorized = true;
-
-	localStorage.setItem('refreshToken', refreshToken as string);
 };
 
 const handleRejected = (state: UserData, action: any) => {
 	state.status = 'fail';
 	state.error = action.payload as string;
 	state.user = null;
-	state.accessToken = null;
-	state.refreshToken = null;
 };
 
 const userSlice = createSlice({
@@ -132,7 +137,6 @@ const userSlice = createSlice({
 			.addCase(createLogoutRequest.pending, handlePending)
 			.addCase(createLogoutRequest.rejected, handleRejected)
 			.addCase(createLogoutRequest.fulfilled, () => {
-				localStorage.clear()
 				return initialState;
 			})
 	}

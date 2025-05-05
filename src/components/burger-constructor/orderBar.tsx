@@ -13,6 +13,8 @@ import {useNavigate} from "react-router-dom";
 import {LOGIN_LINK} from "../../const/const";
 import {clearList} from "@services/slice/burgerConstructorSlice";
 import {useCallback, useEffect, useState} from "react";
+import {OrderResponse} from "../../types/orderResponse";
+import {AuthError} from "@utils/request";
 
 interface Props {
 	orderItems: String [],
@@ -31,14 +33,18 @@ export const OrderBar = ({orderItems, totalCost}: Props) => {
 		if (!user.isAuthorized) {
 			return navigate(LOGIN_LINK)
 		}
-		const resultAction = await dispatch(
-			createOrderRequest({
-				ingredients: orderItems,
-			})
-		);
-		if (createOrderRequest.fulfilled.match(resultAction)) {
-			openModal();
+		try {
+			dispatch(
+				createOrderRequest({
+					ingredients: orderItems,
+				})
+			).unwrap;
+		} catch (e) {
+			if (e instanceof AuthError) {
+				navigate(LOGIN_LINK);
+			}
 		}
+		openModal();
 	}
 
 	return (
