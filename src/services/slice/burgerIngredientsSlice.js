@@ -3,7 +3,6 @@ import {request} from "@utils/request";
 
 const ingredientsInitialState = {
 	ingredients: [],
-	selectedIngredient: null,
 	status: 'idle', // 'idle' | 'loading' | 'success' | 'fail'
 	error: null,
 };

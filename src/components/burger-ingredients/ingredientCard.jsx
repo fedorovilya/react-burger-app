@@ -14,19 +14,26 @@ import {DRAG_BUN, DRAG_INGREDIENT, TYPE_BUN} from '../../const/const';
 import {Modal} from "@components/modal/modal";
 import {useModal} from "../../hooks/useModal";
 import {useAppDispatch, useAppSelector} from "@services/store";
+import {useEffect} from "react";
 
 export const IngredientCard = ({item, count, index}) => {
+	const searchParams = new URLSearchParams(location.search);
+	const reopenModal = searchParams.get('reopenModal') === "true";
+	const reopenId = searchParams.get('reopenId') === item._id;
+
 	const dispatch = useAppDispatch();
 	const {isModalOpen, openModal, closeModal} = useModal();
 	const {selectedIngredient} = useAppSelector((state) => state.selectedIngredient);
 
 	const handleOnClick = (item) => {
 		dispatch(setSelected(item));
+		window.history.pushState({}, '', `/ingredients/${item._id}?modal=true`);
 		openModal();
 	};
 	const handleOnClose = () => {
 		closeModal();
 		dispatch(detachSelected());
+		window.history.pushState({}, '', '/');
 	};
 
 	const [{isDragging}, drag] = useDrag(() => ({
@@ -52,6 +59,15 @@ export const IngredientCard = ({item, count, index}) => {
 			}
 		},
 	}));
+
+	useEffect(() => {
+		if (reopenModal && reopenId) {
+			const timeoutId = setTimeout(() => {
+				handleOnClick(item);
+			}, 500);
+			return () => clearTimeout(timeoutId);
+		}
+	}, [searchParams, reopenModal, reopenId, handleOnClick, item])
 
 	return (
 		<>

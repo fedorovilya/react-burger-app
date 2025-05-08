@@ -100,10 +100,6 @@ export const BurgerIngredients = () => {
 	};
 
 	useEffect(() => {
-		dispatch(fetchIngredients());
-	}, []);
-
-	useEffect(() => {
 		if (status === 'success') {
 			let timeoutId = null;
 

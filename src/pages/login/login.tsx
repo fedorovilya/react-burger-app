@@ -4,21 +4,24 @@ import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-b
 import React, {ChangeEvent, useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {FORGOT_PASSWORD_LINK, REGISTER_LINK} from "../../const/const";
-import {useAppDispatch} from "@services/store";
+import {useAppDispatch, useAppSelector} from "@services/store";
 import {createLoginRequest} from "@services/slice/userSlice";
 
 export const Login = () => {
 	const location = useLocation();
-	const from = location.state?.from?.pathname || '/';
+	const user = useAppSelector((state) => state.user);
+	const from: string = location.state?.from?.pathname || '/';
+
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
-	const [email, setEmail] = useState(String)
+	const [loginFailed, setLoginFailed] = useState(false);
+	const [email, setEmail] = useState(String);
 	const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value)
 	}
 
-	const [password, setPassword] = useState(String)
+	const [password, setPassword] = useState(String);
 	const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value)
 	}
@@ -26,16 +29,25 @@ export const Login = () => {
 	const onLoginSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			dispatch(createLoginRequest({
+			await dispatch(createLoginRequest({
 					"email": email,
 					"password": password,
 				})
-			);
-			navigate(from);
-		} catch (error: any) {
-			const errorMessage = error.message
-				? `Ошибка запроса на сброс пароля: ${error.message}`
-				: error || 'Неожиданная ошибка';
+			).unwrap();
+			if (!loginFailed) {
+				navigate(from);
+			}
+		} catch (e: any) {
+			console.log(e);
+			if (e?.name === "AuthError") {
+				console.log("AuthError");
+				setLoginFailed(true);
+				setEmail("123");
+				setPassword("");
+			}
+			const errorMessage = e.message
+				? `Ошибка входа в систему: ${e.message}`
+				: e || 'Неожиданная ошибка';
 			console.log(errorMessage);
 		}
 	}
@@ -60,6 +72,9 @@ export const Login = () => {
 						onChange={onPasswordChange}
 						name="password"
 					></PasswordInput>
+					{user.error && !user.isAuthorized &&
+						<p className={'text text_type_main-default text_color_inactive'}>Неверное имя пользователя или
+							пароль</p>}
 					<Button htmlType={"submit"} size={"large"}>Войти</Button>
 				</form>
 				<div className={styles.flex_links}>

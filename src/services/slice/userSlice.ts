@@ -1,11 +1,12 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AuthError, request} from "@utils/request";
+import {request} from "@utils/request";
 import {RegisterRequest} from "../../types/registerRequest";
 import {LoginRequest} from "../../types/loginRequest";
 import {User, UserResponse} from "../../types/userResponse";
 import {ApiResponse} from "../../types/apiResponse";
 import {LogoutRequest} from "../../types/logoutRequest";
 import Cookies from "js-cookie";
+import {UpdateUserRequest} from "../../types/updateUserRequest";
 
 export interface UserData {
 	status: 'idle' | 'loading' | 'success' | 'fail',
@@ -18,7 +19,7 @@ const initialState: UserData = {
 	user: null,
 	status: 'idle',
 	error: null,
-	isAuthorized: false
+	isAuthorized: !!(localStorage.getItem("refreshToken") && Cookies.get("token"))
 }
 
 export const createRegisterRequest = createAsyncThunk<UserResponse, RegisterRequest>(
@@ -44,7 +45,7 @@ export const createRegisterRequest = createAsyncThunk<UserResponse, RegisterRequ
 			const errorMessage = error.message
 				? `Ошибка регистрации: ${error.message}`
 				: error.toString() || 'Неожиданная ошибка';
-			return thunkAPI.rejectWithValue(errorMessage);
+			return thunkAPI.rejectWithValue({message: errorMessage, name: "unknown"});
 		}
 	}
 );
@@ -69,10 +70,13 @@ export const createLoginRequest = createAsyncThunk<UserResponse, LoginRequest>(
 
 			return response;
 		} catch (error: any) {
+			if (error.name === "AuthError") {
+				return thunkAPI.rejectWithValue({message: error.message, name: error.name});
+			}
 			const errorMessage = error.message
 				? `Ошибка авторизации: ${error.message}`
 				: error.toString() || 'Неожиданная ошибка';
-			return thunkAPI.rejectWithValue(errorMessage);
+			return thunkAPI.rejectWithValue({message: errorMessage, name: "unknown"});
 		}
 	}
 );
@@ -97,7 +101,44 @@ export const createLogoutRequest = createAsyncThunk<ApiResponse, LogoutRequest>(
 			const errorMessage = error.message
 				? `Ошибка выхода из приложения: ${error.message}`
 				: error.toString() || 'Неожиданная ошибка';
-			return thunkAPI.rejectWithValue(errorMessage);
+			return thunkAPI.rejectWithValue({message: errorMessage, name: "unknown"});
+		}
+	}
+);
+
+export const createGetUserRequest = createAsyncThunk<UserResponse>(
+	'user/createGetUserRequest',
+	async (_, thunkAPI) => {
+		try {
+			return await request('auth/user') as UserResponse;
+		} catch (error: any) {
+			if (error.name === "AuthError") {
+				return thunkAPI.rejectWithValue({message: error.message, name: error.name});
+			}
+			const errorMessage = error.message
+				? `Ошибка получения пользователя: ${error.message}`
+				: error.toString() || 'Неожиданная ошибка';
+			return thunkAPI.rejectWithValue({message: errorMessage, name: "unknown"});
+		}
+	}
+);
+
+export const createUpdateUserRequest = createAsyncThunk<UserResponse, UpdateUserRequest>(
+	'user/createUpdateUserRequest',
+	async (userData, thunkAPI) => {
+		try {
+			return await request('auth/user', {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(userData),
+			}) as UserResponse;
+		} catch (error: any) {
+			const errorMessage = error.message
+				? `Ошибка выхода из приложения: ${error.message}`
+				: error.toString() || 'Неожиданная ошибка';
+			return thunkAPI.rejectWithValue({message: errorMessage, name: "unknown"});
 		}
 	}
 );
@@ -118,8 +159,11 @@ const handleFulfilled = (state: UserData, action: PayloadAction<UserResponse>) =
 
 const handleRejected = (state: UserData, action: any) => {
 	state.status = 'fail';
-	state.error = action.payload as string;
+	state.error = action.payload.message;
 	state.user = null;
+	if (action.payload.name === "AuthError") {
+		state.isAuthorized = false;
+	}
 };
 
 const userSlice = createSlice({
@@ -137,8 +181,19 @@ const userSlice = createSlice({
 			.addCase(createLogoutRequest.pending, handlePending)
 			.addCase(createLogoutRequest.rejected, handleRejected)
 			.addCase(createLogoutRequest.fulfilled, () => {
-				return initialState;
+				return {
+					user: null,
+					status: 'idle',
+					error: null,
+					isAuthorized: false
+				}
 			})
+			.addCase(createGetUserRequest.pending, handlePending)
+			.addCase(createGetUserRequest.rejected, handleRejected)
+			.addCase(createGetUserRequest.fulfilled, handleFulfilled)
+			.addCase(createUpdateUserRequest.pending, handlePending)
+			.addCase(createUpdateUserRequest.rejected, handleRejected)
+			.addCase(createUpdateUserRequest.fulfilled, handleFulfilled)
 	}
 });
 

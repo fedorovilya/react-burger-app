@@ -29,7 +29,7 @@ export const Register = () => {
 	const onRegisterSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		try {
-			dispatch(createRegisterRequest({
+			await dispatch(createRegisterRequest({
 					"email": email,
 					"password": password,
 					"name": name

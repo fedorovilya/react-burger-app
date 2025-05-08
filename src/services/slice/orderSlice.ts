@@ -27,13 +27,13 @@ export const createOrderRequest = createAsyncThunk<OrderResponse, OrderRequest>(
 				body: JSON.stringify(orderItems),
 			}) as OrderResponse;
 		} catch (error: any) {
-			if (error instanceof AuthError) {
-				return thunkAPI.rejectWithValue({ error: error.message, isAuthError: true });
+			if (error?.name === "AuthError") {
+				return thunkAPI.rejectWithValue({message: error.message, name: "AuthError"});
 			}
 			const errorMessage = error.message
 				? `Ошибка создания заказа: ${error.message}`
 				: error.toString() || 'Неожиданная ошибка';
-			return thunkAPI.rejectWithValue(errorMessage);
+			return thunkAPI.rejectWithValue({message: errorMessage, name: "unknown"});
 		}
 	}
 );
@@ -41,7 +41,11 @@ export const createOrderRequest = createAsyncThunk<OrderResponse, OrderRequest>(
 const orderSlice = createSlice({
 	name: 'order',
 	initialState: initialState,
-	reducers: {},
+	reducers: {
+		clearOrder: () => {
+			return initialState
+		}
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(createOrderRequest.pending, (state) => {
@@ -53,11 +57,12 @@ const orderSlice = createSlice({
 				state.status = 'success';
 				state.order = action.payload.order;
 			})
-			.addCase(createOrderRequest.rejected, (state, action) => {
-				state.error = action.payload as string;
+			.addCase(createOrderRequest.rejected, (state, action: any) => {
+				state.error = action.payload.message;
 				state.status = 'fail';
 			});
 	},
 });
 
+export const {clearOrder} = orderSlice.actions;
 export default orderSlice.reducer;

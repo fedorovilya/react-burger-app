@@ -23,12 +23,12 @@ const checkResponse = async <T extends ApiResponse>(
 		const token = localStorage.getItem("refreshToken");
 
 		if (!token) {
-			throw new Error("Нет refresh токена");
+			throw new AuthError("Неверный логин/пароль либо отсутствуют токены для авторизованного пользователя");
 		}
 
 		try {
 			// Обновляем токены
-			const refreshTokenResponse: TokenResponse = await fetch(`${BASE_API_URL}/auth/token`, {
+			const refreshTokenResponse: TokenResponse = await fetch(`${BASE_API_URL}auth/token`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -37,7 +37,7 @@ const checkResponse = async <T extends ApiResponse>(
 			}).then((r) => r.json());
 
 			if (!refreshTokenResponse.success) {
-				throw new Error("Не удалось обновить токены");
+				throw new AuthError("Не удалось обновить токены");
 			}
 
 			// Сохраняем новые токены
@@ -46,7 +46,7 @@ const checkResponse = async <T extends ApiResponse>(
 
 			// Добавляем новый accessToken в заголовки
 			const authHeaders = {
-				...options.headers,
+				...(options?.headers || {}),
 				Authorization: `${Cookies.get("token")}`,
 			};
 
@@ -75,19 +75,17 @@ const checkSuccess = <T extends ApiResponse>(res: T): T => {
 
 export const request = <T extends ApiResponse>(
 	endpoint: string,
-	options: RequestInit
+	options: RequestInit = {}
 ): Promise<T> => {
-	let token = Cookies.get("token");
-	if (token) {
-		options = {
-			...options,
-			headers: {
-				...options.headers,
-				Authorization: `${Cookies.get("token")}`,
-			}
+	const fetchOptions: RequestInit = {
+		...options,
+		headers: {
+			...(options?.headers || {}),
+			Authorization: `${Cookies.get("token")}`
 		}
 	}
+	console.log("fetchOptions ", fetchOptions);
 	return fetch(`${BASE_API_URL}${endpoint}`, options)
-		.then((res) => checkResponse<T>(res, endpoint, options))
+		.then((res) => checkResponse<T>(res, endpoint, fetchOptions))
 		.then((data) => checkSuccess<T>(data));
 };

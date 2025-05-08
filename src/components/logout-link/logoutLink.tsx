@@ -16,7 +16,7 @@ export const LogoutLink = ({children}: Props) => {
 		e.preventDefault();
 		let token = localStorage.getItem("refreshToken");
 		if (token) {
-			dispatch(createLogoutRequest({token}));
+			await dispatch(createLogoutRequest({token}));
 		}
 		navigate(LOGIN_LINK);
 	};

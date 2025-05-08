@@ -14,7 +14,7 @@ export const ProtectedRouteElement = ({isPrivate, element}: Props) => {
 	const user: UserData = useAppSelector((state) => state.user);
 
 	if (user.status === 'loading') {
-		return <p>Loading...</p>;
+		return <p>Пожалуйста, подождите...</p>;
 	}
 
 	if (user.isAuthorized && !isPrivate) {

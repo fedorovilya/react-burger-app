@@ -4,7 +4,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './orderBar.module.css';
 import {OrderDetails} from '@components/burger-constructor/orderDetails';
-import {createOrderRequest} from '@services/slice/orderSlice';
+import {clearOrder, createOrderRequest} from '@services/slice/orderSlice';
 import {Modal} from "@components/modal/modal";
 import {useModal} from "../../hooks/useModal";
 import {useAppDispatch, useAppSelector} from "@services/store";
@@ -12,9 +12,6 @@ import {UserData} from "@services/slice/userSlice";
 import {useNavigate} from "react-router-dom";
 import {LOGIN_LINK} from "../../const/const";
 import {clearList} from "@services/slice/burgerConstructorSlice";
-import {useCallback, useEffect, useState} from "react";
-import {OrderResponse} from "../../types/orderResponse";
-import {AuthError} from "@utils/request";
 
 interface Props {
 	orderItems: String [],
@@ -39,18 +36,25 @@ export const OrderBar = ({orderItems, totalCost}: Props) => {
 					ingredients: orderItems,
 				})
 			).unwrap;
-		} catch (e) {
-			if (e instanceof AuthError) {
+			openModal();
+		} catch (e: any) {
+			if ((e?.name === "AuthError")) {
 				navigate(LOGIN_LINK);
 			}
+			console.log(e);
 		}
-		openModal();
 	}
+
+	const handleCloseModal = () => {
+		closeModal();
+		dispatch(clearList(null));
+		dispatch(clearOrder());
+	};
 
 	return (
 		<>
 			{isModalOpen && order && order.number && (
-				<Modal onClose={closeModal}>
+				<Modal onClose={handleCloseModal}>
 					<OrderDetails orderId={order.number}/>
 				</Modal>
 			)

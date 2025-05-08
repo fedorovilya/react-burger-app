@@ -5,10 +5,11 @@ import {
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './appHeader.module.css';
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {CONSTRUCTOR_LINK, ORDERS_LINK, PROFILE_LINK} from "../../const/const";
 
 export const AppHeader = () => {
+	const location = useLocation();
 	return (
 		<header className={styles.header}>
 			<div className={styles.header_flex}>
@@ -18,7 +19,7 @@ export const AppHeader = () => {
 							<BurgerIcon type={'primary'}></BurgerIcon>
 							<p
 								className={
-									window.location.pathname === CONSTRUCTOR_LINK
+									location.pathname === CONSTRUCTOR_LINK
 										? 'text text_type_main-default'
 										: 'text text_type_main-default text_color_inactive'
 								}>
@@ -31,7 +32,7 @@ export const AppHeader = () => {
 							<ListIcon type={'primary'}></ListIcon>
 							<p
 								className={
-									window.location.pathname === ORDERS_LINK
+									location.pathname === ORDERS_LINK
 										? 'text text_type_main-default'
 										: 'text text_type_main-default text_color_inactive'
 								}>
@@ -48,7 +49,7 @@ export const AppHeader = () => {
 						<ProfileIcon type={'primary'}></ProfileIcon>
 						<p
 							className={
-								window.location.pathname === PROFILE_LINK
+								location.pathname.startsWith(PROFILE_LINK)
 									? 'text text_type_main-default'
 									: 'text text_type_main-default text_color_inactive'
 							}>
