@@ -1,6 +1,6 @@
-import {Ingredient} from "./ingredientsResponse";
+import { Ingredient } from './ingredientsResponse';
 
 export interface ConstructorItem {
-	id: string,
-	item: Ingredient
+	id: string;
+	item: Ingredient;
 }

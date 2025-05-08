@@ -1,21 +1,23 @@
-import {useParams} from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from '@services/store';
-import {IngredientDetails} from '@components/burger-ingredients/ingredientDetails';
-import {useNavigate} from 'react-router-dom';
-import {Ingredient} from "../../types/ingredientsResponse";
-import React, {useEffect} from "react";
-import {setSelected} from "@services/slice/selectedIngredientSlice";
-import {AppHeader} from "@components/app-header/appHeader";
+import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '@services/store';
+import { IngredientDetails } from '@components/burger-ingredients/ingredientDetails';
+import { useNavigate } from 'react-router-dom';
+import { Ingredient } from '../../types/ingredientsResponse';
+import React, { useEffect } from 'react';
+import { setSelected } from '@services/slice/selectedIngredientSlice';
+import { AppHeader } from '@components/app-header/appHeader';
 
 export const IngredientInfo = () => {
 	const searchParams = new URLSearchParams(location.search);
-	const isModal = searchParams.get('modal') === "true";
-	const {id} = useParams<{ id: string }>();
+	const isModal = searchParams.get('modal') === 'true';
+	const { id } = useParams<{ id: string }>();
 
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
-	const {selectedIngredient} = useAppSelector((state) => state.selectedIngredient);
+	const { selectedIngredient } = useAppSelector(
+		(state) => state.selectedIngredient
+	);
 	const ingredient = useAppSelector((state) =>
 		state.ingredients.ingredients?.find((item: Ingredient) => item._id === id)
 	);
@@ -28,7 +30,7 @@ export const IngredientInfo = () => {
 
 	useEffect(() => {
 		if (isModal) {
-			navigate(`/?reopenModal=true&reopenId=${id}`, {replace: true})
+			navigate(`/?reopenModal=true&reopenId=${id}`, { replace: true });
 		}
 	}, [id, isModal]);
 
@@ -38,10 +40,10 @@ export const IngredientInfo = () => {
 
 	return (
 		<div>
-			<AppHeader/>
-			<div className={"pt-20"}>
-				<IngredientDetails data={ingredient}/>
+			<AppHeader />
+			<div className={'pt-20'}>
+				<IngredientDetails data={ingredient} />
 			</div>
 		</div>
-	)
-}
+	);
+};

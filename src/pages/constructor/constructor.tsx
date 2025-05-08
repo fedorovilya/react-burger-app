@@ -1,16 +1,16 @@
-import {AppHeader} from "@components/app-header/appHeader";
-import styles from "./constructor.module.css";
-import {BurgerIngredients} from "@components/burger-ingredients/burgerIngredients";
-import {BurgerConstructor} from "@components/burger-constructor/burgerConstructor";
+import { AppHeader } from '@components/app-header/appHeader';
+import styles from './constructor.module.css';
+import { BurgerIngredients } from '@components/burger-ingredients/burgerIngredients';
+import { BurgerConstructor } from '@components/burger-constructor/burgerConstructor';
 
 export const Constructor = () => {
 	return (
 		<div className='page'>
-			<AppHeader/>
+			<AppHeader />
 			<div className={styles.flex}>
-				<BurgerIngredients/>
-				<BurgerConstructor/>
+				<BurgerIngredients />
+				<BurgerConstructor />
 			</div>
 		</div>
-	)
-}
+	);
+};

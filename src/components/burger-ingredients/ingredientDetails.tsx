@@ -1,8 +1,8 @@
 import styles from './ingredientDetails.module.css';
-import {Ingredient} from "../../types/ingredientsResponse";
+import { Ingredient } from '../../types/ingredientsResponse';
 
 interface Props {
-	data: Ingredient
+	data: Ingredient;
 }
 export const IngredientDetails = ({ data }: Props) => {
 	return (
@@ -49,6 +49,5 @@ export const IngredientDetails = ({ data }: Props) => {
 				</div>
 			</div>
 		</div>
-
-	)
-}
+	);
+};

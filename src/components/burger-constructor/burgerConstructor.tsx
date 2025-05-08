@@ -4,23 +4,23 @@ import {
 	POSITION_BOTTOM,
 	POSITION_TOP,
 } from '../../const/const';
-import {ConstructorCard} from '@components/burger-constructor/constructorCard';
-import {OrderBar} from '@components/burger-constructor/orderBar';
+import { ConstructorCard } from '@components/burger-constructor/constructorCard';
+import { OrderBar } from '@components/burger-constructor/orderBar';
 import styles from './burgerConstructor.module.css';
-import {useCallback, useMemo} from 'react';
-import {useDrop} from 'react-dnd';
-import {v4 as uuidv4} from 'uuid';
+import { useCallback, useMemo } from 'react';
+import { useDrop } from 'react-dnd';
+import { v4 as uuidv4 } from 'uuid';
 import {
 	addIngredientToConstructor,
 	setBun,
 	setIngredientsConstructorList,
 } from '@services/slice/burgerConstructorSlice';
-import {useAppDispatch, useAppSelector} from "@services/store";
-import {ConstructorItem} from "../../types/constructorItem";
+import { useAppDispatch, useAppSelector } from '@services/store';
+import { ConstructorItem } from '../../types/constructorItem';
 
 export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
-	const {ingredients: constructorIngredients, bun: constructorBun} =
+	const { ingredients: constructorIngredients, bun: constructorBun } =
 		useAppSelector((state) => state.burgerConstructor);
 
 	const totalCost = useMemo(() => {
@@ -35,7 +35,7 @@ export const BurgerConstructor = () => {
 
 	// формируем массив с id элементов (перерасчет каждый раз когда меняется массив ингредиентов или булка)
 	const orderItems = useMemo(() => {
-		let orderItemsResult: string [] = [];
+		let orderItemsResult: string[] = [];
 
 		if (constructorIngredients.length > 0) {
 			orderItemsResult = constructorIngredients.map(
@@ -66,12 +66,16 @@ export const BurgerConstructor = () => {
 		[constructorIngredients]
 	);
 
-	const [{canDrop, isOver}, drop] = useDrop<ConstructorItem, unknown, { canDrop: boolean, isOver: boolean }>({
+	const [{ canDrop, isOver }, drop] = useDrop<
+		ConstructorItem,
+		unknown,
+		{ canDrop: boolean; isOver: boolean }
+	>({
 		accept: DRAG_INGREDIENT,
 		drop: (item) => {
 			if (item?.id) return;
 
-			const newElem = {id: uuidv4(), item: item};
+			const newElem = { id: uuidv4(), item: item };
 			dispatch(addIngredientToConstructor(newElem));
 		},
 		collect: (monitor) => ({
@@ -80,7 +84,11 @@ export const BurgerConstructor = () => {
 		}),
 	});
 
-	const [{canDropTopBun, isOverTopBun}, dropTopBun] = useDrop<ConstructorItem, unknown, {canDropTopBun: boolean, isOverTopBun: boolean}>({
+	const [{ canDropTopBun, isOverTopBun }, dropTopBun] = useDrop<
+		ConstructorItem,
+		unknown,
+		{ canDropTopBun: boolean; isOverTopBun: boolean }
+	>({
 		accept: DRAG_BUN,
 		drop: (item) => {
 			if (item?.id) return;
@@ -92,11 +100,14 @@ export const BurgerConstructor = () => {
 		}),
 	});
 
-
-	const [{canDropBottomBun, isOverBottomBun}, dropBottomBun] = useDrop<ConstructorItem, unknown, {
-		canDropBottomBun: boolean,
-		isOverBottomBun: boolean
-	}>({
+	const [{ canDropBottomBun, isOverBottomBun }, dropBottomBun] = useDrop<
+		ConstructorItem,
+		unknown,
+		{
+			canDropBottomBun: boolean;
+			isOverBottomBun: boolean;
+		}
+	>({
 		accept: DRAG_BUN,
 		drop: (item) => {
 			if (item?.id) return;
@@ -179,14 +190,14 @@ export const BurgerConstructor = () => {
 					}}>
 					{constructorIngredients && constructorIngredients.length !== 0
 						? constructorIngredients.map((element) => (
-							<li key={element.id}>
-								<ConstructorCard
-									item={element.item}
-									id={element.id}
-									locked={false}
-									moveItem={moveItem}></ConstructorCard>
-							</li>
-						))
+								<li key={element.id}>
+									<ConstructorCard
+										item={element.item}
+										id={element.id}
+										locked={false}
+										moveItem={moveItem}></ConstructorCard>
+								</li>
+						  ))
 						: getEmptyCard()}
 				</ul>
 
@@ -213,8 +224,8 @@ export const BurgerConstructor = () => {
 				</div>
 			</div>
 			{orderItems.length > 0 && totalCost > 0 && (
-				<OrderBar totalCost={totalCost} orderItems={orderItems}/>
+				<OrderBar totalCost={totalCost} orderItems={orderItems} />
 			)}
 		</div>
 	);
-}
+};

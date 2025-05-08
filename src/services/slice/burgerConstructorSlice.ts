@@ -1,16 +1,16 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {Ingredient} from "../../types/ingredientsResponse";
-import {ConstructorItem} from "../../types/constructorItem";
+import { createSlice } from '@reduxjs/toolkit';
+import { Ingredient } from '../../types/ingredientsResponse';
+import { ConstructorItem } from '../../types/constructorItem';
 
 export interface ConstructorSliceData {
-	bun: Ingredient | null,
-	ingredients: ConstructorItem []
+	bun: Ingredient | null;
+	ingredients: ConstructorItem[];
 }
 
 const initialState: ConstructorSliceData = {
 	bun: null,
-	ingredients: []
-}
+	ingredients: [],
+};
 
 const burgerConstructorSlice = createSlice({
 	name: 'burgerConstructor',
@@ -21,7 +21,7 @@ const burgerConstructorSlice = createSlice({
 		},
 		removeIngredientFromConstructor: (state, action) => {
 			state.ingredients = state.ingredients?.filter(
-				(element) => element.id !== action.payload as string
+				(element) => element.id !== (action.payload as string)
 			);
 		},
 		setIngredientsConstructorList: (state, action) => {
@@ -33,9 +33,9 @@ const burgerConstructorSlice = createSlice({
 		clearList: () => {
 			return {
 				bun: null,
-				ingredients: []
-			}
-		}
+				ingredients: [],
+			};
+		},
 	},
 });
 
@@ -44,7 +44,7 @@ export const {
 	removeIngredientFromConstructor,
 	setIngredientsConstructorList,
 	setBun,
-	clearList
+	clearList,
 } = burgerConstructorSlice.actions;
 
 export default burgerConstructorSlice.reducer;

@@ -2,7 +2,7 @@ import styles from '@components/burger-constructor/orderDetails.module.css';
 import icon from '@assets/iconOrderOk.png';
 
 interface Props {
-	orderId: number
+	orderId: number;
 }
 export const OrderDetails = ({ orderId }: Props) => {
 	return (
@@ -23,5 +23,5 @@ export const OrderDetails = ({ orderId }: Props) => {
 				Дождитесь готовности на орбитальной станции
 			</p>
 		</div>
-	)
-}
+	);
+};

@@ -1,9 +1,9 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import {RefObject, useEffect, useMemo, useRef, useState} from 'react';
+import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
 import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
 import styles from './burgerIngredients.module.css';
-import {useAppSelector} from "@services/store";
+import { useAppSelector } from '@services/store';
 
 export const BurgerIngredients = () => {
 	const { ingredients, status, error } = useAppSelector(
@@ -20,7 +20,7 @@ export const BurgerIngredients = () => {
 	const scrollContainerRef = useRef<HTMLUListElement | null>(null);
 
 	const counterArray = useMemo(() => {
-		const result: {id: string, count: number} [] = [];
+		const result: { id: string; count: number }[] = [];
 
 		constructorIngredients?.forEach((ingredient) => {
 			const id = ingredient.item._id;
@@ -55,7 +55,10 @@ export const BurgerIngredients = () => {
 		return counterArray?.find((item) => item.id === id)?.count;
 	};
 
-	const handleCategoryClick = (category: string, ref: RefObject<HTMLDivElement>) => {
+	const handleCategoryClick = (
+		category: string,
+		ref: RefObject<HTMLDivElement>
+	) => {
 		if (ref && ref.current) {
 			setCurrentTab(category);
 			ref.current.scrollIntoView({ behavior: 'smooth' });
@@ -84,7 +87,7 @@ export const BurgerIngredients = () => {
 		// Независимо от нахождения в области видимости сверху/снизу от верхней границы контейнера
 		categories.forEach(({ name, rect }) => {
 			// Расстояние от верхнего края блока (его заголовка) до верхнего края контейнера
-			const distance = rect && Math.abs(rect.top - containerRect.top) || 0;
+			const distance = (rect && Math.abs(rect.top - containerRect.top)) || 0;
 
 			// Если расстояние меньше текущего минимального, обновляем ближайшую категорию
 			if (distance < minDistance) {
@@ -205,4 +208,4 @@ export const BurgerIngredients = () => {
 			)}
 		</div>
 	);
-}
+};

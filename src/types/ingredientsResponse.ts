@@ -1,7 +1,7 @@
-import {ApiResponse} from "./apiResponse";
+import { ApiResponse } from './apiResponse';
 
 export interface IngredientsResponse extends ApiResponse {
-	data: Ingredient[]
+	data: Ingredient[];
 }
 
 export interface Ingredient {

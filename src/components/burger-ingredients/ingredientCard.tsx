@@ -2,33 +2,35 @@ import {
 	Counter,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {IngredientDetails} from '@components/burger-ingredients/ingredientDetails';
+import { IngredientDetails } from '@components/burger-ingredients/ingredientDetails';
 import {
 	detachSelected,
 	setSelected,
 } from '@services/slice/selectedIngredientSlice';
-import {useDrag} from 'react-dnd';
-import {DRAG_BUN, DRAG_INGREDIENT, TYPE_BUN} from '../../const/const';
-import {Modal} from "@components/modal/modal";
-import {useModal} from "../../hooks/useModal";
-import {useAppDispatch, useAppSelector} from "@services/store";
-import {useEffect} from "react";
-import {Ingredient} from "../../types/ingredientsResponse";
+import { useDrag } from 'react-dnd';
+import { DRAG_BUN, DRAG_INGREDIENT, TYPE_BUN } from '../../const/const';
+import { Modal } from '@components/modal/modal';
+import { useModal } from '../../hooks/useModal';
+import { useAppDispatch, useAppSelector } from '@services/store';
+import { useEffect } from 'react';
+import { Ingredient } from '../../types/ingredientsResponse';
 
 interface Props {
-	item: Ingredient,
-	count?: number,
-	index: string
+	item: Ingredient;
+	count?: number;
+	index: string;
 }
 
-export const IngredientCard = ({item, count, index}: Props) => {
+export const IngredientCard = ({ item, count, index }: Props) => {
 	const searchParams = new URLSearchParams(location.search);
-	const reopenModal = searchParams.get('reopenModal') === "true";
+	const reopenModal = searchParams.get('reopenModal') === 'true';
 	const reopenId = searchParams.get('reopenId') === item._id;
 
 	const dispatch = useAppDispatch();
-	const {isModalOpen, openModal, closeModal} = useModal();
-	const {selectedIngredient} = useAppSelector((state) => state.selectedIngredient);
+	const { isModalOpen, openModal, closeModal } = useModal();
+	const { selectedIngredient } = useAppSelector(
+		(state) => state.selectedIngredient
+	);
 
 	const handleOnClick = (item: Ingredient) => {
 		dispatch(setSelected(item));
@@ -41,7 +43,7 @@ export const IngredientCard = ({item, count, index}: Props) => {
 		window.history.pushState({}, '', '/');
 	};
 
-	const [{isDragging}, drag] = useDrag(() => ({
+	const [{ isDragging }, drag] = useDrag(() => ({
 		type: DRAG_INGREDIENT,
 		item: item,
 		collect: (monitor) => ({
@@ -53,7 +55,7 @@ export const IngredientCard = ({item, count, index}: Props) => {
 		},
 	}));
 
-	const [{isDraggingBun}, dragBun] = useDrag(() => ({
+	const [{ isDraggingBun }, dragBun] = useDrag(() => ({
 		type: DRAG_BUN,
 		item: item,
 		collect: (monitor) => ({
@@ -72,13 +74,13 @@ export const IngredientCard = ({item, count, index}: Props) => {
 			}, 500);
 			return () => clearTimeout(timeoutId);
 		}
-	}, [searchParams, reopenModal, reopenId, handleOnClick, item])
+	}, [searchParams, reopenModal, reopenId, handleOnClick, item]);
 
 	return (
 		<>
 			{selectedIngredient && isModalOpen && (
 				<Modal title={'Детали ингредиента'} onClose={handleOnClose}>
-					<IngredientDetails data={selectedIngredient}/>
+					<IngredientDetails data={selectedIngredient} />
 				</Modal>
 			)}
 			<li
@@ -97,7 +99,7 @@ export const IngredientCard = ({item, count, index}: Props) => {
 					borderRadius: '10px',
 				}}>
 				{count ? (
-					<div style={{position: 'relative', left: '135px'}}>
+					<div style={{ position: 'relative', left: '135px' }}>
 						<Counter count={count} size={'default'}></Counter>
 					</div>
 				) : undefined}
@@ -109,20 +111,20 @@ export const IngredientCard = ({item, count, index}: Props) => {
 					alt='Избображение'
 					width={'240px'}
 					height={'120px'}
-					style={{cursor: 'pointer'}}
+					style={{ cursor: 'pointer' }}
 				/>
 				<div
 					className={'pt-1 pb-1'}
-					style={{display: 'flex', flexDirection: 'row'}}>
+					style={{ display: 'flex', flexDirection: 'row' }}>
 					<p className={'text text_type_digits-default'}>{item.price}</p>
 					<CurrencyIcon type={'primary'}></CurrencyIcon>
 				</div>
 				<p
 					className={'text text_type_main-small'}
-					style={{textAlign: 'center'}}>
+					style={{ textAlign: 'center' }}>
 					{item.name}
 				</p>
 			</li>
 		</>
 	);
-}
+};

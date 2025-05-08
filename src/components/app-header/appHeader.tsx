@@ -5,8 +5,8 @@ import {
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './appHeader.module.css';
-import {Link, useLocation} from "react-router-dom";
-import {CONSTRUCTOR_LINK, ORDERS_LINK, PROFILE_LINK} from "../../const/const";
+import { Link, useLocation } from 'react-router-dom';
+import { CONSTRUCTOR_LINK, ORDERS_LINK, PROFILE_LINK } from '../../const/const';
 
 export const AppHeader = () => {
 	const location = useLocation();
@@ -41,7 +41,9 @@ export const AppHeader = () => {
 						</div>
 					</Link>
 				</div>
-				<Link to={CONSTRUCTOR_LINK} className={`p-4 ${styles.header_flex_logo}`}>
+				<Link
+					to={CONSTRUCTOR_LINK}
+					className={`p-4 ${styles.header_flex_logo}`}>
 					<Logo></Logo>
 				</Link>
 				<Link to={PROFILE_LINK} className={'p-4'}>

@@ -1,3 +1,3 @@
 export interface OrderRequest {
-	ingredients: String [],
+	ingredients: String[];
 }

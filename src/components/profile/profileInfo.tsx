@@ -1,8 +1,13 @@
-import styles from "./profileInfo.module.css";
-import {useAppDispatch, useAppSelector} from "@services/store";
-import {ChangeEvent, useState} from "react";
-import {createUpdateUserRequest} from "@services/slice/userSlice";
-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from './profileInfo.module.css';
+import { useAppDispatch, useAppSelector } from '@services/store';
+import { ChangeEvent, useState } from 'react';
+import { createUpdateUserRequest } from '@services/slice/userSlice';
+import {
+	Button,
+	EmailInput,
+	Input,
+	PasswordInput,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
 export const ProfileInfo = () => {
 	const dispatch = useAppDispatch();
@@ -31,11 +36,13 @@ export const ProfileInfo = () => {
 
 	const onFormSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		await dispatch(createUpdateUserRequest({
-			email: login,
-			name: name,
-			password: password || undefined
-		}));
+		await dispatch(
+			createUpdateUserRequest({
+				email: login,
+				name: name,
+				password: password || undefined,
+			})
+		);
 	};
 
 	const onCancelClick = () => {
@@ -50,17 +57,45 @@ export const ProfileInfo = () => {
 
 	return (
 		<form className={styles.flex_fields} onSubmit={onFormSubmit}>
-			<Input icon={'EditIcon'} onIconClick={() => setNameInputDisabled(!nameInputDisabled)} type="text" size="default" placeholder="Имя" value={name} onChange={onNameChange} disabled={nameInputDisabled} />
-			<EmailInput isIcon size="default" placeholder="Логин" value={login} onChange={onLoginChange} />
-			<PasswordInput size="default" value={password} onChange={onPasswordChange} icon="EditIcon" />
+			<Input
+				icon={'EditIcon'}
+				onIconClick={() => setNameInputDisabled(!nameInputDisabled)}
+				type='text'
+				size='default'
+				placeholder='Имя'
+				value={name}
+				onChange={onNameChange}
+				disabled={nameInputDisabled}
+			/>
+			<EmailInput
+				isIcon
+				size='default'
+				placeholder='Логин'
+				value={login}
+				onChange={onLoginChange}
+			/>
+			<PasswordInput
+				size='default'
+				value={password}
+				onChange={onPasswordChange}
+				icon='EditIcon'
+			/>
 			<div className={styles.flex}>
-				{anyChanged && <Button htmlType="submit" size="medium">Сохранить</Button>}
 				{anyChanged && (
-					<Button htmlType="button" size="medium" type="secondary" onClick={onCancelClick}>
+					<Button htmlType='submit' size='medium'>
+						Сохранить
+					</Button>
+				)}
+				{anyChanged && (
+					<Button
+						htmlType='button'
+						size='medium'
+						type='secondary'
+						onClick={onCancelClick}>
 						Отменить
 					</Button>
 				)}
 			</div>
 		</form>
 	);
-}
+};

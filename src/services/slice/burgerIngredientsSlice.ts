@@ -1,11 +1,14 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {request} from "@utils/request";
-import {Ingredient, IngredientsResponse} from "../../types/ingredientsResponse";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { request } from '@utils/request';
+import {
+	Ingredient,
+	IngredientsResponse,
+} from '../../types/ingredientsResponse';
 
 export interface IngredientsSliceData {
-	status: 'idle' | 'loading' | 'success' | 'fail',
-	error: string | null,
-	ingredients: Ingredient [] | null
+	status: 'idle' | 'loading' | 'success' | 'fail';
+	error: string | null;
+	ingredients: Ingredient[] | null;
 }
 
 const initialState: IngredientsSliceData = {
@@ -18,7 +21,7 @@ export const fetchIngredients = createAsyncThunk<IngredientsResponse>(
 	'burgerIngredients/fetchIngredients',
 	async (_, thunkAPI) => {
 		try {
-			return await request('ingredients') as IngredientsResponse;
+			return (await request('ingredients')) as IngredientsResponse;
 		} catch (error: any) {
 			const errorMessage = error.message
 				? `Ошибка получения списка ингредиентов: ${error.message}`
