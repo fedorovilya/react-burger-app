@@ -1,13 +1,11 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import {RefObject, useEffect, useMemo, useRef, useState} from 'react';
 import { IngredientCard } from '@components/burger-ingredients/ingredientCard';
 import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from '../../const/const';
 import styles from './burgerIngredients.module.css';
-import { fetchIngredients } from '@services/slice/burgerIngredientsSlice';
-import {useAppDispatch, useAppSelector} from "@services/store";
+import {useAppSelector} from "@services/store";
 
 export const BurgerIngredients = () => {
-	const dispatch = useAppDispatch();
 	const { ingredients, status, error } = useAppSelector(
 		(state) => state.ingredients
 	);
@@ -16,13 +14,14 @@ export const BurgerIngredients = () => {
 
 	const [currentTab, setCurrentTab] = useState(TYPE_BUN);
 
-	const categoryBunRef = useRef(null);
-	const categorySauceRef = useRef(null);
-	const categoryMainRef = useRef(null);
-	const scrollContainerRef = useRef(null);
+	const categoryBunRef = useRef<HTMLDivElement>(null);
+	const categorySauceRef = useRef<HTMLDivElement>(null);
+	const categoryMainRef = useRef<HTMLDivElement>(null);
+	const scrollContainerRef = useRef<HTMLUListElement | null>(null);
 
 	const counterArray = useMemo(() => {
-		const result = [];
+		const result: {id: string, count: number} [] = [];
+
 		constructorIngredients?.forEach((ingredient) => {
 			const id = ingredient.item._id;
 
@@ -52,11 +51,11 @@ export const BurgerIngredients = () => {
 		return ingredients && ingredients.filter((item) => item.type === TYPE_MAIN);
 	}, [ingredients]);
 
-	const getCountById = (id) => {
+	const getCountById = (id: string) => {
 		return counterArray?.find((item) => item.id === id)?.count;
 	};
 
-	const handleCategoryClick = (category, ref) => {
+	const handleCategoryClick = (category: string, ref: RefObject<HTMLDivElement>) => {
 		if (ref && ref.current) {
 			setCurrentTab(category);
 			ref.current.scrollIntoView({ behavior: 'smooth' });
@@ -85,7 +84,7 @@ export const BurgerIngredients = () => {
 		// Независимо от нахождения в области видимости сверху/снизу от верхней границы контейнера
 		categories.forEach(({ name, rect }) => {
 			// Расстояние от верхнего края блока (его заголовка) до верхнего края контейнера
-			const distance = Math.abs(rect.top - containerRect.top);
+			const distance = rect && Math.abs(rect.top - containerRect.top) || 0;
 
 			// Если расстояние меньше текущего минимального, обновляем ближайшую категорию
 			if (distance < minDistance) {
@@ -101,7 +100,7 @@ export const BurgerIngredients = () => {
 
 	useEffect(() => {
 		if (status === 'success') {
-			let timeoutId = null;
+			let timeoutId: NodeJS.Timeout;
 
 			const handleScroll = () => {
 				clearTimeout(timeoutId);
@@ -206,4 +205,4 @@ export const BurgerIngredients = () => {
 			)}
 		</div>
 	);
-};
+}

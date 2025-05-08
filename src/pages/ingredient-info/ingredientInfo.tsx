@@ -17,7 +17,7 @@ export const IngredientInfo = () => {
 
 	const {selectedIngredient} = useAppSelector((state) => state.selectedIngredient);
 	const ingredient = useAppSelector((state) =>
-		state.ingredients.ingredients.find((item: Ingredient) => item._id === id)
+		state.ingredients.ingredients?.find((item: Ingredient) => item._id === id)
 	);
 
 	useEffect(() => {

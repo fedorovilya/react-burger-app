@@ -3,8 +3,6 @@ import {
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import {IngredientDetails} from '@components/burger-ingredients/ingredientDetails';
-import PropTypes from 'prop-types';
-import {ingredientProps} from '@utils/props';
 import {
 	detachSelected,
 	setSelected,
@@ -15,8 +13,15 @@ import {Modal} from "@components/modal/modal";
 import {useModal} from "../../hooks/useModal";
 import {useAppDispatch, useAppSelector} from "@services/store";
 import {useEffect} from "react";
+import {Ingredient} from "../../types/ingredientsResponse";
 
-export const IngredientCard = ({item, count, index}) => {
+interface Props {
+	item: Ingredient,
+	count?: number,
+	index: string
+}
+
+export const IngredientCard = ({item, count, index}: Props) => {
 	const searchParams = new URLSearchParams(location.search);
 	const reopenModal = searchParams.get('reopenModal') === "true";
 	const reopenId = searchParams.get('reopenId') === item._id;
@@ -25,7 +30,7 @@ export const IngredientCard = ({item, count, index}) => {
 	const {isModalOpen, openModal, closeModal} = useModal();
 	const {selectedIngredient} = useAppSelector((state) => state.selectedIngredient);
 
-	const handleOnClick = (item) => {
+	const handleOnClick = (item: Ingredient) => {
 		dispatch(setSelected(item));
 		window.history.pushState({}, '', `/ingredients/${item._id}?modal=true`);
 		openModal();
@@ -120,10 +125,4 @@ export const IngredientCard = ({item, count, index}) => {
 			</li>
 		</>
 	);
-};
-
-IngredientCard.propTypes = {
-	item: ingredientProps,
-	count: PropTypes.number,
-	index: PropTypes.string.isRequired,
-};
+}

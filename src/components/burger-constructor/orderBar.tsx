@@ -47,7 +47,7 @@ export const OrderBar = ({orderItems, totalCost}: Props) => {
 
 	const handleCloseModal = () => {
 		closeModal();
-		dispatch(clearList(null));
+		dispatch(clearList());
 		dispatch(clearOrder());
 	};
 

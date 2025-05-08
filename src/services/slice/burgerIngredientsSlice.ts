@@ -1,18 +1,25 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {request} from "@utils/request";
+import {Ingredient, IngredientsResponse} from "../../types/ingredientsResponse";
 
-const ingredientsInitialState = {
+export interface IngredientsSliceData {
+	status: 'idle' | 'loading' | 'success' | 'fail',
+	error: string | null,
+	ingredients: Ingredient [] | null
+}
+
+const initialState: IngredientsSliceData = {
 	ingredients: [],
 	status: 'idle', // 'idle' | 'loading' | 'success' | 'fail'
 	error: null,
 };
 
-export const fetchIngredients = createAsyncThunk(
+export const fetchIngredients = createAsyncThunk<IngredientsResponse>(
 	'burgerIngredients/fetchIngredients',
 	async (_, thunkAPI) => {
 		try {
-			return await request('ingredients');
-		} catch (error) {
+			return await request('ingredients') as IngredientsResponse;
+		} catch (error: any) {
 			const errorMessage = error.message
 				? `Ошибка получения списка ингредиентов: ${error.message}`
 				: error.toString() || 'Неожиданная ошибка';
@@ -23,7 +30,8 @@ export const fetchIngredients = createAsyncThunk(
 
 const burgerIngredientsSlice = createSlice({
 	name: 'burgerIngredients',
-	initialState: ingredientsInitialState,
+	initialState: initialState,
+	reducers: {},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchIngredients.pending, (state) => {
@@ -36,7 +44,7 @@ const burgerIngredientsSlice = createSlice({
 				state.ingredients = action.payload.data;
 			})
 			.addCase(fetchIngredients.rejected, (state, action) => {
-				state.error = action.payload;
+				state.error = action.payload as string;
 				state.status = 'fail';
 				state.ingredients = [];
 			});

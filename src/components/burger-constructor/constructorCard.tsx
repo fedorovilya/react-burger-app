@@ -4,21 +4,28 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { POSITION_BOTTOM, POSITION_TOP } from '../../const/const';
 import styles from './constructorCard.module.css';
-import PropTypes from 'prop-types';
-import { cardItemProps } from '@utils/props';
-import { removeIngredientFromConstructor } from '@services/slice/burgerConstructorSlice';
+import {removeIngredientFromConstructor} from '@services/slice/burgerConstructorSlice';
 import { useDrag, useDrop } from 'react-dnd';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import {useAppDispatch} from "@services/store";
+import {Ingredient} from "../../types/ingredientsResponse";
+import {ConstructorItem} from "../../types/constructorItem";
 
-export const ConstructorCard = ({ item, id, locked, position, moveItem }) => {
+interface Props {
+	item: Ingredient,
+	id: string,
+	locked: boolean,
+	position?: 'top' | 'bottom',
+	moveItem?: (dragIndex: string, hoverIndex: string) =>  void
+}
+export const ConstructorCard = ({ item, id, locked, position, moveItem }: Props) => {
 	const dispatch = useAppDispatch();
 
-	const handleClick = (id) => {
+	const handleClick = (id: string) => {
 		dispatch(removeIngredientFromConstructor(id));
 	};
 
-	const getOptionalPositionText = (item) => {
+	const getOptionalPositionText = (item: Ingredient) => {
 		if (position === POSITION_TOP) {
 			return `${item.name} (верх)`;
 		} else if (position === POSITION_BOTTOM) {
@@ -27,8 +34,8 @@ export const ConstructorCard = ({ item, id, locked, position, moveItem }) => {
 		return item.name;
 	};
 
-	const ref = useRef(null);
-	const [, drop] = useDrop({
+	const ref = useRef<HTMLDivElement>(null);
+	const [, drop] = useDrop<ConstructorItem, unknown>({
 		accept: 'DRAG_ELEMENT',
 		collect(monitor) {
 			return {
@@ -48,7 +55,7 @@ export const ConstructorCard = ({ item, id, locked, position, moveItem }) => {
 			const hoverMiddleY =
 				(hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 			const clientOffset = monitor.getClientOffset();
-			const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+			const hoverClientY = clientOffset?.y && clientOffset.y - hoverBoundingRect.top || 0;
 
 			if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
 				return;
@@ -57,12 +64,12 @@ export const ConstructorCard = ({ item, id, locked, position, moveItem }) => {
 				return;
 			}
 
-			moveItem(dragIndex, hoverIndex);
+			moveItem && moveItem(dragIndex, hoverIndex);
 			item.id = hoverIndex;
 		},
 	});
 
-	const [, drag] = useDrag({
+	const [, drag] = useDrag<ConstructorItem>({
 		type: 'DRAG_ELEMENT',
 		item: { id: id, item: item },
 		collect: (monitor) => ({
@@ -87,12 +94,4 @@ export const ConstructorCard = ({ item, id, locked, position, moveItem }) => {
 			/>
 		</div>
 	);
-};
-
-ConstructorCard.propTypes = {
-	item: cardItemProps,
-	id: PropTypes.string,
-	locked: PropTypes.bool.isRequired,
-	position: PropTypes.oneOf(['top', 'bottom']),
-	moveItem: PropTypes.func,
-};
+}

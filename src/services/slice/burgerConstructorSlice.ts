@@ -1,19 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
+import {Ingredient} from "../../types/ingredientsResponse";
+import {ConstructorItem} from "../../types/constructorItem";
+
+export interface ConstructorSliceData {
+	bun: Ingredient | null,
+	ingredients: ConstructorItem []
+}
+
+const initialState: ConstructorSliceData = {
+	bun: null,
+	ingredients: []
+}
 
 const burgerConstructorSlice = createSlice({
 	name: 'burgerConstructor',
-	initialState: {
-		bun: null,
-		ingredients: [], // Список добавленных ингредиентов [{item: {}, id: 1}] // id - порядковый номер
-	},
+	initialState: initialState,
 	reducers: {
 		addIngredientToConstructor: (state, action) => {
 			state.ingredients.push(action.payload);
 		},
 		removeIngredientFromConstructor: (state, action) => {
-			if (!state.ingredients) return [];
 			state.ingredients = state.ingredients?.filter(
-				(element) => element.id !== action.payload
+				(element) => element.id !== action.payload as string
 			);
 		},
 		setIngredientsConstructorList: (state, action) => {

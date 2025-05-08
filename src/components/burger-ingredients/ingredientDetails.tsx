@@ -1,7 +1,10 @@
 import styles from './ingredientDetails.module.css';
-import { cardItemProps } from '@utils/props';
+import {Ingredient} from "../../types/ingredientsResponse";
 
-export const IngredientDetails = ({ data }) => {
+interface Props {
+	data: Ingredient
+}
+export const IngredientDetails = ({ data }: Props) => {
 	return (
 		<div className={styles.flex}>
 			<img
@@ -48,8 +51,4 @@ export const IngredientDetails = ({ data }) => {
 		</div>
 
 	)
-};
-
-IngredientDetails.propTypes = {
-	data: cardItemProps,
-};
+}
