@@ -7,9 +7,10 @@ const webpack = require('webpack');
 const production = process.env.NODE_ENV === 'production';
 
 module.exports = {
-	entry: path.resolve(__dirname, '..', './src/index.jsx'), //точка входа в наше приложение содержит абсолютный путь к index.ts
+	entry: path.resolve(__dirname, '..', './src/index.tsx'), //точка входа в наше приложение содержит абсолютный путь к index.ts
 	output: {
 		path: path.resolve(__dirname, '..', './dist'), //путь куда будет собираться наш проект
+		publicPath: "/",
 		filename: production
 			? 'static/scripts/[name].[contenthash].js'
 			: 'static/scripts/[name].js', // имя нашего бандла

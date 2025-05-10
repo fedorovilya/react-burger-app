@@ -1,0 +1,8 @@
+.flex_fields {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 24px;
+	width: 480px;
+}
