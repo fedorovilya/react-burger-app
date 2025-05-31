@@ -19,3 +19,4 @@ export const PROFILE_LINK = '/profile';
 export const ORDERS_HISTORY_LINK = '/profile/orders';
 export const ORDERS_LINK = '/orders';
 export const LOGOUT_LINK = '/logout';
+export const FEED_LINK = '/feed';

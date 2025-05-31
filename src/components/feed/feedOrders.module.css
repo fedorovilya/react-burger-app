@@ -1,0 +1,29 @@
+.orders_flex {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 16px;
+	margin: 0;
+	padding: 0;
+	overflow-y: auto;
+}
+
+.order_element {
+	display: inline-block;
+	box-sizing: border-box;
+	width: 584px;
+	max-height: 220px;
+	padding: 16px 24px;
+	color: #f2f2f3;
+	font-size: 16px;
+	font-family: 'Jet Brains Mono', serif;
+	line-height: 24px;
+	background: #1c1c21;
+	border-radius: var(--common-border-radius-s);
+}
+
+.order_element_flex {
+	display: flex;
+	flex-direction: column;
+}

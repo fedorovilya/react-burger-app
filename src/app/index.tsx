@@ -17,6 +17,7 @@ import { ProfileInfo } from '@components/profile/profileInfo';
 import { OrdersHistory } from '@components/profile/ordersHistory';
 import { IngredientInfo } from '@pages/ingredient-info/ingredientInfo';
 import { fetchIngredients } from '@services/slice/burgerIngredientsSlice';
+import {Feed} from "@pages/feed/feed";
 
 export const App = () => {
 	const dispatch = useAppDispatch();
@@ -50,6 +51,7 @@ export const App = () => {
 				<Routes>
 					<Route path='/' element={<Constructor />} />
 					<Route path='/ingredients/:id' element={<IngredientInfo />} />
+					<Route path='/feed' element={<Feed />} />
 					<Route
 						path='/profile'
 						element={
