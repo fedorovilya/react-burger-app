@@ -42,7 +42,9 @@ export const BurgerConstructor = () => {
 				(ingredient) => ingredient.item._id
 			);
 		}
-		constructorBun && orderItemsResult.push(constructorBun._id);
+		if (constructorBun) {
+			orderItemsResult = [constructorBun._id, ...orderItemsResult, constructorBun._id];
+		}
 
 		return orderItemsResult;
 	}, [constructorIngredients, constructorBun]);

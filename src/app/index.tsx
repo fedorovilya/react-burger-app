@@ -14,9 +14,11 @@ import { useAppDispatch, useAppSelector } from '@services/store';
 import { createGetUserRequest } from '@services/slice/userSlice';
 import { ProfileLayout } from '@pages/profile/profileLayout';
 import { ProfileInfo } from '@components/profile/profileInfo';
-import { OrdersHistory } from '@components/profile/ordersHistory';
 import { IngredientInfo } from '@pages/ingredient-info/ingredientInfo';
 import { fetchIngredients } from '@services/slice/burgerIngredientsSlice';
+import {Feed} from "@pages/feed/feed";
+import {FeedOrders} from "@components/feed/feedOrders";
+import {Order} from "@pages/order/order";
 
 export const App = () => {
 	const dispatch = useAppDispatch();
@@ -50,13 +52,19 @@ export const App = () => {
 				<Routes>
 					<Route path='/' element={<Constructor />} />
 					<Route path='/ingredients/:id' element={<IngredientInfo />} />
+					<Route path='/feed' element={<Feed />} />
+					<Route path='/feed/:number' element={<Order />} />
 					<Route
 						path='/profile'
 						element={
 							<ProtectedRouteElement isPrivate element={<ProfileLayout />} />
 						}>
 						<Route index element={<ProfileInfo />} />
-						<Route path='orders' element={<OrdersHistory />} />
+						<Route path='orders' element={<FeedOrders isPrivate />} />
+					</Route>
+					<Route path='/profile/orders/:number' element={
+						<ProtectedRouteElement isPrivate element={<Order />} />
+					}>
 					</Route>
 					<Route
 						path='/login'

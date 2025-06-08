@@ -1,0 +1,94 @@
+.flex {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.orders_flex {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 16px;
+	margin: 0;
+	padding: 0;
+	overflow-y: auto;
+	max-height: calc(100vh - 250px);
+}
+
+.order_element {
+	display: inline-block;
+	box-sizing: border-box;
+	width: 584px;
+	padding: 16px 24px;
+	color: #f2f2f3;
+	font-size: 16px;
+	font-family: 'Jet Brains Mono', serif;
+	line-height: 24px;
+	background: #1c1c21;
+	border-radius: var(--common-border-radius-s);
+}
+
+.order_element_flex {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.row_flex {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.imageStack {
+	position: relative;
+	display: flex;
+	align-items: center;
+	height: 60px;
+}
+
+.imageWrapper {
+	position: absolute;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	border: 2px solid rgba(77, 26, 178, 0.75);
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(25, 25, 25, 0.98);
+	overflow: hidden;
+	transition: transform 0.2s ease;
+	box-shadow: 0 0 2px 2px #3333FF40;
+}
+
+
+.imageWrapper_img {
+	width: 55px;
+	height: 55px;
+	object-fit: cover;
+	border-radius: 50%;
+}
+
+.imageWrapper_img_overflow {
+	opacity: 0.5;
+}
+
+.overflowText {
+	position: absolute;
+	font-weight: bold;
+	color: #fff;
+	font-size: 14px;
+	text-shadow: 0 0 5px rgb(0, 0, 0);
+}
+
+.order_cost {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 10px;
+}

@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './appHeader.module.css';
 import { Link, useLocation } from 'react-router-dom';
-import { CONSTRUCTOR_LINK, ORDERS_LINK, PROFILE_LINK } from '../../const/const';
+import {CONSTRUCTOR_LINK, FEED_LINK, PROFILE_LINK} from '../../const/const';
 
 export const AppHeader = () => {
 	const location = useLocation();
@@ -27,12 +27,12 @@ export const AppHeader = () => {
 							</p>
 						</div>
 					</Link>
-					<Link to={ORDERS_LINK} className={'p-4'}>
+					<Link to={FEED_LINK} className={'p-4'}>
 						<div className={`ml-2 ${styles.header_link}`}>
 							<ListIcon type={'primary'}></ListIcon>
 							<p
 								className={
-									location.pathname === ORDERS_LINK
+									location.pathname === FEED_LINK
 										? 'text text_type_main-default'
 										: 'text text_type_main-default text_color_inactive'
 								}>
@@ -43,7 +43,7 @@ export const AppHeader = () => {
 				</div>
 				<Link
 					to={CONSTRUCTOR_LINK}
-					className={`p-4 ${styles.header_flex_logo}`}>
+					className={`pt-2 ${styles.header_flex_logo}`}>
 					<Logo></Logo>
 				</Link>
 				<Link to={PROFILE_LINK} className={'p-4'}>
