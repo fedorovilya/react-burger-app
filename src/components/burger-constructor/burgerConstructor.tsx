@@ -43,7 +43,11 @@ export const BurgerConstructor = () => {
 			);
 		}
 		if (constructorBun) {
-			orderItemsResult = [constructorBun._id, ...orderItemsResult, constructorBun._id];
+			orderItemsResult = [
+				constructorBun._id,
+				...orderItemsResult,
+				constructorBun._id,
+			];
 		}
 
 		return orderItemsResult;

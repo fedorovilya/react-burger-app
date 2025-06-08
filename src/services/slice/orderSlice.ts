@@ -1,15 +1,15 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {request} from '@utils/request';
-import {CreatedOrder, NewOrderResponse} from '../../types/newOrderResponse';
-import {OrderRequest} from '../../types/orderRequest';
-import {FeedData} from "../../types/feedData";
-import {FeedOrder} from "../../types/feedOrder";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { request } from '@utils/request';
+import { CreatedOrder, NewOrderResponse } from '../../types/newOrderResponse';
+import { OrderRequest } from '../../types/orderRequest';
+import { FeedData } from '../../types/feedData';
+import { FeedOrder } from '../../types/feedOrder';
 
 export interface OrderData {
 	status: 'idle' | 'loading' | 'success' | 'fail';
 	error: string | null;
 	order: CreatedOrder | null;
-	orderInfo: FeedOrder | null
+	orderInfo: FeedOrder | null;
 }
 
 const initialState: OrderData = {
@@ -19,34 +19,34 @@ const initialState: OrderData = {
 	error: null,
 };
 
-export const createOrderRequest = createAsyncThunk<NewOrderResponse, OrderRequest>(
-	'order/createOrderRequest',
-	async (orderItems, thunkAPI) => {
-		try {
-			return (await request('orders', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(orderItems),
-			})) as NewOrderResponse;
-		} catch (error: any) {
-			if (error?.name === 'AuthError') {
-				return thunkAPI.rejectWithValue({
-					message: error.message,
-					name: 'AuthError',
-				});
-			}
-			const errorMessage = error.message
-				? `Ошибка создания заказа: ${error.message}`
-				: error.toString() || 'Неожиданная ошибка';
+export const createOrderRequest = createAsyncThunk<
+	NewOrderResponse,
+	OrderRequest
+>('order/createOrderRequest', async (orderItems, thunkAPI) => {
+	try {
+		return (await request('orders', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(orderItems),
+		})) as NewOrderResponse;
+	} catch (error: any) {
+		if (error?.name === 'AuthError') {
 			return thunkAPI.rejectWithValue({
-				message: errorMessage,
-				name: 'unknown',
+				message: error.message,
+				name: 'AuthError',
 			});
 		}
+		const errorMessage = error.message
+			? `Ошибка создания заказа: ${error.message}`
+			: error.toString() || 'Неожиданная ошибка';
+		return thunkAPI.rejectWithValue({
+			message: errorMessage,
+			name: 'unknown',
+		});
 	}
-);
+});
 
 export const getOrder = createAsyncThunk<FeedData, number>(
 	'order/getOrder',
@@ -113,5 +113,5 @@ const orderSlice = createSlice({
 	},
 });
 
-export const {clearOrder, setOrderInfo} = orderSlice.actions;
+export const { clearOrder, setOrderInfo } = orderSlice.actions;
 export default orderSlice.reducer;

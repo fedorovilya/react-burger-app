@@ -1,11 +1,14 @@
-import Cookies from "js-cookie";
-import {BASE_API_URL} from "../const/const";
-import {removeUserFeedData, setUserFeedData} from "@services/slice/userFeedSlice";
-import {removeFeedData, setFeedData} from "@services/slice/feedSlice";
-import {Middleware} from "@reduxjs/toolkit";
-import {FeedData} from "../types/feedData";
-import {TokenResponse} from "../types/tokenResponse";
-import {AuthError} from "@utils/request";
+import Cookies from 'js-cookie';
+import { BASE_API_URL } from '../const/const';
+import {
+	removeUserFeedData,
+	setUserFeedData,
+} from '@services/slice/userFeedSlice';
+import { removeFeedData, setFeedData } from '@services/slice/feedSlice';
+import { Middleware } from '@reduxjs/toolkit';
+import { FeedData } from '../types/feedData';
+import { TokenResponse } from '../types/tokenResponse';
+import { AuthError } from '@utils/request';
 
 export const SOCKET_CONNECT = 'socket/connect';
 export const SOCKET_DISCONNECT = 'socket/disconnect';
@@ -42,7 +45,7 @@ const refreshToken = async () => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({token}),
+			body: JSON.stringify({ token }),
 		}
 	).then((r) => r.json());
 
@@ -54,7 +57,7 @@ const refreshToken = async () => {
 	Cookies.set('token', refreshTokenResponse.accessToken, {
 		expires: 20 / (60 * 24),
 	});
-}
+};
 
 export const socketMiddleware: Middleware = (storeAPI) => {
 	const RECONNECT_PERIOD = 3000;
@@ -65,7 +68,7 @@ export const socketMiddleware: Middleware = (storeAPI) => {
 	return (next) => (action) => {
 		if (isSocketAction(action)) {
 			if (action.type === SOCKET_CONNECT) {
-				let {isPrivate, url} = action.payload;
+				let { isPrivate, url } = action.payload;
 
 				if (isPrivate) {
 					const token = Cookies.get('token');
@@ -88,38 +91,46 @@ export const socketMiddleware: Middleware = (storeAPI) => {
 				};
 
 				socket.onmessage = (event) => {
-					const {data} = event;
+					const { data } = event;
 					try {
 						const parsedData: FeedData = JSON.parse(data);
 
 						if (!isPrivate) {
 							storeAPI.dispatch(setFeedData(parsedData));
 						} else {
-							if (parsedData?.message?.toLowerCase().includes("Invalid or missing token".toLowerCase())) {
-								refreshToken().then(() => storeAPI.dispatch({
-									type: SOCKET_CONNECT,
-									payload: {isPrivate, url},
-								}));
+							if (
+								parsedData?.message
+									?.toLowerCase()
+									.includes('Invalid or missing token'.toLowerCase())
+							) {
+								refreshToken().then(() =>
+									storeAPI.dispatch({
+										type: SOCKET_CONNECT,
+										payload: { isPrivate, url },
+									})
+								);
 							} else {
 								storeAPI.dispatch(setUserFeedData(parsedData));
 							}
 						}
 					} catch (error) {
-						console.log(error)
+						console.log(error);
 						storeAPI.dispatch(removeUserFeedData());
 						storeAPI.dispatch(removeFeedData());
 					}
-				}
+				};
 
 				socket.onclose = () => {
 					console.log('WebSocket disconnected');
 					if (isConnected) {
-						reconnectId = Number(setTimeout(() => {
-							storeAPI.dispatch({
-								type: SOCKET_CONNECT,
-								payload: {isPrivate, url},
-							});
-						}, RECONNECT_PERIOD));
+						reconnectId = Number(
+							setTimeout(() => {
+								storeAPI.dispatch({
+									type: SOCKET_CONNECT,
+									payload: { isPrivate, url },
+								});
+							}, RECONNECT_PERIOD)
+						);
 					}
 				};
 
@@ -139,5 +150,5 @@ export const socketMiddleware: Middleware = (storeAPI) => {
 			}
 		}
 		return next(action);
-	}
-}
+	};
+};

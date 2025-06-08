@@ -16,9 +16,9 @@ import { ProfileLayout } from '@pages/profile/profileLayout';
 import { ProfileInfo } from '@components/profile/profileInfo';
 import { IngredientInfo } from '@pages/ingredient-info/ingredientInfo';
 import { fetchIngredients } from '@services/slice/burgerIngredientsSlice';
-import {Feed} from "@pages/feed/feed";
-import {FeedOrders} from "@components/feed/feedOrders";
-import {Order} from "@pages/order/order";
+import { Feed } from '@pages/feed/feed';
+import { FeedOrders } from '@components/feed/feedOrders';
+import { Order } from '@pages/order/order';
 
 export const App = () => {
 	const dispatch = useAppDispatch();
@@ -62,10 +62,11 @@ export const App = () => {
 						<Route index element={<ProfileInfo />} />
 						<Route path='orders' element={<FeedOrders isPrivate />} />
 					</Route>
-					<Route path='/profile/orders/:number' element={
-						<ProtectedRouteElement isPrivate element={<Order />} />
-					}>
-					</Route>
+					<Route
+						path='/profile/orders/:number'
+						element={
+							<ProtectedRouteElement isPrivate element={<Order />} />
+						}></Route>
 					<Route
 						path='/login'
 						element={<ProtectedRouteElement element={<Login />} />}

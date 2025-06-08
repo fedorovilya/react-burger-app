@@ -1,5 +1,5 @@
-import {ApiResponse} from "./apiResponse";
-import {FeedOrder} from "./feedOrder";
+import { ApiResponse } from './apiResponse';
+import { FeedOrder } from './feedOrder';
 
 export interface FeedData extends ApiResponse {
 	orders: FeedOrder[];

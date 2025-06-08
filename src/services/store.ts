@@ -6,11 +6,11 @@ import selectedIngredientReducer from '@services/slice/selectedIngredientSlice';
 import burgerConstructorReducer from '@services/slice/burgerConstructorSlice';
 import orderReducer from '@services/slice/orderSlice';
 import userReducer from '@services/slice/userSlice';
-import feedReducer from "@services/slice/feedSlice";
-import userFeedReducer from "@services/slice/userFeedSlice";
+import feedReducer from '@services/slice/feedSlice';
+import userFeedReducer from '@services/slice/userFeedSlice';
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import {socketMiddleware} from "@services/socketMiddleware";
+import { socketMiddleware } from '@services/socketMiddleware';
 
 export const store = configureStore({
 	reducer: {
@@ -20,7 +20,7 @@ export const store = configureStore({
 		order: orderReducer,
 		user: userReducer,
 		feed: feedReducer,
-		userFeed: userFeedReducer
+		userFeed: userFeedReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(logger).concat(socketMiddleware),

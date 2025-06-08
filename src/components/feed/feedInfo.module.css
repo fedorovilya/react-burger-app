@@ -22,8 +22,5 @@
 }
 
 .glow_effect {
-	text-shadow:
-		0 0 10px #3333FF40,
-		0 0 20px #3333FF80,
-		0 0 40px #3333FFAA;
+	text-shadow: 0 0 10px #3333ff40, 0 0 20px #3333ff80, 0 0 40px #3333ffaa;
 }

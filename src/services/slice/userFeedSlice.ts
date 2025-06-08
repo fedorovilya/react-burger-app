@@ -1,5 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {FeedData} from "../../types/feedData";
+import { createSlice } from '@reduxjs/toolkit';
+import { FeedData } from '../../types/feedData';
 
 type UserFeedState = {
 	data: FeedData | null;
@@ -8,7 +8,7 @@ type UserFeedState = {
 
 const initialState: UserFeedState = {
 	data: null,
-	status: 'idle'
+	status: 'idle',
 };
 
 export const userFeedSlice = createSlice({
@@ -20,9 +20,9 @@ export const userFeedSlice = createSlice({
 			state.status = 'success';
 		},
 		removeUserFeedData(state) {
-			state.data = null
-			state.status = 'idle'
-		}
+			state.data = null;
+			state.status = 'idle';
+		},
 	},
 });
 

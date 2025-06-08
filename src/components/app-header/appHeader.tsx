@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './appHeader.module.css';
 import { Link, useLocation } from 'react-router-dom';
-import {CONSTRUCTOR_LINK, FEED_LINK, PROFILE_LINK} from '../../const/const';
+import { CONSTRUCTOR_LINK, FEED_LINK, PROFILE_LINK } from '../../const/const';
 
 export const AppHeader = () => {
 	const location = useLocation();

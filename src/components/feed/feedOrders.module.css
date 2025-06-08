@@ -62,9 +62,8 @@
 	background-color: rgba(25, 25, 25, 0.98);
 	overflow: hidden;
 	transition: transform 0.2s ease;
-	box-shadow: 0 0 2px 2px #3333FF40;
+	box-shadow: 0 0 2px 2px #3333ff40;
 }
-
 
 .imageWrapper_img {
 	width: 55px;

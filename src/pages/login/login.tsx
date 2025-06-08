@@ -20,7 +20,6 @@ export const Login = () => {
 	const loginFailed = params.get('failed') === 'true';
 	const from: string = location.state?.from?.pathname || '/';
 
-
 	const [email, setEmail] = useState(String);
 	const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
@@ -43,7 +42,7 @@ export const Login = () => {
 			navigate(from);
 		} catch (e: any) {
 			if (e?.name === 'AuthError') {
-				navigate("/login?failed=true")
+				navigate('/login?failed=true');
 			}
 			const errorMessage = e.message
 				? `Ошибка входа в систему: ${e.message}`
