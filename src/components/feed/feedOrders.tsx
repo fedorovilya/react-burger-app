@@ -202,9 +202,7 @@ export const FeedOrders = ({ isPrivate = false }: Props) => {
 										</p>
 									</div>
 									<p className={'text text_type_main-medium'}>{order.name}</p>
-									<p className={'text text_type_main-medium'}>
-										{getStatusText(order)}
-									</p>
+									{getStatusText(order)}
 									{getIngredientsStack(order)}
 								</div>
 							</li>

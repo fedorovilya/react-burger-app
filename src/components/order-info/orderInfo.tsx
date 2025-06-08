@@ -77,8 +77,8 @@ export const OrderInfo = ({ order }: Props) => {
 					{Array.from(ingredientCountMap).map(([id, count]) => {
 						const ingredient = ingredients.find((ing) => ing._id === id);
 						return (
-							<li className={style.ingredient_row}>
-								<div className={style.imageWrapper} key={`order-${id}`}>
+							<li className={style.ingredient_row} key={`order-ingredient-${id}`}>
+								<div className={style.imageWrapper}>
 									<img
 										className={style.imageWrapper_img}
 										src={ingredient?.image}
