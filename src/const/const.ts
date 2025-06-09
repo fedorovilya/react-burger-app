@@ -9,6 +9,7 @@ export const POSITION_TOP: string = 'top';
 export const POSITION_BOTTOM: string = 'bottom';
 
 export const BASE_API_URL: string = 'https://norma.nomoreparties.space/api/';
+export const BASE_WSS_HOST: string = 'wss://norma.nomoreparties.space/';
 
 export const CONSTRUCTOR_LINK = '/';
 export const LOGIN_LINK = '/login';
@@ -16,6 +17,7 @@ export const REGISTER_LINK = '/register';
 export const FORGOT_PASSWORD_LINK = '/forgot-password';
 export const RESET_PASSWORD_LINK = '/reset-password';
 export const PROFILE_LINK = '/profile';
+
 export const ORDERS_HISTORY_LINK = '/profile/orders';
-export const ORDERS_LINK = '/orders';
 export const LOGOUT_LINK = '/logout';
+export const FEED_LINK = '/feed';

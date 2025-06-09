@@ -91,8 +91,7 @@ export const request = <T extends ApiResponse>(
 			Authorization: `${Cookies.get('token')}`,
 		},
 	};
-	console.log('fetchOptions ', fetchOptions);
-	return fetch(`${BASE_API_URL}${endpoint}`, options)
+	return fetch(`${BASE_API_URL}${endpoint}`, fetchOptions)
 		.then((res) => checkResponse<T>(res, endpoint, fetchOptions))
 		.then((data) => checkSuccess<T>(data));
 };
