@@ -37,9 +37,10 @@ function isSocketAction(action: unknown): action is SocketActionTypes {
 }
 
 const refreshToken = async () => {
+	const BASE_API = process.env.BASE_API_URL || BASE_API_URL;
 	const token = localStorage.getItem('refreshToken');
 	const refreshTokenResponse: TokenResponse = await fetch(
-		`${BASE_API_URL}auth/token`,
+		`${BASE_API}auth/token`,
 		{
 			method: 'POST',
 			headers: {
