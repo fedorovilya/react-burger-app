@@ -15,7 +15,7 @@ export interface UserData {
 	isAuthorized: boolean;
 }
 
-const initialState: UserData = {
+export const initialState: UserData = {
 	user: null,
 	status: 'idle',
 	error: null,

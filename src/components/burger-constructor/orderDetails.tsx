@@ -7,7 +7,7 @@ interface Props {
 export const OrderDetails = ({ orderId }: Props) => {
 	return (
 		<div className={`${styles.flex} pt-10 pb-15`}>
-			<p className='text text_type_digits-large'>{orderId}</p>
+			<p data-test="order_number" className='text text_type_digits-large'>{orderId}</p>
 			<p className='text text_type_main-medium pt-8'>идентификатор заказа</p>
 			<img
 				className='pt-15 pb-15'

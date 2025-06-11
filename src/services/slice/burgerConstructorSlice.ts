@@ -7,7 +7,7 @@ export interface ConstructorSliceData {
 	ingredients: ConstructorItem[];
 }
 
-const initialState: ConstructorSliceData = {
+export const initialState: ConstructorSliceData = {
 	bun: null,
 	ingredients: [],
 };

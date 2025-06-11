@@ -1,17 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { FeedData } from '../../types/feedData';
 
-type FeedState = {
+export type FeedState = {
 	data: FeedData | null;
 	status: 'idle' | 'loading' | 'success' | 'fail';
 };
 
-const initialState: FeedState = {
+export const initialState: FeedState = {
 	data: null,
 	status: 'idle',
 };
 
-export const feedSlice = createSlice({
+const feedSlice = createSlice({
 	name: 'feed',
 	initialState,
 	reducers: {

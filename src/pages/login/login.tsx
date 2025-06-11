@@ -1,15 +1,15 @@
-import { AppHeader } from '@components/app-header/appHeader';
+import {AppHeader} from '@components/app-header/appHeader';
 import styles from './login.module.css';
 import {
 	Button,
 	EmailInput,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { ChangeEvent, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FORGOT_PASSWORD_LINK, REGISTER_LINK } from '../../const/const';
-import { useAppDispatch } from '@services/store';
-import { createLoginRequest } from '@services/slice/userSlice';
+import React, {ChangeEvent, useState} from 'react';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
+import {FORGOT_PASSWORD_LINK, REGISTER_LINK} from '../../const/const';
+import {useAppDispatch} from '@services/store';
+import {createLoginRequest} from '@services/slice/userSlice';
 
 export const Login = () => {
 	const location = useLocation();
@@ -53,11 +53,12 @@ export const Login = () => {
 
 	return (
 		<div className='page'>
-			<AppHeader />
+			<AppHeader/>
 			<div className={`pt-30 ${styles.flex}`}>
 				<form className={styles.flex_fields} onSubmit={onLoginSubmit}>
 					<p className={'text text_type_main-medium'}>Вход</p>
 					<EmailInput
+						data-test={"login_input"}
 						size={'default'}
 						placeholder={'E-mail'}
 						name={'email'}
@@ -65,6 +66,7 @@ export const Login = () => {
 						value={email}
 						onChange={onEmailChange}></EmailInput>
 					<PasswordInput
+						data-test={"password_input"}
 						size={'default'}
 						value={password}
 						onChange={onPasswordChange}
@@ -74,7 +76,11 @@ export const Login = () => {
 							Неверное имя пользователя или пароль
 						</p>
 					)}
-					<Button htmlType={'submit'} size={'large'}>
+					<Button
+						data-test={"login_btn"}
+						htmlType={'submit'}
+						size={'large'}
+					>
 						Войти
 					</Button>
 				</form>
