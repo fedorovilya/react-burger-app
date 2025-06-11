@@ -10,6 +10,8 @@ export class AuthError extends Error {
 	}
 }
 
+const BASE_API = process.env.BASE_API_URL || BASE_API_URL;
+
 const checkResponse = async <T extends ApiResponse>(
 	res: Response,
 	endpoint: string,
@@ -31,7 +33,7 @@ const checkResponse = async <T extends ApiResponse>(
 		try {
 			// Обновляем токены
 			const refreshTokenResponse: TokenResponse = await fetch(
-				`${BASE_API_URL}auth/token`,
+				`${BASE_API}auth/token`,
 				{
 					method: 'POST',
 					headers: {
@@ -58,7 +60,7 @@ const checkResponse = async <T extends ApiResponse>(
 			};
 
 			// Повторяем исходный запрос
-			const retryRes = await fetch(`${BASE_API_URL}${endpoint}`, {
+			const retryRes = await fetch(`${BASE_API}${endpoint}`, {
 				...options,
 				headers: authHeaders,
 			});
@@ -91,7 +93,7 @@ export const request = <T extends ApiResponse>(
 			Authorization: `${Cookies.get('token')}`,
 		},
 	};
-	return fetch(`${BASE_API_URL}${endpoint}`, fetchOptions)
+	return fetch(`${BASE_API}${endpoint}`, fetchOptions)
 		.then((res) => checkResponse<T>(res, endpoint, fetchOptions))
 		.then((data) => checkSuccess<T>(data));
 };

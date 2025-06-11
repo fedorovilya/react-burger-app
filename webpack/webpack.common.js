@@ -11,11 +11,8 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, '..', './dist'), //путь куда будет собираться наш проект
 		publicPath: "/",
-		filename: production
-			? 'static/scripts/[name].[contenthash].js'
-			: 'static/scripts/[name].js', // имя нашего бандла
+		filename: 'bundle.js'
 	},
-	//Нужно помочь вебпаку научится работать с jsx и tsx файлами для этого используют ts loader
 	module: {
 		rules: [
 			{
@@ -97,6 +94,8 @@ module.exports = {
 		}),
 		new webpack.EnvironmentPlugin({
 			NODE_ENV: 'development', // значение по умолчанию 'development' если переменная process.env.NODE_ENV не передана
+			BASE_API_URL: 'https://norma.nomoreparties.space/api/',
+			BASE_WSS_URL: 'wss://norma.nomoreparties.space/'
 		}),
 	],
 };

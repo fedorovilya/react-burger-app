@@ -9,11 +9,12 @@ import { BASE_WSS_HOST } from '../../const/const';
 
 export const Feed = () => {
 	const dispatch = useAppDispatch();
+	const BASE_API = process.env.BASE_WSS_URL || BASE_WSS_HOST;
 
 	useEffect(() => {
 		dispatch({
 			type: SOCKET_CONNECT,
-			payload: { isPrivate: false, url: `${BASE_WSS_HOST}orders/all` },
+			payload: { isPrivate: false, url: `${BASE_API}orders/all` },
 		});
 		return () => {
 			dispatch({

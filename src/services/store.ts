@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
 import burgerIngredientsReducer from '@services/slice/burgerIngredientsSlice';
@@ -9,8 +9,8 @@ import userReducer from '@services/slice/userSlice';
 import feedReducer from '@services/slice/feedSlice';
 import userFeedReducer from '@services/slice/userFeedSlice';
 
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { socketMiddleware } from '@services/socketMiddleware';
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
+import {socketMiddleware} from '@services/socketMiddleware';
 
 export const store = configureStore({
 	reducer: {
@@ -22,9 +22,14 @@ export const store = configureStore({
 		feed: feedReducer,
 		userFeed: userFeedReducer,
 	},
-	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().concat(logger).concat(socketMiddleware),
-	devTools: process.env.NODE_ENV !== 'production',
+	middleware: (getDefaultMiddleware) => {
+		const middlewares = getDefaultMiddleware().concat(socketMiddleware);
+		if (process.env.NODE_ENV === 'development') {
+			middlewares.push(logger);
+		}
+		return middlewares;
+	},
+	devTools: process.env.NODE_ENV === 'development',
 });
 
 export type RootState = ReturnType<typeof store.getState>;

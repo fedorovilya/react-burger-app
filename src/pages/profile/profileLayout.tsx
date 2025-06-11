@@ -15,12 +15,13 @@ import { SOCKET_CONNECT, SOCKET_DISCONNECT } from '@services/socketMiddleware';
 export const ProfileLayout = () => {
 	const location = useLocation();
 	const dispatch = useAppDispatch();
+	const BASE_API = process.env.BASE_WSS_URL || BASE_WSS_HOST;
 
 	useEffect(() => {
 		if (location.pathname === ORDERS_HISTORY_LINK) {
 			dispatch({
 				type: SOCKET_CONNECT,
-				payload: { isPrivate: true, url: `${BASE_WSS_HOST}orders` },
+				payload: { isPrivate: true, url: `${BASE_API}orders` },
 			});
 			return () => {
 				dispatch({
