@@ -55,7 +55,10 @@ export const Modal = ({ children, title, onClose }: ModalProps) => {
 
 const ModalOverlay = ({ onClose, children }: ModalOverlayProps) => {
 	return (
-		<div id={"modal_window_overlay"} className={styles.modal_overlay} onClick={onClose}>
+		<div
+			id={'modal_window_overlay'}
+			className={styles.modal_overlay}
+			onClick={onClose}>
 			<div onClick={(e) => e.stopPropagation()}>{children}</div>
 		</div>
 	);
@@ -63,7 +66,9 @@ const ModalOverlay = ({ onClose, children }: ModalOverlayProps) => {
 
 const ModalContent = ({ title, onClose, children }: ModalContentProps) => {
 	return (
-		<div id={"modal_window_content"} className={`${styles.modal_content} pl-10 pt-10 pr-10 pb-15`}>
+		<div
+			id={'modal_window_content'}
+			className={`${styles.modal_content} pl-10 pt-10 pr-10 pb-15`}>
 			<ModalHeader title={title} onClose={onClose} />
 			{children}
 		</div>
@@ -75,7 +80,7 @@ const ModalHeader = ({ title, onClose }: ModalHeaderProps) => {
 		<div className={styles.modal_header}>
 			<p className='text text_type_main-large'>{title}</p>
 			<Button
-				id={"modal_close_btn"}
+				id={'modal_close_btn'}
 				type='secondary'
 				htmlType='button'
 				onClick={onClose}

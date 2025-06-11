@@ -3,29 +3,30 @@ import userSlice, {
 	createLoginRequest,
 	createLogoutRequest,
 	createRegisterRequest,
-	createUpdateUserRequest, UserData
-} from "@services/slice/userSlice";
-import Cookies from "js-cookie";
+	createUpdateUserRequest,
+	UserData,
+} from '@services/slice/userSlice';
+import Cookies from 'js-cookie';
 
 jest.mock('@utils/request', () => ({
-	request: jest.fn()
+	request: jest.fn(),
 }));
 
 afterEach(() => {
 	jest.restoreAllMocks();
-})
+});
 
 describe('тесты userSlice', () => {
 	const mockUser = {
 		email: 'test@example.com',
-		name: 'Test User'
+		name: 'Test User',
 	};
 
 	const mockUserResponse = {
 		success: true,
 		accessToken: 'mockAccessToken',
 		refreshToken: 'mockRefreshToken',
-		user: mockUser
+		user: mockUser,
 	};
 
 	it('должен использовать initialState по умолчанию', () => {
@@ -33,36 +34,36 @@ describe('тесты userSlice', () => {
 		localStorage.clear();
 		jest.spyOn(Cookies, 'get').mockReturnValue({});
 
-		const actual = userSlice(undefined, {type: ''});
+		const actual = userSlice(undefined, { type: '' });
 		expect(actual).toEqual({
 			user: null,
 			status: 'idle',
 			error: null,
-			isAuthorized: false
+			isAuthorized: false,
 		});
 	});
 
 	it('должен установить status "loading" при pending действиях', () => {
 		const actions = [
 			createRegisterRequest.pending('', {
-				name: "testUser",
-				email: "testUser@example.com",
-				password: "password"
+				name: 'testUser',
+				email: 'testUser@example.com',
+				password: 'password',
 			}),
 			createLoginRequest.pending('', {
-				email: "testUser@example.com",
-				password: "password"
+				email: 'testUser@example.com',
+				password: 'password',
 			}),
-			createLogoutRequest.pending('', {token: "token"}),
+			createLogoutRequest.pending('', { token: 'token' }),
 			createGetUserRequest.pending('', undefined),
 			createUpdateUserRequest.pending('', {
-				name: "testUser1",
-				email: "testUser1@example.com",
-				password: "password1"
-			})
+				name: 'testUser1',
+				email: 'testUser1@example.com',
+				password: 'password1',
+			}),
 		];
 
-		actions.forEach(action => {
+		actions.forEach((action) => {
 			const actual = userSlice(undefined, action);
 			expect(actual.status).toBe('loading');
 			expect(actual.error).toBeNull();
@@ -74,23 +75,19 @@ describe('тесты userSlice', () => {
 			createRegisterRequest.fulfilled(mockUserResponse, '', {
 				name: 'Test',
 				email: 'test@example.com',
-				password: '123456'
+				password: '123456',
 			}),
 			createLoginRequest.fulfilled(mockUserResponse, '', {
 				email: 'test@example.com',
-				password: '123456'
+				password: '123456',
 			}),
-			createUpdateUserRequest.fulfilled(
-				mockUserResponse,
-				'',
-				{
-					email: 'newemail@example.com',
-					name: 'New Name'
-				}
-			)
+			createUpdateUserRequest.fulfilled(mockUserResponse, '', {
+				email: 'newemail@example.com',
+				name: 'New Name',
+			}),
 		];
 
-		actions.forEach(action => {
+		actions.forEach((action) => {
 			const actual = userSlice(undefined, action);
 			expect(actual.status).toBe('success');
 			expect(actual.error).toBeNull();
@@ -109,38 +106,40 @@ describe('тесты userSlice', () => {
 				{
 					name: 'Test',
 					email: 'test@example.com',
-					password: '123456'
+					password: '123456',
 				},
 				{
 					message: errorMessage,
-					name: 'unknown'
-				}),
+					name: 'unknown',
+				}
+			),
 			createLoginRequest.rejected(
 				new Error(errorMessage),
 				'',
 				{
 					email: 'test@example.com',
-					password: '123456'
+					password: '123456',
 				},
 				{
 					message: errorMessage,
-					name: 'unknown'
-				}),
+					name: 'unknown',
+				}
+			),
 			createUpdateUserRequest.rejected(
 				new Error(errorMessage),
 				'',
 				{
 					email: 'newemail@example.com',
-					name: 'New Name'
+					name: 'New Name',
 				},
 				{
 					message: errorMessage,
-					name: 'unknown'
+					name: 'unknown',
 				}
-			)
+			),
 		];
 
-		actions.forEach(action => {
+		actions.forEach((action) => {
 			const actual = userSlice(undefined, action);
 			expect(actual.status).toBe('fail');
 			expect(actual.error).toBe(errorMessage);
@@ -152,7 +151,7 @@ describe('тесты userSlice', () => {
 	it('должен обработать ошибку AuthError и сбросить isAuthorized', () => {
 		const errorPayload = {
 			message: 'Токен истек',
-			name: 'AuthError'
+			name: 'AuthError',
 		};
 
 		const actual = userSlice(
@@ -180,18 +179,21 @@ describe('тесты userSlice', () => {
 			user: mockUser,
 			status: 'success',
 			error: null,
-			isAuthorized: true
+			isAuthorized: true,
 		};
 
-		const actual = userSlice(stateWithUser, createLogoutRequest.fulfilled({success: true}, '', {
-			token: 'mockRefreshToken'
-		}));
+		const actual = userSlice(
+			stateWithUser,
+			createLogoutRequest.fulfilled({ success: true }, '', {
+				token: 'mockRefreshToken',
+			})
+		);
 
 		expect(actual).toEqual({
 			user: null,
 			status: 'idle',
 			error: null,
-			isAuthorized: false
+			isAuthorized: false,
 		});
 	});
 });

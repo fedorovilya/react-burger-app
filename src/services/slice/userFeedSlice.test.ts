@@ -1,26 +1,28 @@
-import {FeedOrder} from "../../types/feedOrder";
-import {FeedData} from "../../types/feedData";
-import userFeedSlice, {initialState, removeUserFeedData, setUserFeedData, UserFeedState} from "@services/slice/userFeedSlice";
+import { FeedOrder } from '../../types/feedOrder';
+import { FeedData } from '../../types/feedData';
+import userFeedSlice, {
+	initialState,
+	removeUserFeedData,
+	setUserFeedData,
+	UserFeedState,
+} from '@services/slice/userFeedSlice';
 
 describe('userFeedSlice', () => {
 	const mockOrder: FeedOrder = {
-		"_id": "6846e3bfc2f30c001cb2b1cd",
-		"ingredients": [
-			"643d69a5c3f7b9001cfa093d",
-			"643d69a5c3f7b9001cfa0943"
-		],
-		"status": "done",
-		"name": "Space флюоресцентный бургер",
-		"createdAt": "2025-06-09T13:38:07.865Z",
-		"updatedAt": "2025-06-09T13:38:08.702Z",
-		"number": 80693
+		_id: '6846e3bfc2f30c001cb2b1cd',
+		ingredients: ['643d69a5c3f7b9001cfa093d', '643d69a5c3f7b9001cfa0943'],
+		status: 'done',
+		name: 'Space флюоресцентный бургер',
+		createdAt: '2025-06-09T13:38:07.865Z',
+		updatedAt: '2025-06-09T13:38:08.702Z',
+		number: 80693,
 	};
 
 	const mockFeedData: FeedData = {
 		success: true,
 		orders: [mockOrder],
 		total: 10,
-		totalToday: 5
+		totalToday: 5,
 	};
 
 	it('проверка initialState по умолчанию', () => {

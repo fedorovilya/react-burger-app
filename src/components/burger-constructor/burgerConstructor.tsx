@@ -161,7 +161,7 @@ export const BurgerConstructor = () => {
 		<div className={`pt-25 pl-4 pr-4 ${styles.flex_main}`}>
 			<div className={styles.flex_cards}>
 				<div
-					id={"top_bun_area"}
+					id={'top_bun_area'}
 					ref={dropTopBun}
 					style={{
 						border: canDropTopBun
@@ -184,7 +184,7 @@ export const BurgerConstructor = () => {
 				</div>
 
 				<ul
-					id={"ingredients_area"}
+					id={'ingredients_area'}
 					ref={drop}
 					className={`pt-4 pb-4 ${styles.flex_cards_list}`}
 					style={{
@@ -210,7 +210,7 @@ export const BurgerConstructor = () => {
 				</ul>
 
 				<div
-					id={"bottom_bun_area"}
+					id={'bottom_bun_area'}
 					ref={dropBottomBun}
 					style={{
 						border: canDropBottomBun

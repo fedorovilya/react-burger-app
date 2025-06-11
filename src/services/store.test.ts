@@ -1,12 +1,14 @@
-import {configureStore} from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 import burgerIngredientsReducer from '@services/slice/burgerIngredientsSlice';
 import selectedIngredientReducer from '@services/slice/selectedIngredientSlice';
-import burgerConstructorReducer, {addIngredientToConstructor} from '@services/slice/burgerConstructorSlice';
+import burgerConstructorReducer, {
+	addIngredientToConstructor,
+} from '@services/slice/burgerConstructorSlice';
 import orderReducer from '@services/slice/orderSlice';
-import userReducer, {createLoginRequest} from '@services/slice/userSlice';
+import userReducer, { createLoginRequest } from '@services/slice/userSlice';
 import feedReducer from '@services/slice/feedSlice';
 import userFeedReducer from '@services/slice/userFeedSlice';
-import {RootState} from '@services/store';
+import { RootState } from '@services/store';
 
 describe('Root Store', () => {
 	let store: ReturnType<typeof configureStore>;
@@ -72,18 +74,19 @@ describe('Root Store', () => {
 		const ingredient = {
 			id: '1',
 			item: {
-				"_id": "643d69a5c3f7b9001cfa093e",
-				"name": "Филе Люминесцентного тетраодонтимформа",
-				"type": "main",
-				"proteins": 44,
-				"fat": 26,
-				"carbohydrates": 85,
-				"calories": 643,
-				"price": 988,
-				"image": "https://code.s3.yandex.net/react/code/meat-03.png",
-				"image_mobile": "https://code.s3.yandex.net/react/code/meat-03-mobile.png",
-				"image_large": "https://code.s3.yandex.net/react/code/meat-03-large.png",
-				"__v": 0
+				_id: '643d69a5c3f7b9001cfa093e',
+				name: 'Филе Люминесцентного тетраодонтимформа',
+				type: 'main',
+				proteins: 44,
+				fat: 26,
+				carbohydrates: 85,
+				calories: 643,
+				price: 988,
+				image: 'https://code.s3.yandex.net/react/code/meat-03.png',
+				image_mobile:
+					'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
+				image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png',
+				__v: 0,
 			},
 		};
 
@@ -105,7 +108,12 @@ describe('Root Store', () => {
 			refreshToken: 'mockRefreshToken',
 		};
 
-		store.dispatch(createLoginRequest.fulfilled(payload, '', {email: 'test@example.com', password: '12345'}));
+		store.dispatch(
+			createLoginRequest.fulfilled(payload, '', {
+				email: 'test@example.com',
+				password: '12345',
+			})
+		);
 		const state = store.getState() as RootState;
 
 		expect(state.user.status).toBe('success');
