@@ -64,6 +64,7 @@ export const OrderBar = ({ orderItems, totalCost }: Props) => {
 					<CurrencyIcon type={'primary'}></CurrencyIcon>
 				</div>
 				<Button
+					data-test={'order-btn'}
 					extraClass={styles.order_bar_button}
 					htmlType={'button'}
 					type={'primary'}

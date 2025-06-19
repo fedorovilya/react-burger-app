@@ -11,7 +11,7 @@ export interface IngredientsSliceData {
 	ingredients: Ingredient[] | null;
 }
 
-const initialState: IngredientsSliceData = {
+export const initialState: IngredientsSliceData = {
 	ingredients: [],
 	status: 'idle', // 'idle' | 'loading' | 'success' | 'fail'
 	error: null,

@@ -12,7 +12,7 @@ export interface OrderData {
 	orderInfo: FeedOrder | null;
 }
 
-const initialState: OrderData = {
+export const initialState: OrderData = {
 	order: null,
 	orderInfo: null,
 	status: 'idle',

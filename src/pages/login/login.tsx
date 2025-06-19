@@ -58,6 +58,7 @@ export const Login = () => {
 				<form className={styles.flex_fields} onSubmit={onLoginSubmit}>
 					<p className={'text text_type_main-medium'}>Вход</p>
 					<EmailInput
+						data-test={'login_input'}
 						size={'default'}
 						placeholder={'E-mail'}
 						name={'email'}
@@ -65,6 +66,7 @@ export const Login = () => {
 						value={email}
 						onChange={onEmailChange}></EmailInput>
 					<PasswordInput
+						data-test={'password_input'}
 						size={'default'}
 						value={password}
 						onChange={onPasswordChange}
@@ -74,7 +76,7 @@ export const Login = () => {
 							Неверное имя пользователя или пароль
 						</p>
 					)}
-					<Button htmlType={'submit'} size={'large'}>
+					<Button data-test={'login_btn'} htmlType={'submit'} size={'large'}>
 						Войти
 					</Button>
 				</form>
